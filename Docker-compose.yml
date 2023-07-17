@@ -1,0 +1,70 @@
+version: "3"
+
+networks:
+  qr_generator:
+    driver: bridge
+
+services:
+  app:
+    build:
+      args:
+        user: pavel
+        uid: 1000
+      context: ./docker/php
+      dockerfile: dockerfile
+    image: qr_generator
+    container_name: qr_generator-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./qr_generator:/var/www/html
+    networks:
+      - qr_generator
+  redis:
+    image: redis
+    build:
+      context: ./docker/redis
+      dockerfile: dockerfile
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - qr_generator
+  mysql:
+    image: mysql:8.0
+    container_name: db
+    restart: unless-stopped
+    env_file:
+      - ./docker/mysql/.env
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - "dbdata:/var/lib/mysql"
+    networks:
+      - qr_generator
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 8888:8888
+    volumes:
+      - './qr_generator:/var/www/html'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+    networks:
+      - qr_generator
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - 1500:80
+    environment:
+      - VIRTUAL_HOST=phpmyadmin.local
+      - PMA_HOST=mysql
+    networks:
+      - qr_generator
+volumes:
+  dbdata:
+    driver: local

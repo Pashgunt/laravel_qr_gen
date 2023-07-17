@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  app:
+  qr_app:
     build:
       args:
         user: pavel
@@ -13,27 +13,27 @@ services:
       context: ./docker/php
       dockerfile: dockerfile
     image: qr_generator
-    container_name: qr_generator-app
+    container_name: app_qr
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - ./qr_generator:/var/www/html
     networks:
       - qr_generator
-  redis:
+  qr_redis:
     image: redis
     build:
       context: ./docker/redis
       dockerfile: dockerfile
-    container_name: redis
+    container_name: redis_qr
     restart: always
     ports:
       - 6379:6379
     networks:
       - qr_generator
-  mysql:
+  qr_mysql:
     image: mysql:8.0
-    container_name: db
+    container_name: db_qr
     restart: unless-stopped
     env_file:
       - ./docker/mysql/.env
@@ -47,7 +47,7 @@ services:
       - qr_generator
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx_qr
     ports:
       - 8888:8888
     volumes:
@@ -57,7 +57,7 @@ services:
       - qr_generator
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
+    container_name: phpmyadmin_qr
     ports:
       - 1500:80
     environment:

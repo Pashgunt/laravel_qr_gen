@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('links_for_qr_code', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->integer('company_hash_id');
-            $table->text('link');
-            $table->integer('is_actual')->default(1)->nullable(false);
+            $table->string('name');
+            $table->text('adress');
+            $table->text('link')->default(null)->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('links_for_qr_code');
+        Schema::dropIfExists('companies');
     }
 };

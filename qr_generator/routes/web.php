@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QrGeneratorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,3 +14,5 @@ use Illuminate\Support\Facades\Storage;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::resource('/qr', QrGeneratorController::class);

@@ -11,7 +11,10 @@ class SaveQrCodeData
 {
     public function pipelineHandler(array $qrData, Closure $next)
     {
-        $linkId = (new QrLinkRepository())->createLink($qrData['link'])->id;
+        $linkId = (new QrLinkRepository())->createLink(
+            $qrData['link'],
+            $qrData['company_hash_id']
+        )->id;
         if ($linkId) {
             $qrData['link_id'] = $linkId;
             $fileName = "qr_$linkId.svg";

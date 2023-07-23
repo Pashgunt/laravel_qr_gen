@@ -11,6 +11,7 @@ class QrLink extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_hash_id',
         'link',
     ];
 

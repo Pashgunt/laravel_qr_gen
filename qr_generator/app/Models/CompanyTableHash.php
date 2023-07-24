@@ -16,4 +16,8 @@ class CompanyTableHash extends Model
     ];
 
     protected $table = 'company_table_hash';
+
+    public function getCompanyParams(){
+        return $this->belongsTo(Company::class,'company_id','id');
+    }
 }

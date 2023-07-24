@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\QR\Contracts\Feedback;
+use App\QR\Services\LocationFeedback;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
+        $this->app->bind(Feedback::class, function () {
+            return new LocationFeedback();
+        });
     }
 
     /**
@@ -19,6 +23,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
     }
 }

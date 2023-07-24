@@ -27,7 +27,7 @@ class GenerateQrCodeFiles implements ShouldQueue
     public function handle(): void
     {
         Artisan::call('app:generate-qr-code', [
-            'link' => sprintf(QrCodeEnums::QR_PREFIX->value . "?qr=%s", $this->hashValue),
+            'link' => sprintf(QrCodeEnums::QR_PREFIX->value . "/%s", $this->hashValue),
             'company_hash_id' => $this->companyHashId
         ]);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocationFeedback;
 use App\Http\Controllers\QrGeneratorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -16,3 +17,13 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::resource('/qr', QrGeneratorController::class);
+
+Route::view('/404', 'components.404')->name('404');
+
+Route::prefix('/location')->middleware(['guest', 'location.hash'])->group(function () {
+    Route::resource('{qr}', LocationFeedback::class)
+        ->only(['index', 'store'])
+        ->missing(function () {
+            return route('location');
+        });
+})->name('location');

@@ -17,4 +17,11 @@ class CompanyTableHashRepository
             'hash_value' => $hashValue,
         ]);
     }
+
+    public function checkIssetHashString(string $hashValue)
+    {
+        return CompanyTableHash::query()
+            ->where('hash_value', '=', $hashValue)
+            ->first();
+    }
 }

@@ -9,9 +9,9 @@ class Rating
 {
     public LocationFeedbackRepository $locationFeedbackRepository;
 
-    public function __construct()
+    public function __construct($locationFeedbackRepository)
     {
-        $this->locationFeedbackRepository = new LocationFeedbackRepository();
+        $this->locationFeedbackRepository = $locationFeedbackRepository;
     }
 
     public function preparePipeline(array $hashCompanyData, Closure $next)

@@ -92,19 +92,8 @@ abstract class Repositories
         return $this->model->paginate($count);
     }
 
-    /**
-     * Метод для пагинации по курсам, в списке назначенийс указанием дополнительных параметров
-     */
-    public function paginateForCourse(int $count)
+    public function columnNames()
     {
-        return $this->model->paginate($count, ['*'], 'course')->withQueryString();
-    }
-
-    /**
-     * Метод для пагинации по пользователям, в списке назначенийс указанием дополнительных параметров
-     */
-    public function paginateForUsers(int $count)
-    {
-        return $this->model->paginate($count, ['*'], 'user')->withQueryString();
+        return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\QR\Repositories;
 
-use App\Models\Company;
+use App\QR\Abstracts\Repositories;
 
-class CompanyRepository
+class CompanyRepository extends Repositories
 {
     public function createCompany(
         string $name,
         string $adress,
         ?string $link
     ) {
-        return Company::create([
+        return $this->create([
             'name' => $name,
             'adress' => $adress,
             'link' => $link,

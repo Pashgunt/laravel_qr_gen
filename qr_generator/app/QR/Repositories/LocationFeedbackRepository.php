@@ -3,8 +3,9 @@
 namespace App\QR\Repositories;
 
 use App\Models\Feedback;
+use App\QR\Abstracts\Repositories;
 
-class LocationFeedbackRepository
+class LocationFeedbackRepository extends Repositories
 {
     public function createNewFeedback(
         int $companyID,
@@ -14,7 +15,7 @@ class LocationFeedbackRepository
         string $feedbackUserName,
         ?string $contactData
     ) {
-        return Feedback::create([
+        return $this->create([
             'company_id' => $companyID,
             'table_id' => $tableID,
             'rating' => $rating,
@@ -26,11 +27,16 @@ class LocationFeedbackRepository
 
     public function prepareAvgRatingForComapny(int $companyID)
     {
-        return Feedback::query()->where('company_id', '=', $companyID)->avg('rating');
+        return $this->model->where('company_id', '=', $companyID)->avg('rating');
     }
 
     public function getPaginationFeedbackList(int $companyID, int $perPage)
     {
-        return Feedback::query()->where('company_id', '=', $companyID)->paginate($perPage);
+        return $this->model->where('company_id', '=', $companyID)->paginate($perPage);
+    }
+
+    public function getColumnList()
+    {
+        return $this->columnNames();
     }
 }

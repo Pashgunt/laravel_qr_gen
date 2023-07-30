@@ -2,15 +2,15 @@
 
 namespace App\QR\Repositories;
 
-use App\Models\QrLink;
+use App\QR\Abstracts\Repositories;
 
-class QrLinkRepository
+class QrLinkRepository extends Repositories
 {
     public function createLink(
         string $link,
         int $companyHashId
     ) {
-        return QrLink::create([
+        return $this->create([
             'company_hash_id' => $companyHashId,
             'link' => $link
         ]);

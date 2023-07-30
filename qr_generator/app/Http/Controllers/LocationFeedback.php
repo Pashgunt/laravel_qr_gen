@@ -8,8 +8,6 @@ use App\QR\Repositories\CompanyTableHashRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Services\FeedbackList;
 use App\QR\Services\Rating;
-use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 
 class LocationFeedback extends Controller
@@ -18,20 +16,12 @@ class LocationFeedback extends Controller
     private CompanyTableHashRepository $companyTabeHashRepository;
     private LocationFeedbackRepository $locationFeedbackRepository;
 
-    public function __construct()
-    {
-        $this->companyTabeHashRepository = new CompanyTableHashRepository();
-        $this->locationFeedbackRepository = new LocationFeedbackRepository();
-    }
-
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
+    public function __construct(
+        CompanyTableHashRepository $companyTabeHashRepository,
+        LocationFeedbackRepository $locationFeedbackRepository
+    ) {
+        $this->companyTabeHashRepository = $companyTabeHashRepository;
+        $this->locationFeedbackRepository = $locationFeedbackRepository;
     }
 
     public function store(FeedbackRequest $request)
@@ -61,26 +51,11 @@ class LocationFeedback extends Controller
                 ->checkIssetHashString($qr))
             ->through([
                 $feedback,
-                new Rating(),
-                new FeedbackList()
+                new Rating($this->locationFeedbackRepository),
+                new FeedbackList($this->locationFeedbackRepository)
             ])
             ->via('preparePipeline')
             ->thenReturn();
         return view('location.feedback', compact('data'));
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\QR\Repositories;
 
-use App\Models\CompanyTableHash;
+use App\QR\Abstracts\Repositories;
 
-class CompanyTableHashRepository
+class CompanyTableHashRepository extends Repositories
 {
     public function createHashForCompany(
         int $companyID,
         int $tableNumber,
         string $hashValue
     ) {
-        return CompanyTableHash::create([
+        return $this->create([
             'company_id' => $companyID,
             'table_number' => $tableNumber,
             'hash_value' => $hashValue,
@@ -20,8 +20,7 @@ class CompanyTableHashRepository
 
     public function checkIssetHashString(string $hashValue)
     {
-        return CompanyTableHash::query()
-            ->where('hash_value', '=', $hashValue)
+        return $this->model->where('hash_value', '=', $hashValue)
             ->first();
     }
 }

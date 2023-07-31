@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\CompanyTableHash;
 use App\Models\Feedback as ModelsFeedback;
+use App\Models\FunneConfig;
+use App\Models\FunneFields;
+use App\Models\FunneLogic;
 use App\Models\FunnelTypes;
 use App\Models\QrCode;
 use App\Models\QrLink;
@@ -12,6 +15,9 @@ use App\Models\QrPdf;
 use App\QR\Contracts\Feedback;
 use App\QR\Repositories\CompanyRepository;
 use App\QR\Repositories\CompanyTableHashRepository;
+use App\Qr\Repositories\FunnelConfigRepository;
+use App\Qr\Repositories\FunnelFieldsRepository;
+use App\Qr\Repositories\FunnelLogicRepository;
 use App\QR\Repositories\FunnelTypesRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Repositories\QrCodeRepository;
@@ -25,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(Feedback::class, function () {
-            return new LocationFeedback();
+            return new LocationFeedback(new ModelsFeedback());
         });
 
         $this->app->singleton(CompanyRepository::class, function ($app) {
@@ -54,6 +60,18 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(QrPdfRepository::class, function ($app) {
             return new QrPdfRepository(new QrPdf());
+        });
+
+        $this->app->singleton(FunnelConfigRepository::class, function ($app) {
+            return new FunnelConfigRepository(new FunneConfig());
+        });
+
+        $this->app->singleton(FunnelFieldsRepository::class, function ($app) {
+            return new FunnelFieldsRepository(new FunneFields());
+        });
+        
+        $this->app->singleton(FunnelLogicRepository::class, function ($app) {
+            return new FunnelLogicRepository(new FunneLogic());
         });
     }
 

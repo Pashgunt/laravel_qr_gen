@@ -1,8 +1,11 @@
 $(document).ready(function () {
-    let funnelType = $('#funnel_type');
+    $('.range__warapper').hide();
+    let funnelType = $('#funnel_type'),
+        operator = $('#operator'),
+        logic = $('#logic');
 
-    const changeFunnelTypeHandler = function (event) {
-        let value = $(`#${$(event.target).attr('id')} option:selected`).val();
+    const changeFunnelTypeHandler = function () {
+        let value = $(this).find(`option:selected`).val();
         if (value) {
             $.ajaxSetup({
                 headers: {
@@ -18,7 +21,7 @@ $(document).ready(function () {
                 .done(response => {
                     if (Object.keys(response).length) {
                         Object.keys(response).forEach(name => {
-                            $('#field').append(`<option value='${response[name]}'>${name}</option>`);
+                            $('.field').each((_, item) => $(item).append(`<option value='${response[name]}'>${name}</option>`));
                         })
                     }
                 })
@@ -26,5 +29,22 @@ $(document).ready(function () {
         }
     };
 
+    const changeOperatorHandler = function () {
+        let value = $(this).find(`option:selected`).val()?.toLowerCase();
+        if (value === 'range') {
+            $(this).closest('.trigger__content').find('.value__wrapper').hide();
+            return $(this).closest('.trigger__content').find('.range__warapper').show();
+        }
+        $(this).closest('.trigger__content').find('.range__warapper').hide();
+        $(this).closest('.trigger__content').find('.value__wrapper').show();
+    };
+
+    const changeLogicHandler = function () {
+        let cloneObject = $($('.trigger__content')[$('.trigger__content').length - 1]).clone(true);
+        $('.trigger__wrapper').append(cloneObject);
+    };
+
     funnelType.change(changeFunnelTypeHandler);
+    operator.each((_, item) => $(item).change(changeOperatorHandler));
+    logic.each((_, item) => $(item).change(changeLogicHandler));
 })

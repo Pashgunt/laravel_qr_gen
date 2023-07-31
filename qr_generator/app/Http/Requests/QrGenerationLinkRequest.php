@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\QR\Abstracts\RequestInterface;
 use App\QR\DTO\QrLinkDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class QrGenerationLinkRequest extends FormRequest
+class QrGenerationLinkRequest extends FormRequest implements RequestInterface
 {
     public function authorize(): bool
     {

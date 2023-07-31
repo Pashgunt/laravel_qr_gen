@@ -2,7 +2,9 @@
 
 namespace App\QR\Enums;
 
-enum FunnelOperatorEnums: string
+use App\QR\Abstracts\FunnelInterface;
+
+enum FunnelOperatorEnums: string implements FunnelInterface
 {
     case EQUAL = '=';
     case NOT_EQUAL = '!=';
@@ -12,14 +14,14 @@ enum FunnelOperatorEnums: string
     {
         return array_map(function ($operator) {
             return match ($operator) {
-                self::EQUAL->value => self::prepareFeedbackOperators('равно', 'equal', $operator),
-                self::NOT_EQUAL->value => self::prepareFeedbackOperators('не равно', 'not_equal', $operator),
-                self::RANGE->value => self::prepareFeedbackOperators('в интервале', 'range', $operator),
+                self::EQUAL->value => self::prepareFunnelOperators('равно', 'equal', $operator),
+                self::NOT_EQUAL->value => self::prepareFunnelOperators('не равно', 'not_equal', $operator),
+                self::RANGE->value => self::prepareFunnelOperators('в интервале', 'range', $operator),
             };
         }, array_column(self::cases(), 'value'));
     }
 
-    private static function prepareFeedbackOperators(string $name, string $tag, string $operator)
+    private static function prepareFunnelOperators(string $name, string $tag, string $operator)
     {
         return [
             'name' => $name,

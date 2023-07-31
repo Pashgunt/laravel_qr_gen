@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\QR\Abstracts\RequestInterface;
 use App\QR\DTO\FeedbackDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class FeedbackRequest extends FormRequest
+class FeedbackRequest extends FormRequest implements RequestInterface
 {
 
     public function authorize(): bool

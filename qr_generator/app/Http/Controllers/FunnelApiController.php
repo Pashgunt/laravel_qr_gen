@@ -3,24 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\QR\Repositories\FunnelTypesRepository;
-use App\QR\Repositories\LocationFeedbackRepository;
-use App\QR\Services\FunnelService;
+use App\Qr\Services\FunnelFactory;
 
 class FunnelApiController extends Controller
 {
-
-    private FunnelService $funnelService;
-    private FunnelTypesRepository $funnelTypeRepository;
+    private $funnelService;
 
     public function __construct(
-        FunnelTypesRepository $funnelTypeRepository,
-        LocationFeedbackRepository $locationFeedbackRepository
+        FunnelTypesRepository $funnelTypeRepository
     ) {
-        $this->funnelTypeRepository = $funnelTypeRepository;
-        $this->funnelService = new FunnelService(
-            $funnelTypeRepository,
-            $locationFeedbackRepository
-        );
+        $this->funnelService = (new FunnelFactory())->createType('types', $funnelTypeRepository);
     }
 
     public function index(int $id)

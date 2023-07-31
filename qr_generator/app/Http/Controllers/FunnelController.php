@@ -9,7 +9,7 @@ use App\Qr\Repositories\FunnelConfigRepository;
 use App\Qr\Repositories\FunnelFieldsRepository;
 use App\Qr\Repositories\FunnelLogicRepository;
 use App\QR\Repositories\FunnelTypesRepository;
-use App\QR\Services\FunnelService;
+use App\Qr\Services\FunnelFactory;
 use Closure;
 use Illuminate\Pipeline\Pipeline;
 
@@ -37,7 +37,7 @@ class FunnelController extends Controller
         $funnel = app(Pipeline::class)
             ->send([])
             ->through([
-                new FunnelService($this->funnelTypeRepository),
+                (new FunnelFactory())->createType('types', $this->funnelTypeRepository),
                 function ($data, Closure $next) {
                     $data['operators'] = FunnelOperatorEnums::getOperators();
                     return $next($data);
@@ -62,8 +62,22 @@ class FunnelController extends Controller
             $funnelDTO->getWorkStartDate()
         )->id;
 
-        $funnelFieldIDs = $this->funnelFieldsRepository->prepareCreateFunnelFields($funnelConfigID, $funnelDTO);
-        $this->funnelLogicRepository->prepareCreateFunneLogic($funnelFieldIDs);
+        app(Pipeline::class)
+            ->send([])
+            ->through([
+                function ($data, Closure $next) use ($funnelConfigID, $funnelDTO) {
+                    $funnelFields = (new FunnelFactory())->createType('fields', $this->funnelFieldsRepository);
+                    $funnelFieldIDs = $funnelFields->prepareDataForCreate($funnelConfigID, $funnelDTO);
+                    $data['funnel_field_ids'] = $funnelFieldIDs;
+                    return $next($data);
+                },
+                function ($data, Closure $next) {
+                    $funnelLogic = (new FunnelFactory())->createType('logic', $this->funnelLogicRepository);
+                    $funnelLogic->prepareDataForCreate($data['funnel_field_ids'])();
+                    return $next($data);
+                },
+            ])
+            ->thenReturn();
 
         return route('funnel.index');
     }

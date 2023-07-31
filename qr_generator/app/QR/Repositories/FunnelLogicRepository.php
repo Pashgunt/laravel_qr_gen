@@ -16,15 +16,4 @@ class FunnelLogicRepository extends Repositories
             'logic_operator' => $logicOperator,
         ]);
     }
-
-    public function prepareCreateFunneLogic(array $funnelFields, string $logicBlockOperator = '')
-    {
-        foreach ($funnelFields as $logicOperator => $funelFieldIDs) {
-            if (in_array($logicOperator, [FunnelLogicEnums::AND->value, FunnelLogicEnums::OR->value])) {
-                $logicBlockOperator = $logicOperator;
-            }
-            if (is_array($funelFieldIDs)) return $this->prepareCreateFunneLogic($funelFieldIDs, $logicBlockOperator);
-            $this->createFunneLogic($funelFieldIDs, $logicBlockOperator);
-        }
-    }
 }

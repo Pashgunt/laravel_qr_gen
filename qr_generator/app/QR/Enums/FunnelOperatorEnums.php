@@ -2,9 +2,9 @@
 
 namespace App\QR\Enums;
 
-use App\QR\Abstracts\FunnelInterface;
+use App\QR\Abstracts\FunnelEnums;
 
-enum FunnelOperatorEnums: string implements FunnelInterface
+enum FunnelOperatorEnums: string implements FunnelEnums
 {
     case EQUAL = '=';
     case NOT_EQUAL = '!=';

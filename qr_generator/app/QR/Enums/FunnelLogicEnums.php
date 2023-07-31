@@ -2,9 +2,9 @@
 
 namespace App\QR\Enums;
 
-use App\QR\Abstracts\FunnelInterface;
+use App\QR\Abstracts\FunnelEnums;
 
-enum FunnelLogicEnums: string implements FunnelInterface
+enum FunnelLogicEnums: string implements FunnelEnums
 {
     case AND = 'AND';
     case OR = 'OR';

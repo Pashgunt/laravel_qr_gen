@@ -2,7 +2,7 @@
 
 namespace App\QR\Abstracts;
 
-interface FunnelInterface
+interface FunnelEnums
 {
     public static function getOperators();
 }

@@ -3,34 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FeedbackRequest;
-use App\QR\Contracts\Feedback;
+use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\CompanyTableHashRepository;
+use App\Qr\Repositories\FunnelConfigRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
-use App\QR\Services\FeedbackList;
+use App\QR\Services\FeedbackService;
 use App\QR\Services\Rating;
 use Illuminate\Pipeline\Pipeline;
 
 class LocationFeedback extends Controller
 {
-
-    private CompanyTableHashRepository $companyTabeHashRepository;
-    private LocationFeedbackRepository $locationFeedbackRepository;
-
-    public function __construct(
-        CompanyTableHashRepository $companyTabeHashRepository,
-        LocationFeedbackRepository $locationFeedbackRepository
-    ) {
-        $this->companyTabeHashRepository = $companyTabeHashRepository;
-        $this->locationFeedbackRepository = $locationFeedbackRepository;
-    }
-
     public function store(FeedbackRequest $request)
     {
         $feedbackDTO = $request->makeDTO();
-        $tableData = $this->companyTabeHashRepository->checkIssetHashString($request->route()->parameter('qr'));
+        $tableData = app(CompanyTableHashRepository::class)
+            ->checkIssetHashString($request->route()->parameter('qr'));
         $companyID  = $tableData->company_id;
+        $filters = (new FeedbackService(app(LocationFeedbackRepository::class)))
+            ->feedbackFilters(1, 1, FunnelEnums::FEEDBACK->value);
         $tabeID  = $tableData->id;
-        $result = $this->locationFeedbackRepository->createNewFeedback(
+        $result = app(LocationFeedbackRepository::class)->createNewFeedback(
             $companyID,
             $tabeID,
             $feedbackDTO->getRating(),
@@ -44,15 +36,19 @@ class LocationFeedback extends Controller
         dd($result);
     }
 
-    public function show(string $qr, Feedback $feedback)
+    public function show(string $qr)
     {
+        $company = app(CompanyTableHashRepository::class)
+            ->checkIssetHashString($qr);
+        $dataForSend = [
+            'company' => $company,
+            'feedback_list' => app(LocationFeedbackRepository::class)
+                ->getPaginationFeedbackList($company->company_id, 5)
+        ];
         $data = app(Pipeline::class)
-            ->send($this->companyTabeHashRepository
-                ->checkIssetHashString($qr))
+            ->send($dataForSend)
             ->through([
-                $feedback,
-                new Rating($this->locationFeedbackRepository),
-                new FeedbackList($this->locationFeedbackRepository)
+                new Rating(app(LocationFeedbackRepository::class)),
             ])
             ->via('preparePipeline')
             ->thenReturn();

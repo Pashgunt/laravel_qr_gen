@@ -4,5 +4,5 @@ namespace App\QR\Abstracts;
 
 interface FunnelEnums
 {
-    public static function getOperators();
+    public static function getAssociations();
 }

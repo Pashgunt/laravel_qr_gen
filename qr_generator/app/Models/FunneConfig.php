@@ -10,6 +10,7 @@ class FunneConfig extends Model
     use HasFactory;
 
     protected $fillable = [
+        'company_id',
         'funnel_type_id',
         'work_started_at',
     ];

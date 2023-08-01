@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\FunnelTypesRepository;
 use App\Qr\Services\FunnelFactory;
 
@@ -10,9 +11,8 @@ class FunnelApiController extends Controller
     private $funnelService;
 
     public function __construct(
-        FunnelTypesRepository $funnelTypeRepository
     ) {
-        $this->funnelService = (new FunnelFactory())->createType('types', $funnelTypeRepository);
+        $this->funnelService = (new FunnelFactory())->createType(FunnelEnums::TYPE->value, app(FunnelTypesRepository::class));
     }
 
     public function index(int $id)

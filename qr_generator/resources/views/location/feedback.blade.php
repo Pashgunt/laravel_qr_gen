@@ -4,16 +4,16 @@
 @section('content')
     <div class="">{{ $data['rating'] }}</div>
     <div class="">
-        {{ $data['company_name'] }} @if ($data['company_table_number'])
-            Стол {{ $data['company_table_number'] }}
+        {{ $data['company']->company_name }} @if ($data['company']->company_table_number)
+            Стол {{ $data['company']->company_table_number }}
         @endif
     </div>
     <div class="">
-        {{ $data['company_address'] }}
+        {{ $data['company']->company_address }}
     </div>
     <div>
-        @if ($data['company_link'])
-            {{ $data['company_link'] }}
+        @if ($data['company']->company_link)
+            {{ $data['company']->company_link }}
         @endif
     </div>
     Оставьте отзыв

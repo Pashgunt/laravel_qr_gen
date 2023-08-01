@@ -9,17 +9,6 @@ use App\QR\Repositories\CompanyTableHashRepository;
 
 class QrGeneratorController extends Controller
 {
-    private CompanyRepository $companyRepository;
-    private CompanyTableHashRepository $companyTableHashRepository;
-
-    public function __construct(
-        CompanyRepository $companyRepository,
-        CompanyTableHashRepository $companyTableHashRepository
-    ) {
-        $this->companyRepository = $companyRepository;
-        $this->companyTableHashRepository = $companyTableHashRepository;
-    }
-
     public function create()
     {
         return view('qr.create');
@@ -28,13 +17,13 @@ class QrGeneratorController extends Controller
     public function store(QrGenerationLinkRequest $request)
     {
         $qrLinkDTO = $request->makeDTO();
-        $companyID = $this->companyRepository->createCompany(
+        $companyID = app(CompanyRepository::class)->createCompany(
             $qrLinkDTO->getName(),
             $qrLinkDTO->getAdress(),
             $qrLinkDTO->getLink()
         )->id;
         foreach ($qrLinkDTO->getHashParams() as $tableNumber => $hashValue) {
-            $companyHashId = $this->companyTableHashRepository->createHashForCompany(
+            $companyHashId = app(CompanyTableHashRepository::class)->createHashForCompany(
                 $companyID,
                 $tableNumber,
                 $hashValue

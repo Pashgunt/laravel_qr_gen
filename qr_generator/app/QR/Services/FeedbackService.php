@@ -2,19 +2,22 @@
 
 namespace App\QR\Services;
 
-use App\QR\Contracts\Feedback;
+use App\Models\FunneConfig;
 use App\QR\DTO\CompanyDTO;
 use App\QR\DTO\TableHashDTO;
+use App\QR\Enums\FunnelEnums;
+use App\Qr\Repositories\FunnelConfigRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use Closure;
 
-class LocationFeedback implements Feedback
+class FeedbackService
 {
 
     private LocationFeedbackRepository $locationFeedbackRepository;
 
-    public function __construct($locationFeedbackRepository)
-    {
+    public function __construct(
+        LocationFeedbackRepository $locationFeedbackRepository,
+    ) {
         $this->locationFeedbackRepository = $locationFeedbackRepository;
     }
 
@@ -48,10 +51,20 @@ class LocationFeedback implements Feedback
             $createdAt,
             $updatedAt,
         ) = array_values($columnNames);
-        
+
         return [
             'Рейтинг' => $rating,
             'Дата создания' => $createdAt
         ];
+    }
+
+    public function feedbackFilters(
+        int $companyID,
+        int $isActual,
+        string $funnelType,
+    ) {
+        $funnelConfigs = (new FunnelFactory())
+            ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
+        return $funnelConfigs->prepareFunnelConfigs($companyID, $isActual, $funnelType);
     }
 }

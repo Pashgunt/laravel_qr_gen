@@ -4,7 +4,7 @@
 
 @section('content')
     Настройка воронки
-    <form action="{{ route('funnel.store') }}" method="POST" class="funnel__form">
+    <form action="{{ route('funnel.store', ['company_id' => $funnel['company_id']]) }}" method="POST" class="funnel__form">
         @csrf
         <div>
             <label for="funnel_type">Тип воронки</label>

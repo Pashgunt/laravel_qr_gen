@@ -16,7 +16,7 @@ class Rating
 
     public function preparePipeline(array $hashCompanyData, Closure $next)
     {
-        $hashCompanyData['rating'] = $this->locationFeedbackRepository->prepareAvgRatingForComapny($hashCompanyData['company_id']) ?? 0;
+        $hashCompanyData['rating'] = $this->locationFeedbackRepository->prepareAvgRatingForComapny($hashCompanyData['company']->company_id) ?? 0;
         return $next($hashCompanyData);
     }
 }

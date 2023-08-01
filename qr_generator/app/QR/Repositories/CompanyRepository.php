@@ -17,4 +17,9 @@ class CompanyRepository extends Repositories
             'link' => $link,
         ]);
     }
+
+    public function getCompanyList()
+    {
+        return $this->all();
+    }
 }

@@ -19,8 +19,7 @@ Route::middleware(['guest', 'location.hash'])->group(function () {
 });
 
 Route::middleware(['guest'])->group(function () {
+    Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])->name('funnel.store');
     Route::resource('/funnel', FunnelController::class)
-        ->missing(function () {
-            return redirect(route('404'));
-        });
+        ->only(['create']);
 });

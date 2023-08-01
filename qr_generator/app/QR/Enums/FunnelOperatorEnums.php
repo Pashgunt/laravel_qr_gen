@@ -10,7 +10,7 @@ enum FunnelOperatorEnums: string implements FunnelEnums
     case NOT_EQUAL = '!=';
     case RANGE = 'between';
 
-    public static function getOperators()
+    public static function getAssociations()
     {
         return array_map(function ($operator) {
             return match ($operator) {

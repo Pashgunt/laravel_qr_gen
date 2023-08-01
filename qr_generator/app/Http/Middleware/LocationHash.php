@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\CompanyTableHash;
 use App\QR\Repositories\CompanyTableHashRepository;
 use Closure;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class LocationHash
     {
         list($qr) = array_values($request->route()->parameters());
         if (!$qr) return redirect(route('404'));
-        $res = (new CompanyTableHashRepository())->checkIssetHashString($qr);
+        $res = (new CompanyTableHashRepository(new CompanyTableHash()))->checkIssetHashString($qr);
         if (!$res) return redirect(route('404'));
         return $next($request);
     }

@@ -9,7 +9,7 @@ enum FunnelLogicEnums: string implements FunnelEnums
     case AND = 'AND';
     case OR = 'OR';
 
-    public static function getOperators()
+    public static function getAssociations()
     {
         return array_map(function ($operator) {
             return match ($operator) {

@@ -39,7 +39,7 @@ class FunnelType implements Funnel
 
     public function prepareFunnelFields(int $id)
     {
-        $locationFeedbackService = new LocationFeedback(new LocationFeedbackRepository(new Feedback()));
+        $locationFeedbackService = new FeedbackService(new LocationFeedbackRepository(new Feedback()));
         $funnel = $this->repository->getFunnelOptionByID($id);
         $funnelTag = $funnel->funnel_type_tag;
         return match ($funnelTag) {

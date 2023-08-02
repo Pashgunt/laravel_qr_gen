@@ -11,7 +11,7 @@ class SaveQrCodeData
 {
     public function pipelineHandler(array $qrData, Closure $next)
     {
-        $linkId = (new QrLinkRepository())->createLink(
+        $linkId = app(QrLinkRepository::class)->createLink(
             $qrData['link'],
             $qrData['company_hash_id']
         )->id;
@@ -22,7 +22,7 @@ class SaveQrCodeData
             $resOfCreate = Storage::disk('public')->put($filePath, $qrData['qr']);
             $qrData['file_path'] = current(explode("/", $filePath));
             if ($resOfCreate) {
-                (new QrCodeRepository())->createQrCode($fileName, $filePath, $linkId);
+                app(QrCodeRepository::class)->createQrCode($fileName, $filePath, $linkId);
             }
         }
         return $next($qrData);

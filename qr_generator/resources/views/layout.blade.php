@@ -13,6 +13,18 @@
 </head>
 
 <body>
+    @auth
+        <menu>
+            <a href="{{ route('company.index') }}">Company</a>
+            <a href="{{ route('qr.index') }}">QR</a>
+            <a href="{{ route('feedback.index') }}">Feedbacks</a>
+            <a href="{{ route('funnel.index') }}">Воронки</a>
+            <form action="{{ route('login.destroy') }}" method="POST">
+                <button>Logout</button>
+            </form>
+        </menu>
+    @endauth
+
     @yield('content')
 
     <script src="@yield('js')"></script>

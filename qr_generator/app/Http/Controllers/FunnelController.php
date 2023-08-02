@@ -18,6 +18,16 @@ use Illuminate\Pipeline\Pipeline;
 
 class FunnelController extends Controller
 {
+
+    public function index()
+    {
+        $funnels = (new FunnelFactory())
+            ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class))
+            ->prepareFunnelConfigs(1, 1, 'feedback');
+
+        return view('funnel.funnel-list', compact('funnels'));
+    }
+
     public function create(Request $request)
     {
         $funnel = app(Pipeline::class)

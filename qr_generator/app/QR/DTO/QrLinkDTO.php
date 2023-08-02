@@ -11,7 +11,7 @@ class QrLinkDTO
     private ?int $placeSitFrom = null;
     private ?int $placeSitTo = null;
     private ?array $placeSitNumbers = null;
-    private array $hashParams;
+    private ?array $hashParams;
 
     public function __construct($validateData)
     {
@@ -31,7 +31,7 @@ class QrLinkDTO
             for ($placeNumber = $this->getPlaceSitFrom(); $placeNumber <= $this->getPlaceSitTo(); $placeNumber += 1)
             $result[$placeNumber] = $this->generateHashParam($placeNumber);
         }
-        if (array_filter(array_values($this->getPlaceSitNumbers()))) {
+        if ($this->getPlaceSitNumbers() && array_filter(array_values($this->getPlaceSitNumbers()))) {
             foreach ($this->getPlaceSitNumbers() as $placeNumber)
                 $result[$placeNumber] = $this->generateHashParam($placeNumber);
         }

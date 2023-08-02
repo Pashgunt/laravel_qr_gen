@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FunnelController;
@@ -8,8 +10,6 @@ use App\Http\Controllers\LocationFeedback;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QrGeneratorController;
 use App\Http\Controllers\RegistrationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/404', 'components.404')->name('404');
@@ -61,13 +61,19 @@ Route::middleware(['auth'])->group(function () {
             ->middleware(['throttle:6,1'])
             ->name('verification.send');
     });
-    Route::get('/logout', [LoginController::class, 'destroy'])->name('login.destroy');
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('login.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, 'index'])
+        ->name('home');
     Route::resource('/qr', QrGeneratorController::class);
-    Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])->name('funnel.store');
+    Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])
+        ->name('funnel.store');
     Route::resource('/funnel', FunnelController::class)
-        ->only(['create']);
+        ->only(['create', 'index']);
+    Route::resource('/company', CompanyController::class);
+    Route::get('/feedback', [LocationFeedback::class, 'index'])
+        ->name('feedback.index');
+    Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');
 });

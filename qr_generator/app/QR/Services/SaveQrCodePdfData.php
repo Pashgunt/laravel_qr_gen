@@ -14,9 +14,9 @@ class SaveQrCodePdfData
         $linkId = $qrCode['link_id'];
         $fileName = "qr_$linkId.pdf";
         $filePath = sprintf("%s/%s", $qrCode['file_path'], $fileName);
-        $resOfCreate = Storage::disk('public')->put($filePath, PDF::loadView('qr', ['qr_code' => $qrCode['qr']])->download());
+        $resOfCreate = Storage::disk('public')->put($filePath, PDF::loadView('qr.qr', ['qr_code' => $qrCode['qr']])->download());
         if ($resOfCreate) {
-            (new QrPdfRepository())->createQrCodePdf($fileName, $filePath, $linkId);
+            app(QrPdfRepository::class)->createQrCodePdf($fileName, $filePath, $linkId);
         }
         return $next($qrCode);
     }

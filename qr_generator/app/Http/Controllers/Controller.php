@@ -9,4 +9,14 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    protected function prepareResultForUpdate(
+        bool $res,
+        string $successMessage,
+        string $errorMessage,
+        string $routeName
+    ) {
+        return $res ? redirect(route($routeName))->with('message', $successMessage) :
+            redirect()->back()->withErrors('message_err', $errorMessage);
+    }
 }

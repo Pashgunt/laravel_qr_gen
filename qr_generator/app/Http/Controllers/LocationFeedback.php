@@ -12,6 +12,15 @@ use Illuminate\Pipeline\Pipeline;
 
 class LocationFeedback extends Controller
 {
+
+    public function index()
+    {
+        $feedbacks = app(LocationFeedbackRepository::class)
+            ->getPaginationFeedbackList(1);
+
+        return view('location.feedback-list', compact('feedbacks'));
+    }
+
     public function store(FeedbackRequest $request)
     {
         $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
@@ -20,7 +29,7 @@ class LocationFeedback extends Controller
             ->checkIssetHashString($request->route()->parameter('qr'));
         $companyID  = $tableData->company_id;
         $tabeID  = $tableData->id;
-        $filters = $feedbackService->feedbackFilters(1, 1, FunnelEnums::FEEDBACK->value);
+        $filters = $feedbackService->feedbackFilters($companyID, 1, FunnelEnums::FEEDBACK->value);
         $filterResult = $feedbackService->checkCorrectData($filters, $feedbackDTO);
         if ($filterResult) {
             app(LocationFeedbackRepository::class)->createNewFeedback(
@@ -43,7 +52,7 @@ class LocationFeedback extends Controller
         $dataForSend = [
             'company' => $company,
             'feedback_list' => app(LocationFeedbackRepository::class)
-                ->getPaginationFeedbackList($company->company_id, 5)
+                ->getPaginationFeedbackList($company->company_id)
         ];
         $data = app(Pipeline::class)
             ->send($dataForSend)

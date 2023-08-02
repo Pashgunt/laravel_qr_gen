@@ -4,6 +4,7 @@ namespace App\QR\DTO;
 
 class FeedbackDTO
 {
+    private array $validated;
     private int $rating;
     private string $feedbackText;
     private string $name;
@@ -11,6 +12,7 @@ class FeedbackDTO
 
     public function __construct($validated)
     {
+        $this->validated = $validated;
         $this->rating = $validated['rating'];
         $this->feedbackText = $validated['feedback_text'];
         $this->name = $validated['name'];
@@ -32,5 +34,9 @@ class FeedbackDTO
     public function getContact()
     {
         return $this->contact;
+    }
+    public function getValidatedByKey(string $key)
+    {
+        return !empty($this->validated[$key]) ? $this->validated[$key] : '';
     }
 }

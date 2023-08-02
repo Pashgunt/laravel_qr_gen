@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FeedbackRequest;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\CompanyTableHashRepository;
-use App\Qr\Repositories\FunnelConfigRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Services\FeedbackService;
 use App\QR\Services\Rating;
@@ -15,25 +14,26 @@ class LocationFeedback extends Controller
 {
     public function store(FeedbackRequest $request)
     {
+        $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
         $feedbackDTO = $request->makeDTO();
         $tableData = app(CompanyTableHashRepository::class)
             ->checkIssetHashString($request->route()->parameter('qr'));
         $companyID  = $tableData->company_id;
-        $filters = (new FeedbackService(app(LocationFeedbackRepository::class)))
-            ->feedbackFilters(1, 1, FunnelEnums::FEEDBACK->value);
         $tabeID  = $tableData->id;
-        $result = app(LocationFeedbackRepository::class)->createNewFeedback(
-            $companyID,
-            $tabeID,
-            $feedbackDTO->getRating(),
-            $feedbackDTO->getFeedbackText(),
-            $feedbackDTO->getName(),
-            $feedbackDTO->getContact()
-        );
-        if ($result) {
-            return view('components.feedback-success');
+        $filters = $feedbackService->feedbackFilters(1, 1, FunnelEnums::FEEDBACK->value);
+        $filterResult = $feedbackService->checkCorrectData($filters, $feedbackDTO);
+        if ($filterResult) {
+            app(LocationFeedbackRepository::class)->createNewFeedback(
+                $companyID,
+                $tabeID,
+                $feedbackDTO->getRating(),
+                $feedbackDTO->getFeedbackText(),
+                $feedbackDTO->getName(),
+                $feedbackDTO->getContact()
+            );
+        } else {
+            // TODO make logic bad feedback
         }
-        dd($result);
     }
 
     public function show(string $qr)

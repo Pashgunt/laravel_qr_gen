@@ -12,6 +12,7 @@ use App\Models\FunnelTypes;
 use App\Models\QrCode;
 use App\Models\QrLink;
 use App\Models\QrPdf;
+use App\Models\User;
 use App\QR\Repositories\CompanyRepository;
 use App\QR\Repositories\CompanyTableHashRepository;
 use App\Qr\Repositories\FunnelConfigRepository;
@@ -22,6 +23,7 @@ use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Repositories\QrCodeRepository;
 use App\QR\Repositories\QrLinkRepository;
 use App\QR\Repositories\QrPdfRepository;
+use App\Qr\Repositories\UserRepository;
 use App\QR\Services\FeedbackService;
 use Illuminate\Support\ServiceProvider;
 
@@ -64,9 +66,13 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(FunnelFieldsRepository::class, function ($app) {
             return new FunnelFieldsRepository(new FunneFields());
         });
-        
+
         $this->app->singleton(FunnelLogicRepository::class, function ($app) {
             return new FunnelLogicRepository(new FunneLogic());
+        });
+
+        $this->app->singleton(UserRepository::class, function ($app) {
+            return new UserRepository(new User());
         });
     }
 

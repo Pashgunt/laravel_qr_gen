@@ -1,0 +1,54 @@
+<?php
+
+namespace App\QR\DTO;
+
+use Illuminate\Support\Facades\Hash;
+
+class UserDTO
+{
+    private array $validated;
+    private string $email;
+    private ?string $password;
+    private ?string $name = null;
+    private ?string $token = null;
+
+    public function __construct($validated)
+    {
+        $this->validated = $validated;
+        $this->email = $validated['email'];
+        $this->password = $validated['password'] ?? null;
+        $this->name = $validated['name'] ?? null;
+        $this->token = $validated['token'] ?? null;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getName()
+    {
+        if ($this->name) return $this->name;
+        return current(explode('@', $this->email));
+    }
+
+    public function getPassword()
+    {
+        return Hash::make($this->password);
+    }
+
+    public function getPasswordOrigin()
+    {
+        return $this->password;
+    }
+
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    public function getValidateedData()
+    {
+        return $this->validated;
+    }
+}

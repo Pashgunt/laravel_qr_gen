@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Routing\Redirector;
 
 class Controller extends BaseController
 {
@@ -15,7 +16,7 @@ class Controller extends BaseController
         string $successMessage,
         string $errorMessage,
         string $routeName
-    ) {
+    ): Redirector {
         return $res ? redirect(route($routeName))->with('message', $successMessage) :
             redirect()->back()->withErrors('message_err', $errorMessage);
     }

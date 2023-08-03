@@ -2,23 +2,22 @@
 
 namespace App\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
+
 class FunnelConfigFilter extends QueryFilter
 {
-    public function company_id($id)
+    public function company_id(int $id): Builder
     {
-        return $this->builder->where('company_id', $id)->join('funnel_fields', function ($join) {
-            $join->on('funnel_configs.id', '=', 'funnel_fields.funnel_config_id');
-        })->join('funnel_logic_blocks', function ($join) {
-            $join->on('funnel_fields.id', '=', 'funnel_logic_blocks.funnel_field_id');
-        })->join('funnel_types', 'funnel_configs.funnel_type_id', '=', 'funnel_types.id');
+        return $this->builder->where('company_id', $id);
     }
 
-    public function funnel_type(string $funnelType)
+    public function funnel_type(string $funnelType): Builder
     {
-        $this->builder->where('funnel_types.funnel_type_tag', $funnelType)->join('funnel_fields', function ($join) {
-            $join->on('funnel_configs.id', '=', 'funnel_fields.funnel_config_id');
-        })->join('funnel_logic_blocks', function ($join) {
-            $join->on('funnel_fields.id', '=', 'funnel_logic_blocks.funnel_field_id');
-        })->join('funnel_types', 'funnel_configs.funnel_type_id', '=', 'funnel_types.id');
+        return $this->builder->where('funnel_types.funnel_type_tag', $funnelType);
+    }
+
+    public function is_actual(int $isActual): Builder
+    {
+        return $this->builder->where('funnel_configs.is_actual', $isActual);
     }
 }

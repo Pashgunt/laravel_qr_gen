@@ -2,8 +2,8 @@
 
 namespace App\QR\Repositories;
 
-use App\Models\Feedback;
 use App\QR\Abstracts\Repositories;
+use Illuminate\Database\Eloquent\Model;
 
 class LocationFeedbackRepository extends Repositories
 {
@@ -14,7 +14,7 @@ class LocationFeedbackRepository extends Repositories
         string $feebackText,
         string $feedbackUserName,
         ?string $contactData
-    ) {
+    ): Model {
         return $this->create([
             'company_id' => $companyID,
             'table_id' => $tableID,
@@ -25,12 +25,7 @@ class LocationFeedbackRepository extends Repositories
         ]);
     }
 
-    public function prepareAvgRatingForComapny(int $companyID)
-    {
-        return $this->model->where('company_id', '=', $companyID)->avg('rating');
-    }
-
-    public function getColumnList()
+    public function getColumnList(): array
     {
         return $this->columnNames();
     }

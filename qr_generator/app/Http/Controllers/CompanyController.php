@@ -2,58 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ShowCompanyAction;
 use App\Filters\CompanyFilter;
-use App\Filters\FeedbackFilter;
-use App\Filters\FunnelConfigFilter;
-use App\Filters\QrLinkFilter;
 use App\Http\Requests\QrGenerationLinkRequest;
 use App\Models\Company;
-use App\Models\Feedback;
-use App\Models\QrLink;
-use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\CompanyRepository;
-use App\Qr\Repositories\FunnelConfigRepository;
-use App\Qr\Services\FunnelFactory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class CompanyController extends Controller
 {
-    public function index(CompanyFilter $filters)
+    public function index(CompanyFilter $filters): View
     {
         $companies = Company::filter($filters)->paginate(10);
         return view('company.company-list', compact('companies'));
     }
 
     public function show(
-        CompanyFilter $filters,
-        FeedbackFilter $feedbackFilter,
-        QrLinkFilter $qrFilter,
-        FunnelConfigFilter $funnelFilter
-    ) {
-        $companyData = [
-            'company' => Company::filter($filters)->first(),
-            'feedback' => Feedback::filter($feedbackFilter)->paginate(10),
-            'qr' => QrLink::filter($qrFilter)->paginate(10, [
-                'qr_codes.file_name AS svg_file_name',
-                'qr_codes.file_path AS svg_file_path',
-                'company_table_hash.*',
-                'qr_codes_pdf.*',
-                'links_for_qr_code.*',
-            ]),
-            'funnel' => (new FunnelFactory())
-                ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class))
-                ->prepareFunnelConfigs($funnelFilter)
-        ];
+        Request $request,
+        ShowCompanyAction $showCompany
+    ): View {
+        $companyData = $showCompany->handle($request);
         return view('company.company-detail', compact('companyData'));
     }
 
-    public function edit(CompanyFilter $filters)
+    public function edit(CompanyFilter $filters): View
     {
         $company = Company::filter($filters)->first();
         return view('company.company-edit', compact('company'));
     }
 
-    public function update(QrGenerationLinkRequest $request, int $id)
-    {
+    public function update(
+        QrGenerationLinkRequest $request,
+        int $id
+    ): Redirector {
         $companyDTO = $request->makeDTO();
 
         $res = app(CompanyRepository::class)->updateCompany($id, [
@@ -70,7 +53,7 @@ class CompanyController extends Controller
         );
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): Redirector
     {
         $res = app(CompanyRepository::class)->updateCompany($id, ['is_actual' => 0]);
 

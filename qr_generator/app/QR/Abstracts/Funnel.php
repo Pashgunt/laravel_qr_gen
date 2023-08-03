@@ -2,6 +2,8 @@
 
 namespace App\Qr\Abstracts;
 
+use App\QR\DTO\FunnelDTO;
+
 interface Funnel
 {
     public function createType(
@@ -11,6 +13,6 @@ interface Funnel
 
     public function prepareDataForCreate(
         $funnelIDs,
-        $funnelDTO = null
-    );
+        ?FunnelDTO $funnelDTO = null
+    ): array;
 }

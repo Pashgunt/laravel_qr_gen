@@ -9,14 +9,22 @@ use PDF;
 
 class SaveQrCodePdfData
 {
-    public function pipelineHandler(array $qrCode, Closure $next)
-    {
+    public function saveQrCodePipeline(
+        array $qrCode,
+        Closure $next
+    ): array {
         $linkId = $qrCode['link_id'];
         $fileName = "qr_$linkId.pdf";
         $filePath = sprintf("%s/%s", $qrCode['file_path'], $fileName);
-        $resOfCreate = Storage::disk('public')->put($filePath, PDF::loadView('qr.qr', ['qr_code' => $qrCode['qr']])->download());
+        $resOfCreate = Storage::disk('public')
+            ->put(
+                $filePath,
+                PDF::loadView('qr.qr', ['qr_code' => $qrCode['qr']])
+                    ->download()
+            );
         if ($resOfCreate) {
-            app(QrPdfRepository::class)->createQrCodePdf($fileName, $filePath, $linkId);
+            app(QrPdfRepository::class)
+                ->createQrCodePdf($fileName, $filePath, $linkId);
         }
         return $next($qrCode);
     }

@@ -4,5 +4,5 @@ namespace App\QR\Abstracts;
 
 interface RequestInterface
 {
-    public function makeDTO();
+    public function makeDTO(): object;
 }

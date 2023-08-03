@@ -15,9 +15,9 @@ class GenerateQrCode extends Command
 
     protected $description = 'Create new QR Code';
 
-    public function handle()
+    public function handle(): void
     {
-        $res = app(Pipeline::class)
+        app(Pipeline::class)
             ->send([
                 'qr' => QrCode::size((int)QrCodeEnums::SIZE->value)->generate($this->argument('link')),
                 'link' => $this->argument('link'),
@@ -27,7 +27,7 @@ class GenerateQrCode extends Command
                 SaveQrCodeData::class,
                 SaveQrCodePdfData::class
             ])
-            ->via('pipelineHandler')
-            ->thenReturn();
+            ->via('saveQrCodePipeline')
+            ->then();
     }
 }

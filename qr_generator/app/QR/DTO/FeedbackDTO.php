@@ -19,23 +19,23 @@ class FeedbackDTO
         $this->contact = $validated['contact'] ?? null;
     }
 
-    public function getRating()
+    public function getRating(): int
     {
         return $this->rating;
     }
-    public function getFeedbackText()
+    public function getFeedbackText(): string
     {
         return $this->feedbackText;
     }
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
-    public function getContact()
+    public function getContact(): ?string
     {
         return $this->contact;
     }
-    public function getValidatedByKey(string $key)
+    public function getValidatedByKey(string $key): string
     {
         return !empty($this->validated[$key]) ? $this->validated[$key] : '';
     }

@@ -3,13 +3,17 @@
 namespace App\Qr\Services;
 
 use App\Qr\Abstracts\Funnel;
+use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelLogicEnums;
+use App\QR\Enums\FunnelOperatorEnums;
+use App\Qr\Repositories\FunnelFieldsRepository;
+use Closure;
 
-class FunnelField implements Funnel
+class FunnelFieldService implements Funnel
 {
-    private $repository;
+    private FunnelFieldsRepository $repository;
 
-    public function __construct($repository)
+    public function __construct(FunnelFieldsRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -20,15 +24,31 @@ class FunnelField implements Funnel
     ) {
     }
 
+    public function storeFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['funnel_field_ids'] = $this->prepareDataForCreate($data['funnel_config_id'], $data['funnel_dto']);
+        return $next($data);
+    }
+
+    public function createFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['operators'] = FunnelOperatorEnums::getAssociations();
+        return $next($data);
+    }
+
     public function prepareDataForCreate(
         $funnelConfigID,
-        $funnelDTO = null
-    ) {
+        ?FunnelDTO $funnelDTO = null
+    ): array {
         $funnelLogicBlocks = [];
         $previousOperator = null;
 
         array_walk(
-            $funnelDTO->getPrepareLogicParams()['result'],
+            $funnelDTO->getPrepareLogicParams(),
             function ($fieldData, $logicOperator) use ($funnelConfigID, &$funnelLogicBlocks, &$previousOperator) {
                 $funnelFieldID = $this->repository->createFunnelFields(
                     $funnelConfigID,

@@ -2,22 +2,29 @@
 
 namespace App\QR\Services;
 
-use App\QR\Repositories\LocationFeedbackRepository;
+use App\Filters\FeedbackFilter;
+use App\Models\Feedback;
 use Closure;
 
 class Rating
 {
-    public LocationFeedbackRepository $locationFeedbackRepository;
+    public FeedbackFilter $feedbackFilter;
 
-    public function __construct($locationFeedbackRepository)
+    public function __construct(FeedbackFilter $feedbackFilter)
     {
-        $this->locationFeedbackRepository = $locationFeedbackRepository;
+        $this->feedbackFilter = $feedbackFilter;
     }
 
-    public function preparePipeline(array $hashCompanyData, Closure $next)
-    {
-        //TODO change this method for filter
-        $hashCompanyData['rating'] = $this->locationFeedbackRepository->prepareAvgRatingForComapny($hashCompanyData['company']->company_id) ?? 0;
-        return $next($hashCompanyData);
+    public function showFeedbackPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['rating'] = Feedback::filter(
+            $this->feedbackFilter,
+            [
+                'company_id' => $data['company']->id
+            ]
+        )->avg('rating') ?? 0;
+        return $next($data);
     }
 }

@@ -3,16 +3,24 @@
 namespace App\Qr\Services;
 
 use App\Filters\FunnelConfigFilter;
-use App\Models\FunneConfig;
+use App\Models\FunnelConfig;
 use App\Qr\Abstracts\Funnel;
+use App\QR\DTO\FunnelDTO;
+use App\Qr\Repositories\FunnelConfigRepository;
+use Closure;
 
-class FunnelConfig implements Funnel
+class FunnelConfigService implements Funnel
 {
-    private $repository;
+    private ?FunnelConfigRepository $repository;
 
-    public function __construct($repository)
-    {
+    private ?FunnelConfigFilter $filters;
+
+    public function __construct(
+        ?FunnelConfigRepository $repository = null,
+        ?FunnelConfigFilter $filters = null
+    ) {
         $this->repository = $repository;
+        $this->filters = $filters;
     }
 
     public function createType(
@@ -23,13 +31,27 @@ class FunnelConfig implements Funnel
 
     public function prepareDataForCreate(
         $funnelIDs,
-        $funnelDTO = null
-    ) {
+        ?FunnelDTO $funnelDTO = null
+    ): array {
+        return [];
     }
 
-    public function prepareFunnelConfigs(FunnelConfigFilter $filter)
-    {
-        $configs = FunneConfig::filter($filter)->get()->toArray();
+    public function showCompanyPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['funnel'] = $this->prepareFunnelConfigs($this->filters);
+        return $next($data);
+    }
+
+    public function prepareFunnelConfigs(
+        FunnelConfigFilter $filter,
+        array $addedFilterParams = []
+    ): array {
+        $configs = FunnelConfig::joined()
+            ->filter($filter, $addedFilterParams)
+            ->get()
+            ->toArray();
 
         return array_reduce($configs, function ($acc, $configItem) use ($configs) {
             $configDataAppend = [

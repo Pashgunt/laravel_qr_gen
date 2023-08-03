@@ -3,13 +3,16 @@
 namespace App\Qr\Services;
 
 use App\Qr\Abstracts\Funnel;
+use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelLogicEnums;
+use App\Qr\Repositories\FunnelLogicRepository;
+use Closure;
 
-class FunnelLogic implements Funnel
+class FunnelLogicService implements Funnel
 {
-    private $repository;
+    private FunnelLogicRepository $repository;
 
-    public function __construct($repository)
+    public function __construct(FunnelLogicRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -20,11 +23,27 @@ class FunnelLogic implements Funnel
     ) {
     }
 
+    public function storeFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $this->prepareDataForCreate($data['funnel_field_ids'])();
+        return $next($data);
+    }
+
+    public function createFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['logic'] = FunnelLogicEnums::getAssociations();
+        return $next($data);
+    }
+
     public function prepareDataForCreate(
         $funnelFields,
-        $funnelDTO = null
-    ) {
-        return function ($logicBlockOperator = '') use ($funnelFields) {
+        ?FunnelDTO $funnelDTO = null
+    ): array {
+        function ($logicBlockOperator = '') use ($funnelFields) {
             foreach ($funnelFields as $logicOperator => $funelFieldIDs) {
                 if (in_array($logicOperator, [FunnelLogicEnums::AND->value, FunnelLogicEnums::OR->value])) {
                     $logicBlockOperator = $logicOperator;
@@ -33,5 +52,7 @@ class FunnelLogic implements Funnel
                 $this->repository->createFunneLogic($funelFieldIDs, $logicBlockOperator);
             }
         };
+
+        return [];
     }
 }

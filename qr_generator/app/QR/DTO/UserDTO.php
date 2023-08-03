@@ -21,33 +21,33 @@ class UserDTO
         $this->token = $validated['token'] ?? null;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function getName()
+    public function getName(): string
     {
         if ($this->name) return $this->name;
         return current(explode('@', $this->email));
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return Hash::make($this->password);
     }
 
-    public function getPasswordOrigin()
+    public function getPasswordOrigin(): ?string
     {
         return $this->password;
     }
 
-    public function getToken()
+    public function getToken(): ?string
     {
         return $this->token;
     }
 
-    public function getValidateedData()
+    public function getValidateedData(): array
     {
         return $this->validated;
     }

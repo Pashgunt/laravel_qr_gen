@@ -24,7 +24,7 @@ class FeedbackRequest extends FormRequest implements RequestInterface
         ];
     }
 
-    public function makeDTO()
+    public function makeDTO(): FeedbackDTO
     {
         $validated = $this->validated();
         return new FeedbackDTO($validated);

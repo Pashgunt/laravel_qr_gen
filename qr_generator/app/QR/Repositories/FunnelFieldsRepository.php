@@ -4,6 +4,7 @@ namespace App\Qr\Repositories;
 
 use App\QR\Abstracts\Repositories;
 use App\QR\Enums\FunnelLogicEnums;
+use Illuminate\Database\Eloquent\Model;
 
 class FunnelFieldsRepository extends Repositories
 {
@@ -14,7 +15,7 @@ class FunnelFieldsRepository extends Repositories
         ?int $value,
         ?int $valueRangeFrom,
         ?int $valueRangeTo,
-    ) {
+    ): Model {
         return $this->create([
             'funnel_config_id' => $funnelConfigId,
             'field_name' => $fieldName,

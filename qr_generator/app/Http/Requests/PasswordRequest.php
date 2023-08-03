@@ -20,7 +20,7 @@ class PasswordRequest extends FormRequest implements RequestInterface
         ];
     }
 
-    public function makeDTO()
+    public function makeDTO(): UserDTO
     {
         $validated = $this->validated();
         return new UserDTO($validated);

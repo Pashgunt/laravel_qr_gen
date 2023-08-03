@@ -6,7 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LocationFeedback;
+use App\Http\Controllers\LocationFeedbackController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QrGeneratorController;
 use App\Http\Controllers\RegistrationController;
@@ -16,9 +16,9 @@ Route::view('/404', 'components.404')->name('404');
 
 Route::middleware(['location.hash'])->group(function () {
     Route::prefix('/location')->group(function () {
-        Route::post('/{qr}', [LocationFeedback::class, 'store'])->name('location.store');
+        Route::post('/{qr}', [LocationFeedbackController::class, 'store'])->name('location.store');
     });
-    Route::resource('/location', LocationFeedback::class)
+    Route::resource('/location', LocationFeedbackController::class)
         ->parameters(['location' => 'qr'])
         ->only(['show']);
 });
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['create', 'index']);
     Route::resource('/company', CompanyController::class)
         ->parameters(['company' => 'company_id']);
-    Route::get('/feedback', [LocationFeedback::class, 'index'])
+    Route::get('/feedback', [LocationFeedbackController::class, 'index'])
         ->name('feedback.index');
     Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');
 });

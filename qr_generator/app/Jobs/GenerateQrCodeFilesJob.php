@@ -11,15 +11,17 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 
-class GenerateQrCodeFiles implements ShouldQueue
+class GenerateQrCodeFilesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private string $hashValue;
     private int $companyHashId;
 
-    public function __construct(string $hashValue, int $companyHashId)
-    {
+    public function __construct(
+        string $hashValue,
+        int $companyHashId
+    ) {
         $this->hashValue = $hashValue;
         $this->companyHashId = $companyHashId;
     }

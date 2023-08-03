@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegistrationRequest;
 use App\Jobs\RegisterMailJob;
 use App\Qr\Repositories\UserRepository;
+use Illuminate\Routing\Redirector;
+use Illuminate\View\View;
 
 class RegistrationController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('auth.registration');
     }
 
-    public function store(RegistrationRequest $request)
+    public function store(RegistrationRequest $request): Redirector
     {
         $userDTO = $request->makeDTO();
 
@@ -24,7 +26,7 @@ class RegistrationController extends Controller
         );
 
         RegisterMailJob::dispatchSync($user);
-        
+
         return redirect(route('login'))->with('email', $user->email);
     }
 }

@@ -3,27 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request): Redirector
     {
         $userDTO = $request->makeDTO();
-        if (Auth::attempt([
+        $res = Auth::attempt([
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPasswordOrigin()
-        ])) {
-            return redirect(route('home'));
-        }
+        ]);
+        return $this->prepareResultForUpdate($res, 'Welcome', 'Error Login', 'home');
     }
 
-    public function destroy()
+    public function destroy(): Redirector
     {
         Auth::logout();
         return redirect(route("login"));

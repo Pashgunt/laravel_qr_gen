@@ -10,7 +10,7 @@ enum FunnelOperatorEnums: string implements FunnelEnums
     case NOT_EQUAL = '!=';
     case RANGE = 'between';
 
-    public static function getAssociations()
+    public static function getAssociations(): array
     {
         return array_map(function ($operator) {
             return match ($operator) {
@@ -21,8 +21,11 @@ enum FunnelOperatorEnums: string implements FunnelEnums
         }, array_column(self::cases(), 'value'));
     }
 
-    private static function prepareFunnelOperators(string $name, string $tag, string $operator)
-    {
+    private static function prepareFunnelOperators(
+        string $name,
+        string $tag,
+        string $operator
+    ): array {
         return [
             'name' => $name,
             'tag' => $tag,

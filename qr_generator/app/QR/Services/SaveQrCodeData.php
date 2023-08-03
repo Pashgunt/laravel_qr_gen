@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Storage;
 
 class SaveQrCodeData
 {
-    public function pipelineHandler(array $qrData, Closure $next)
-    {
+    public function saveQrCodePipeline(
+        array $qrData,
+        Closure $next
+    ): array {
         $linkId = app(QrLinkRepository::class)->createLink(
             $qrData['link'],
             $qrData['company_hash_id']

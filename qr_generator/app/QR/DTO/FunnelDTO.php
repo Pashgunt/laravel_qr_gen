@@ -26,22 +26,22 @@ class FunnelDTO
         $this->workStart = $validated['work_start'];
     }
 
-    public function getFunnelID()
+    public function getFunnelID(): int
     {
         return $this->funnelID;
     }
 
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function getOperators()
+    public function getOperators(): array
     {
         return $this->operators;
     }
 
-    public function getRange()
+    public function getRange(): array
     {
         return array_map(function ($rangeItem, $keyRangeItem) {
             return [
@@ -51,22 +51,22 @@ class FunnelDTO
         }, $this->rangeFrom, array_keys($this->rangeFrom));
     }
 
-    public function getValues()
+    public function getValues(): array
     {
         return $this->values;
     }
 
-    public function getLogic()
+    public function getLogic(): array
     {
         return $this->logic;
     }
 
-    public function getWorkStartDate()
+    public function getWorkStartDate(): string
     {
         return date("Y-m-d", strtotime($this->workStart));
     }
 
-    public function getPrepareLogicParams()
+    public function getPrepareLogicParams(): array
     {
         return array_reduce($this->getLogic(), function ($carry, $logicElems) {
             if (is_null($logicElems)) $logicElems = $carry['i'];
@@ -77,6 +77,6 @@ class FunnelDTO
             $carry['i']++;
             $carry['result'][$logicElems] = $rangeItem;
             return $carry;
-        }, ['result' => [], 'i' => 0]);
+        }, ['result' => [], 'i' => 0])['result'];
     }
 }

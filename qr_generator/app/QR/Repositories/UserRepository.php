@@ -4,14 +4,18 @@ namespace App\Qr\Repositories;
 
 use App\QR\Abstracts\Repositories;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 
 class UserRepository extends Repositories
 {
-    public function createUser(string $name, string $email, string $password)
-    {
+    public function createUser(
+        string $name,
+        string $email,
+        string $password
+    ): Model {
         return $this->create([
             'name' => $name,
             'email' => $email,
@@ -19,7 +23,7 @@ class UserRepository extends Repositories
         ]);
     }
 
-    public function changePasswordForUser(array $validatedData)
+    public function changePasswordForUser(array $validatedData): mixed
     {
         return Password::reset(
             $validatedData,

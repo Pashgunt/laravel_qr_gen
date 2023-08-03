@@ -33,7 +33,7 @@ abstract class Repositories
     /**
      * Выборка из базы определенных полей (по умолчанию выбираются все поля)
      */
-    public function getAll($columns = array('*'))
+    public function getAll($columns = array('*')): Collection
     {
         return $this->model->all($columns);
     }
@@ -92,7 +92,7 @@ abstract class Repositories
         return $this->model->paginate($count);
     }
 
-    public function columnNames()
+    public function columnNames(): array
     {
         return $this->model->getConnection()->getSchemaBuilder()->getColumnListing($this->model->getTable());
     }

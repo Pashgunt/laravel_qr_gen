@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ShowFeedbackAction;
 use App\Filters\CompanyHashFilter;
 use App\Filters\FeedbackFilter;
 use App\Http\Requests\FeedbackRequest;
 use App\Models\CompanyTableHash;
 use App\Models\Feedback;
 use App\QR\Enums\FunnelEnums;
-use App\QR\Repositories\CompanyTableHashRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Services\FeedbackService;
-use App\QR\Services\Rating;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\View\View;
 
-class LocationFeedback extends Controller
+class LocationFeedbackController extends Controller
 {
 
-    public function index(FeedbackFilter $filter)
+    public function index(FeedbackFilter $filter): View
     {
         $feedbacks = Feedback::filter($filter)->paginate(10);
 
         return view('location.feedback-list', compact('feedbacks'));
     }
 
-    public function store(FeedbackRequest $request)
+    public function store(FeedbackRequest $request): void
     {
         $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
         $feedbackDTO = $request->makeDTO();
@@ -49,22 +48,10 @@ class LocationFeedback extends Controller
     }
 
     public function show(
-        CompanyHashFilter $filter,
-        FeedbackFilter $feedbackFilter
-    ) {
-        $company = CompanyTableHash::filter($filter)->first();
-        $dataForSend = [
-            'company' => $company,
-            //TODO make feedback list only for company by id
-            'feedback_list' => Feedback::filter($filter)->paginate(10)
-        ];
-        $data = app(Pipeline::class)
-            ->send($dataForSend)
-            ->through([
-                new Rating(app(LocationFeedbackRepository::class)),
-            ])
-            ->via('preparePipeline')
-            ->thenReturn();
+        Request $request,
+        ShowFeedbackAction $showFeedback
+    ): View {
+        $data = $showFeedback->handle($request);
         return view('location.feedback', compact('data'));
     }
 }

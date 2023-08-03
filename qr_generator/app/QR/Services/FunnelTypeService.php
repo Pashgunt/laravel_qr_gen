@@ -2,18 +2,23 @@
 
 namespace App\QR\Services;
 
+use App\Filters\FunnelTypeFilter;
 use App\Models\Feedback;
+use App\Models\FunnelTypes;
 use App\Qr\Abstracts\Funnel;
+use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelEnums;
+use App\QR\Repositories\FunnelTypesRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use Closure;
+use Illuminate\Http\Request;
 
-class FunnelType implements Funnel
+class FunnelTypeService implements Funnel
 {
 
-    private $repository;
+    private FunnelTypesRepository $repository;
 
-    public function __construct($repository)
+    public function __construct(FunnelTypesRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -26,23 +31,25 @@ class FunnelType implements Funnel
 
     public function prepareDataForCreate(
         $funnelIDs,
-        $funnelDTO = null
-    ) {
+        ?FunnelDTO $funnelDTO = null
+    ): array {
+        return [];
     }
 
-    public function pipelineHandler($data, Closure $next)
-    {
-        //TODO change structure for filter
-        $funnelOptions = $this->repository->getFunnelOptions(1);
+    public function createFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $funnelOptions = FunnelTypes::filter(new FunnelTypeFilter(app(Request::class)))
+            ->get();
         $data['funnel_options'] = $funnelOptions->toArray();
         return $next($data);
     }
 
-    public function prepareFunnelFields(int $id)
+    public function prepareFunnelFields(FunnelTypeFilter $filter): array
     {
-        //TODO change structure for filter
         $locationFeedbackService = new FeedbackService(new LocationFeedbackRepository(new Feedback()));
-        $funnel = $this->repository->getFunnelOptionByID($id);
+        $funnel = FunnelTypes::filter($filter)->first();
         $funnelTag = $funnel->funnel_type_tag;
         return match ($funnelTag) {
             FunnelEnums::FEEDBACK->value => $locationFeedbackService->prepareColumnNamesForFunnelOptions()

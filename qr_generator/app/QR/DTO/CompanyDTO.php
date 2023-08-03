@@ -17,19 +17,23 @@ class CompanyDTO
         $this->companyLink = $companyData->link;
     }
 
-    public function getCompanyID(){
+    public function getCompanyID(): int
+    {
         return $this->companyID;
     }
 
-    public function getCompanyName(){
+    public function getCompanyName(): string
+    {
         return $this->companyName;
     }
 
-    public function getCompanyAdress(){
+    public function getCompanyAdress(): string
+    {
         return $this->companyAddress;
     }
 
-    public function getCompanyLink(){
+    public function getCompanyLink(): string
+    {
         return $this->companyLink;
     }
 }

@@ -16,7 +16,7 @@ class RecoveryPasswordMailJob implements ShouldQueue
 
     private array $userData;
 
-    public function __construct($userData)
+    public function __construct(array $userData)
     {
         $this->userData = $userData;
     }

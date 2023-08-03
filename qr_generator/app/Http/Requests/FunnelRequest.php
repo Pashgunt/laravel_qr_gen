@@ -33,7 +33,7 @@ class FunnelRequest extends FormRequest implements RequestInterface
         ];
     }
 
-    public function makeDTO()
+    public function makeDTO(): FunnelDTO
     {
         $validated = $this->validated();
         return new FunnelDTO($validated);

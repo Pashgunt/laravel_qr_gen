@@ -2,7 +2,9 @@
 
 namespace App\QR\Services;
 
-use App\Models\FunneConfig;
+use App\Filters\FeedbackFilter;
+use App\Filters\FunnelConfigFilter;
+use App\Models\Feedback;
 use App\QR\DTO\CompanyDTO;
 use App\QR\DTO\FeedbackDTO;
 use App\QR\DTO\TableHashDTO;
@@ -13,23 +15,47 @@ use App\Qr\Helpers\Arrays;
 use App\Qr\Repositories\FunnelConfigRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use Closure;
+use Illuminate\Http\Request;
 
 class FeedbackService
 {
-
-    private LocationFeedbackRepository $locationFeedbackRepository;
+    private ?LocationFeedbackRepository $locationFeedbackRepository;
+    private ?FeedbackFilter $filters;
 
     public function __construct(
-        LocationFeedbackRepository $locationFeedbackRepository,
+        ?LocationFeedbackRepository $locationFeedbackRepository = null,
+        ?FeedbackFilter $filters = null
     ) {
         $this->locationFeedbackRepository = $locationFeedbackRepository;
+        $this->filters = $filters;
     }
 
-    public function preparePipeline($hashCompanyData, Closure $next)
-    {
-        $hashTableDTO = new TableHashDTO($hashCompanyData);
-        $companyDTO = new CompanyDTO($hashCompanyData->getCompanyParams->first());
-        $hashCompanyData = [
+    public function showFeedbackPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['feedback_list'] = Feedback::filter(
+            $this->filters,
+            ['company_id' => $data['company']->id]
+        )->paginate(10);
+        return $next($data);
+    }
+
+    public function showCompanyPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $data['feedback'] = Feedback::filter($this->filters)->paginate(10);
+        return $next($data);
+    }
+
+    public function preparePipeline(
+        object $data,
+        Closure $next
+    ): array {
+        $hashTableDTO = new TableHashDTO($data);
+        $companyDTO = new CompanyDTO($data->getCompanyParams->first());
+        $data = [
             'company_id' => $companyDTO->getCompanyID(),
             'company_name' => $companyDTO->getCompanyName(),
             'company_address' => $companyDTO->getCompanyAdress(),
@@ -37,10 +63,10 @@ class FeedbackService
             'company_table_number' => $hashTableDTO->getTableNumber(),
             'company_hash' => $hashTableDTO->getHashValue()
         ];
-        return $next($hashCompanyData);
+        return $next($data);
     }
 
-    public function prepareColumnNamesForFunnelOptions()
+    public function prepareColumnNamesForFunnelOptions(): array
     {
         $columnNames = $this->locationFeedbackRepository->getColumnList();
         list(
@@ -62,14 +88,24 @@ class FeedbackService
         int $companyID,
         int $isActual,
         string $funnelType,
-    ) {
+    ): array {
         $funnelConfigs = (new FunnelFactory())
             ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
-        return $funnelConfigs->prepareFunnelConfigs($companyID, $isActual, $funnelType);
+        return $funnelConfigs->prepareFunnelConfigs(
+            new FunnelConfigFilter(app(Request::class)),
+            [
+                'company_id' => $companyID,
+                'is_actual' => $isActual,
+                'funnel_type' => $funnelType
+            ]
+        );
     }
 
-    private function checkResultFilter(string $operator, array $filterRaw, $value)
-    {
+    private function checkResultFilter(
+        string $operator,
+        array $filterRaw,
+        int $value
+    ): bool {
         return match ($operator) {
             FunnelOperatorEnums::RANGE->value => $value >= $filterRaw['value_range_from'] && $value <= $filterRaw['value_range_to'],
             FunnelOperatorEnums::EQUAL->value => $value == $filterRaw['value'],
@@ -77,8 +113,11 @@ class FeedbackService
         };
     }
 
-    private function checkLogicResultForFilter(bool $resultFirst, ?bool $resultSecond = null, ?string $logicOperator = null)
-    {
+    private function checkLogicResultForFilter(
+        bool $resultFirst,
+        ?bool $resultSecond = null,
+        ?string $logicOperator = null
+    ): bool {
         if (is_null($resultSecond)) {
             return $resultFirst;
         }
@@ -89,8 +128,10 @@ class FeedbackService
     }
 
     // TODO make this logic through yield
-    public function checkCorrectData(array $filters, FeedbackDTO $feedbackDTO)
-    {
+    public function checkCorrectData(
+        array $filters,
+        FeedbackDTO $feedbackDTO
+    ): bool {
         if (empty($filters)) return true;
 
         $result = true;

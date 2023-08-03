@@ -13,12 +13,12 @@ class TableHashDTO
         $this->hashValue = $tableHashData->hash_value;
     }
 
-    public function getTableNumber()
+    public function getTableNumber(): int
     {
         return $this->tableNumber;
     }
 
-    public function getHashValue()
+    public function getHashValue(): string
     {
         return $this->hashValue;
     }

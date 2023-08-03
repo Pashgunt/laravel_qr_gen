@@ -3,6 +3,7 @@
 namespace App\Qr\Repositories;
 
 use App\QR\Abstracts\Repositories;
+use Illuminate\Database\Eloquent\Model;
 
 class FunnelConfigRepository extends Repositories
 {
@@ -10,7 +11,7 @@ class FunnelConfigRepository extends Repositories
         int $companyID,
         int $funnelTypeId,
         string $workStartedAt
-    ) {
+    ): Model {
         return $this->create([
             'company_id' => $companyID,
             'funnel_type_id' => $funnelTypeId,

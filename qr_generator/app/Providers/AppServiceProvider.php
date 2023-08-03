@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\CompanyTableHash;
 use App\Models\Feedback as ModelsFeedback;
-use App\Models\FunneConfig;
-use App\Models\FunneFields;
-use App\Models\FunneLogic;
+use App\Models\FunnelConfig;
+use App\Models\FunnelFields;
+use App\Models\FunnelLogic;
 use App\Models\FunnelTypes;
 use App\Models\QrCode;
 use App\Models\QrLink;
@@ -60,15 +60,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(FunnelConfigRepository::class, function ($app) {
-            return new FunnelConfigRepository(new FunneConfig());
+            return new FunnelConfigRepository(new FunnelConfig());
         });
 
         $this->app->singleton(FunnelFieldsRepository::class, function ($app) {
-            return new FunnelFieldsRepository(new FunneFields());
+            return new FunnelFieldsRepository(new FunnelFields());
         });
 
         $this->app->singleton(FunnelLogicRepository::class, function ($app) {
-            return new FunnelLogicRepository(new FunneLogic());
+            return new FunnelLogicRepository(new FunnelLogic());
         });
 
         $this->app->singleton(UserRepository::class, function ($app) {

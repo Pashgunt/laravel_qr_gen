@@ -6,6 +6,7 @@ use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CompanyTableHash extends Model
 {
@@ -19,8 +20,9 @@ class CompanyTableHash extends Model
 
     protected $table = 'company_table_hash';
 
-    public function getCompanyParams(){
-        return $this->belongsTo(Company::class,'company_id','id');
+    public function getCompanyParams(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)

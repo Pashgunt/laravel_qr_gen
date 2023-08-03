@@ -3,6 +3,7 @@
 namespace App\QR\Repositories;
 
 use App\QR\Abstracts\Repositories;
+use Illuminate\Database\Eloquent\Model;
 
 class CompanyTableHashRepository extends Repositories
 {
@@ -10,7 +11,7 @@ class CompanyTableHashRepository extends Repositories
         int $companyID,
         int $tableNumber,
         string $hashValue
-    ) {
+    ): Model {
         return $this->create([
             'company_id' => $companyID,
             'table_number' => $tableNumber,

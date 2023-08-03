@@ -4,9 +4,9 @@ namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class CompanyFilter extends QueryFilter
+class FunnelTypeFilter extends QueryFilter
 {
-    public function company_id(int $id): Builder
+    public function funnel_type_id(int $id): Builder
     {
         return $this->builder->where('id', $id);
     }

@@ -24,12 +24,12 @@ class QrLinkDTO
         $this->hashParams = $this->prepareHashParamsForTables();
     }
 
-    private function prepareHashParamsForTables()
+    private function prepareHashParamsForTables(): array
     {
         $result = [];
         if ($this->getPlaceSitFrom()) {
             for ($placeNumber = $this->getPlaceSitFrom(); $placeNumber <= $this->getPlaceSitTo(); $placeNumber += 1)
-            $result[$placeNumber] = $this->generateHashParam($placeNumber);
+                $result[$placeNumber] = $this->generateHashParam($placeNumber);
         }
         if ($this->getPlaceSitNumbers() && array_filter(array_values($this->getPlaceSitNumbers()))) {
             foreach ($this->getPlaceSitNumbers() as $placeNumber)
@@ -39,42 +39,42 @@ class QrLinkDTO
         return $result ?: [$this->generateHashParam()];
     }
 
-    private function generateHashParam(int $saltNumber = 0)
+    private function generateHashParam(int $saltNumber = 0): string
     {
         return str_replace(['/'], '', sprintf('%s%s%d', uniqid('gen'), bcrypt($this->getName()), $saltNumber));
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getAdress()
+    public function getAdress(): string
     {
         return $this->adress;
     }
 
-    public function getLink()
+    public function getLink(): string
     {
         return $this->link;
     }
 
-    public function getPlaceSitFrom()
+    public function getPlaceSitFrom(): ?int
     {
         return $this->placeSitFrom;
     }
 
-    public function getPlaceSitTo()
+    public function getPlaceSitTo(): ?int
     {
         return $this->placeSitTo;
     }
 
-    public function getPlaceSitNumbers()
+    public function getPlaceSitNumbers(): ?array
     {
         return $this->placeSitNumbers;
     }
 
-    public function getHashParams()
+    public function getHashParams(): ?array
     {
         return $this->hashParams;
     }

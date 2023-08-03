@@ -4,7 +4,7 @@
 
 @section('content')
     Edit Company
-    <form action="{{ route('company.update', ['company' => $company->id]) }}" method="POST">
+    <form action="{{ route('company.update', ['company_id' => $company->id]) }}" method="POST">
         @csrf
         @method('put')
         <div class="row mb-3">

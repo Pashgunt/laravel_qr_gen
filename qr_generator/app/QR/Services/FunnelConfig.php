@@ -2,8 +2,9 @@
 
 namespace App\Qr\Services;
 
+use App\Filters\FunnelConfigFilter;
+use App\Models\FunneConfig;
 use App\Qr\Abstracts\Funnel;
-use App\Qr\Repositories\FunnelConfigRepository;
 
 class FunnelConfig implements Funnel
 {
@@ -26,13 +27,10 @@ class FunnelConfig implements Funnel
     ) {
     }
 
-    public function prepareFunnelConfigs(
-        int $companyID,
-        int $isActual,
-        string $funnelType
-    ) {
-        $configs = $this->repository->getFunnelConfig($companyID, $isActual, $funnelType)->toArray();
-        
+    public function prepareFunnelConfigs(FunnelConfigFilter $filter)
+    {
+        $configs = FunneConfig::filter($filter)->get()->toArray();
+
         return array_reduce($configs, function ($acc, $configItem) use ($configs) {
             $configDataAppend = [
                 'field_name' => $configItem['field_name'],
@@ -41,7 +39,7 @@ class FunnelConfig implements Funnel
                 'value_range_from' => $configItem['value_range_from'],
                 'value_range_to' => $configItem['value_range_to'],
             ];
-            if (count($configs)-1 !== $acc['i']) $configDataAppend['logic_operator'] = $configItem['logic_operator'];
+            if (count($configs) - 1 !== $acc['i']) $configDataAppend['logic_operator'] = $configItem['logic_operator'];
             $acc['result'][] = $configDataAppend;
             $acc['i']++;
             return $acc;

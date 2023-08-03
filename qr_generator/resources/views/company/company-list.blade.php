@@ -10,15 +10,15 @@
             <div>{{ $company->adress }}</div>
             <div>{{ $company->link }}</div>
             <div class="">
-                <a href="{{ route('company.show', ['company' => $company->id]) }}">Show Full Company Info</a>
+                <a href="{{ route('company.show', ['company_id' => $company->id]) }}">Show Full Company Info</a>
             </div>
             <div class="">
                 <a href="{{ route('funnel.create', ['company_id' => $company->id]) }}">Add Funnels</a>
             </div>
             <div class="">
-                <a href="{{ route('company.edit', ['company' => $company->id]) }}">Edit Company</a>
+                <a href="{{ route('company.edit', ['company_id' => $company->id]) }}">Edit Company</a>
             </div>
-            <form action="{{ route('company.destroy', ['company' => $company->id]) }}" method="POST">
+            <form action="{{ route('company.destroy', ['company_id' => $company->id]) }}" method="POST">
                 @csrf
                 @method('delete')
                 <button>Delete Company</button>

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
 use App\QR\Enums\QrCodeEnums;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +25,10 @@ class QrLink extends Model
             QrCodeEnums::IMG_QR_CODE->value => $this->hasMany(QrCode::class, 'link_id', 'id'),
             QrCodeEnums::PDF_QR_CODE->value => $this->hasMany(QrPdf::class, 'link_id', 'id'),
         };
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        return $filter->apply($builder);
     }
 }

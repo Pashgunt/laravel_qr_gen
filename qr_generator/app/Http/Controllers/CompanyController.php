@@ -2,51 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\CompanyFilter;
+use App\Filters\FeedbackFilter;
+use App\Filters\FunnelConfigFilter;
+use App\Filters\QrLinkFilter;
 use App\Http\Requests\QrGenerationLinkRequest;
+use App\Models\Company;
+use App\Models\Feedback;
+use App\Models\QrLink;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\CompanyRepository;
 use App\Qr\Repositories\FunnelConfigRepository;
-use App\QR\Repositories\LocationFeedbackRepository;
-use App\QR\Repositories\QrLinkRepository;
 use App\Qr\Services\FunnelFactory;
 
 class CompanyController extends Controller
 {
-    public function index()
+    public function index(CompanyFilter $filters)
     {
-        $companies = app(CompanyRepository::class)->getCompanyList();
+        $companies = Company::filter($filters)->paginate(10);
         return view('company.company-list', compact('companies'));
     }
 
-    public function show(int $id)
-    {
+    public function show(
+        CompanyFilter $filters,
+        FeedbackFilter $feedbackFilter,
+        QrLinkFilter $qrFilter,
+        FunnelConfigFilter $funnelFilter
+    ) {
         $companyData = [
-            'company' => app(CompanyRepository::class)->getCompanyByID($id)
+            'company' => Company::filter($filters)->first(),
+            'feedback' => Feedback::filter($feedbackFilter)->paginate(10),
+            'qr' => QrLink::filter($qrFilter)->paginate(10, [
+                'qr_codes.file_name AS svg_file_name',
+                'qr_codes.file_path AS svg_file_path',
+                'company_table_hash.*',
+                'qr_codes_pdf.*',
+                'links_for_qr_code.*',
+            ]),
+            'funnel' => (new FunnelFactory())
+                ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class))
+                ->prepareFunnelConfigs($funnelFilter)
         ];
-        $companyData['qr'] = app(QrLinkRepository::class)
-        ->prepareDataForQrCodes($companyData['company']->id, 1);
-        $companyData['feedback'] = app(LocationFeedbackRepository::class)
-        ->getPaginationFeedbackList($companyData['company']->id);
-        $companyData['funnel'] = (new FunnelFactory())
-        ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class))
-        ->prepareFunnelConfigs($companyData['company']->id, 1, 'feedback');
         return view('company.company-detail', compact('companyData'));
     }
 
-    public function edit(int $id)
+    public function edit(CompanyFilter $filters)
     {
-        $company = app(CompanyRepository::class)->getCompanyByID($id);
+        $company = Company::filter($filters)->first();
         return view('company.company-edit', compact('company'));
     }
 
     public function update(QrGenerationLinkRequest $request, int $id)
     {
         $companyDTO = $request->makeDTO();
+
         $res = app(CompanyRepository::class)->updateCompany($id, [
             'name' => $companyDTO->getName(),
             'adress' => $companyDTO->getAdress(),
             'link' => $companyDTO->getLink(),
         ]);
+
         return $this->prepareResultForUpdate(
             $res,
             'Succes Edit',

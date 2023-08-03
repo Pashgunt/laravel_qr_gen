@@ -72,7 +72,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('funnel.store');
     Route::resource('/funnel', FunnelController::class)
         ->only(['create', 'index']);
-    Route::resource('/company', CompanyController::class);
+    Route::resource('/company', CompanyController::class)
+        ->parameters(['company' => 'company_id']);
     Route::get('/feedback', [LocationFeedback::class, 'index'])
         ->name('feedback.index');
     Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');

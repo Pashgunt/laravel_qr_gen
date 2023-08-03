@@ -17,10 +17,4 @@ class CompanyTableHashRepository extends Repositories
             'hash_value' => $hashValue,
         ]);
     }
-
-    public function checkIssetHashString(string $hashValue)
-    {
-        return $this->model->where('hash_value', '=', $hashValue)
-            ->first();
-    }
 }

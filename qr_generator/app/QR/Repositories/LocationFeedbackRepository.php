@@ -30,11 +30,6 @@ class LocationFeedbackRepository extends Repositories
         return $this->model->where('company_id', '=', $companyID)->avg('rating');
     }
 
-    public function getPaginationFeedbackList(int $companyID)
-    {
-        return $this->model->where('company_id', '=', $companyID)->paginate(10);
-    }
-
     public function getColumnList()
     {
         return $this->columnNames();

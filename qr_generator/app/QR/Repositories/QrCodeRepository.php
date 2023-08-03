@@ -17,9 +17,4 @@ class QrCodeRepository extends Repositories
             'link_id' => $linkID,
         ]);
     }
-
-    public function getQrCodeByID(int $id)
-    {
-        return $this->getById($id);
-    }
 }

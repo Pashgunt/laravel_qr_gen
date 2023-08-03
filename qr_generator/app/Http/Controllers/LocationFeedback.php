@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\CompanyHashFilter;
+use App\Filters\FeedbackFilter;
 use App\Http\Requests\FeedbackRequest;
+use App\Models\CompanyTableHash;
+use App\Models\Feedback;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\CompanyTableHashRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Services\FeedbackService;
 use App\QR\Services\Rating;
+use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 
 class LocationFeedback extends Controller
 {
 
-    public function index()
+    public function index(FeedbackFilter $filter)
     {
-        $feedbacks = app(LocationFeedbackRepository::class)
-            ->getPaginationFeedbackList(1);
+        $feedbacks = Feedback::filter($filter)->paginate(10);
 
         return view('location.feedback-list', compact('feedbacks'));
     }
@@ -25,8 +29,7 @@ class LocationFeedback extends Controller
     {
         $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
         $feedbackDTO = $request->makeDTO();
-        $tableData = app(CompanyTableHashRepository::class)
-            ->checkIssetHashString($request->route()->parameter('qr'));
+        $tableData = CompanyTableHash::filter(new CompanyHashFilter($request))->first();;
         $companyID  = $tableData->company_id;
         $tabeID  = $tableData->id;
         $filters = $feedbackService->feedbackFilters($companyID, 1, FunnelEnums::FEEDBACK->value);
@@ -45,14 +48,15 @@ class LocationFeedback extends Controller
         }
     }
 
-    public function show(string $qr)
-    {
-        $company = app(CompanyTableHashRepository::class)
-            ->checkIssetHashString($qr);
+    public function show(
+        CompanyHashFilter $filter,
+        FeedbackFilter $feedbackFilter
+    ) {
+        $company = CompanyTableHash::filter($filter)->first();
         $dataForSend = [
             'company' => $company,
-            'feedback_list' => app(LocationFeedbackRepository::class)
-                ->getPaginationFeedbackList($company->company_id)
+            //TODO make feedback list only for company by id
+            'feedback_list' => Feedback::filter($filter)->paginate(10)
         ];
         $data = app(Pipeline::class)
             ->send($dataForSend)

@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Filters\CompanyHashFilter;
 use App\Models\CompanyTableHash;
-use App\QR\Repositories\CompanyTableHashRepository;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ class LocationHash
     {
         list($qr) = array_values($request->route()->parameters());
         if (!$qr) return redirect(route('404'));
-        $res = (new CompanyTableHashRepository(new CompanyTableHash()))->checkIssetHashString($qr);
+        $res = CompanyTableHash::filter(new CompanyHashFilter($request))->first();
         if (!$res) return redirect(route('404'));
         return $next($request);
     }

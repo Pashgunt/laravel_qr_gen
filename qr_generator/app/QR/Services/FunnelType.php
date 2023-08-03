@@ -32,6 +32,7 @@ class FunnelType implements Funnel
 
     public function pipelineHandler($data, Closure $next)
     {
+        //TODO change structure for filter
         $funnelOptions = $this->repository->getFunnelOptions(1);
         $data['funnel_options'] = $funnelOptions->toArray();
         return $next($data);
@@ -39,6 +40,7 @@ class FunnelType implements Funnel
 
     public function prepareFunnelFields(int $id)
     {
+        //TODO change structure for filter
         $locationFeedbackService = new FeedbackService(new LocationFeedbackRepository(new Feedback()));
         $funnel = $this->repository->getFunnelOptionByID($id);
         $funnelTag = $funnel->funnel_type_tag;

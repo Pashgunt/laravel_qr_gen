@@ -9,9 +9,9 @@
             <div>{{ $qrItem->svg_file_path }}</div>
             <div>{{ $qrItem->file_path }}</div>
             <div>
-                <a href="{{ route('qr.show', ['qr' => $qrItem->link_id]) }}">Show Detai Info</a>
-                <a href="{{ route('qr.edit', ['qr' => $qrItem->link_id]) }}">Edit Qr Code</a>
-                <form action="{{ route('qr.destroy', ['qr' => $qrItem->link_id]) }}" method="POST">
+                <a href="{{ route('qr.show', ['link_id' => $qrItem->link_id]) }}">Show Detai Info</a>
+                <a href="{{ route('qr.edit', ['link_id' => $qrItem->link_id]) }}">Edit Qr Code</a>
+                <form action="{{ route('qr.destroy', ['link_id' => $qrItem->link_id]) }}" method="POST">
                     @csrf
                     @method('delete')
                     <button>Delete Company</button>

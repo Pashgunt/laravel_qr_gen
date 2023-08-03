@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/404', 'components.404')->name('404');
 
-Route::middleware(['guest', 'location.hash'])->group(function () {
+Route::middleware(['location.hash'])->group(function () {
     Route::prefix('/location')->group(function () {
         Route::post('/{qr}', [LocationFeedback::class, 'store'])->name('location.store');
     });
@@ -61,13 +61,14 @@ Route::middleware(['auth'])->group(function () {
             ->middleware(['throttle:6,1'])
             ->name('verification.send');
     });
-    Route::post('/logout', [LoginController::class, 'destroy'])->name('login.destroy');
+    Route::get('/logout', [LoginController::class, 'destroy'])->name('login.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])
         ->name('home');
-    Route::resource('/qr', QrGeneratorController::class);
+    Route::resource('/qr', QrGeneratorController::class)
+        ->parameters(['qr' => 'link_id']);
     Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])
         ->name('funnel.store');
     Route::resource('/funnel', FunnelController::class)

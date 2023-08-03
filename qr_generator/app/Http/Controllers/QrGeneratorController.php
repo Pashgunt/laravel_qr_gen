@@ -2,21 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\QrLinkFilter;
 use App\Http\Requests\QrGenerationLinkRequest;
 use App\Jobs\GenerateQrCodeFiles;
+use App\Models\QrLink;
 use App\QR\Repositories\CompanyRepository;
 use App\QR\Repositories\CompanyTableHashRepository;
-use App\QR\Repositories\QrCodeRepository;
 use App\QR\Repositories\QrLinkRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class QrGeneratorController extends Controller
 {
 
-    public function index()
+    public function index(QrLinkFilter $filter)
     {
-        $qr = app(QrLinkRepository::class)->prepareDataForQrCodes(3, 1);
+        $qr = QrLink::filter($filter)
+            ->join('company_table_hash', function ($join) {
+                $join->on('links_for_qr_code.company_hash_id', '=', 'company_table_hash.id');
+            })
+            ->join('qr_codes', 'links_for_qr_code.id', '=', 'qr_codes.link_id')
+            ->leftJoin('qr_codes_pdf', 'links_for_qr_code.id', '=', 'qr_codes_pdf.link_id')
+            ->paginate(10, [
+                'qr_codes.file_name AS svg_file_name',
+                'qr_codes.file_path AS svg_file_path',
+                'company_table_hash.*',
+                'qr_codes_pdf.*',
+                'links_for_qr_code.*',
+            ]);
         return view('qr.qr-list', compact('qr'));
     }
 
@@ -25,15 +37,27 @@ class QrGeneratorController extends Controller
         return view('qr.create');
     }
 
-    public function show(int $id)
+    public function show(QrLinkFilter $filter)
     {
-        $qr = app(QrLinkRepository::class)->prepareDataForQrCodeDetail($id, 1);
+        $qr = QrLink::filter($filter)->first([
+            'qr_codes.file_name AS svg_file_name',
+            'qr_codes.file_path AS svg_file_path',
+            'company_table_hash.*',
+            'qr_codes_pdf.*',
+            'links_for_qr_code.*',
+        ]);
         return view('qr.qr-detail', compact('qr'));
     }
 
-    public function edit(int $id)
+    public function edit(QrLinkFilter $filter)
     {
-        $qr = app(QrLinkRepository::class)->prepareDataForQrCodeDetail($id, 1);
+        $qr = QrLink::filter($filter)->first([
+            'qr_codes.file_name AS svg_file_name',
+            'qr_codes.file_path AS svg_file_path',
+            'company_table_hash.*',
+            'qr_codes_pdf.*',
+            'links_for_qr_code.*',
+        ]);
         return view('qr.qr-edit', compact('qr'));
     }
 

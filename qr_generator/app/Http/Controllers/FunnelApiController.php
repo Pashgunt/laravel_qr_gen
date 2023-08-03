@@ -10,9 +10,10 @@ class FunnelApiController extends Controller
 {
     private $funnelService;
 
-    public function __construct(
-    ) {
-        $this->funnelService = (new FunnelFactory())->createType(FunnelEnums::TYPE->value, app(FunnelTypesRepository::class));
+    public function __construct()
+    {
+        $this->funnelService = (new FunnelFactory())
+            ->createType(FunnelEnums::TYPE->value, app(FunnelTypesRepository::class));
     }
 
     public function index(int $id)

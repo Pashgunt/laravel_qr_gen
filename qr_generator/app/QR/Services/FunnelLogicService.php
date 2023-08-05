@@ -39,11 +39,14 @@ class FunnelLogicService implements Funnel
         return $next($data);
     }
 
+    /**
+     * @return Closure
+     */
     public function prepareDataForCreate(
         $funnelFields,
         ?FunnelDTO $funnelDTO = null
-    ): array {
-        function ($logicBlockOperator = '') use ($funnelFields) {
+    ) {
+        return function ($logicBlockOperator = '') use ($funnelFields) {
             foreach ($funnelFields as $logicOperator => $funelFieldIDs) {
                 if (in_array($logicOperator, [FunnelLogicEnums::AND->value, FunnelLogicEnums::OR->value])) {
                     $logicBlockOperator = $logicOperator;
@@ -52,7 +55,5 @@ class FunnelLogicService implements Funnel
                 $this->repository->createFunneLogic($funelFieldIDs, $logicBlockOperator);
             }
         };
-
-        return [];
     }
 }

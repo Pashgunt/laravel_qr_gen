@@ -1,17 +1,19 @@
 @extends('layout')
 
-@section('title', 'Funnel Settings')
+@section('title', 'Funnel Edit')
 
 @section('content')
-    Настройка воронки
-    <form action="{{ route('funnel.store') }}" method="POST" class="funnel__form">
+    Edit funnel
+    <form action="{{ route('funnel.store', ['funnel_id' => current($funnel)['funnel_config_id']]) }}" method="POST"
+        class="funnel__form">
         @csrf
+        @method('PUT')
         <div>
             <label for="company_id">Company</label>
             <select name="company_id" id="company_id">
                 <option value="">Select company</option>
                 @foreach ($companies as $company)
-                    <option value="{{ $company->id }}" @selected(Request::get('company_id') == $company->id)>
+                    <option value="{{ $company->id }}" @selected(current($funnel)['company_id'] == $company->id)>
                         {{ $company->name }}
                     </option>
                 @endforeach

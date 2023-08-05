@@ -54,4 +54,16 @@ class LocationFeedbackController extends Controller
         $data = $showFeedback->handle($request);
         return view('location.feedback', compact('data'));
     }
+
+    public function destroy(int $id)
+    {
+        $res = app(LocationFeedbackRepository::class)->updateFeedback($id, ['is_actual' => 0]);
+
+        return $this->prepareResultForUpdate(
+            $res,
+            'Succes Deleted',
+            'Error Deleted',
+            'feedback.index'
+        );
+    }
 }

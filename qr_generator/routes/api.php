@@ -15,6 +15,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware(['api', 'funnel:api'])->group(function () {
-    Route::get('/funnel/{funnel_type_id}', [FunnelApiController::class, 'index']);
-});

@@ -47,8 +47,9 @@ class FunnelFieldService implements Funnel
         $funnelLogicBlocks = [];
         $previousOperator = null;
 
+        $params = $funnelDTO->getPrepareLogicParams();
         array_walk(
-            $funnelDTO->getPrepareLogicParams(),
+            $params,
             function ($fieldData, $logicOperator) use ($funnelConfigID, &$funnelLogicBlocks, &$previousOperator) {
                 $funnelFieldID = $this->repository->createFunnelFields(
                     $funnelConfigID,

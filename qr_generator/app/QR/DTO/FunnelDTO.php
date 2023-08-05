@@ -5,6 +5,7 @@ namespace App\QR\DTO;
 class FunnelDTO
 {
 
+    private int $companyID;
     private int $funnelID;
     private array $fields;
     private array $operators;
@@ -16,6 +17,7 @@ class FunnelDTO
 
     public function __construct($validated)
     {
+        $this->companyID = $validated['company_id'];
         $this->funnelID = $validated['funnel_type'];
         $this->fields = $validated['field'];
         $this->operators = $validated['operator'];
@@ -24,6 +26,11 @@ class FunnelDTO
         $this->rangeTo = $validated['range_to'];
         $this->logic = $validated['logic'];
         $this->workStart = $validated['work_start'];
+    }
+
+    public function getCompanyID(): int
+    {
+        return $this->companyID;
     }
 
     public function getFunnelID(): int

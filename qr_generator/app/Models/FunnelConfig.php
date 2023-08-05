@@ -23,8 +23,8 @@ class FunnelConfig extends Model
     {
         return $builder
             ->join('funnel_fields', 'funnel_configs.id', '=', 'funnel_fields.funnel_config_id')
-            ->join('funnel_logic_blocks', 'funnel_fields.id', '=', 'funnel_logic_blocks.funnel_field_id')
-            ->join('funnel_types', 'funnel_configs.funnel_type_id', '=', 'funnel_types.id');
+            ->join('funnel_types', 'funnel_configs.funnel_type_id', '=', 'funnel_types.id')
+            ->leftJoin('funnel_logic_blocks', 'funnel_fields.id', '=', 'funnel_logic_blocks.funnel_field_id');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)

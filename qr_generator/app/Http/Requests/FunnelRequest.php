@@ -16,6 +16,7 @@ class FunnelRequest extends FormRequest implements RequestInterface
     public function rules(): array
     {
         return [
+            'company_id' => 'required|integer|min:1|exists:companies,id',
             'funnel_type' => 'required|integer|min:1|exists:funnel_types,id',
             'field' => 'required|array',
             'field.*' => 'required|string|min:1|max:255',

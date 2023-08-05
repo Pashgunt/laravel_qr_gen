@@ -20,4 +20,9 @@ class FunnelConfigFilter extends QueryFilter
     {
         return $this->builder->where('funnel_configs.is_actual', $isActual);
     }
+
+    public function funnel_id(int $id): Builder
+    {
+        return $this->builder->where('funnel_configs.id', $id);
+    }
 }

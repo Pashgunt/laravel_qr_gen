@@ -3,7 +3,6 @@
 namespace App\Qr\Repositories;
 
 use App\QR\Abstracts\Repositories;
-use App\QR\Enums\FunnelLogicEnums;
 use Illuminate\Database\Eloquent\Model;
 
 class FunnelFieldsRepository extends Repositories
@@ -24,5 +23,10 @@ class FunnelFieldsRepository extends Repositories
             'value_range_from' => $valueRangeFrom,
             'value_range_to' => $valueRangeTo,
         ]);
+    }
+
+    public function updateFunnelField($raw, array $update): bool
+    {
+        return $this->update($raw, $update);
     }
 }

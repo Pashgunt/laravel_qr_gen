@@ -14,5 +14,5 @@ interface Funnel
     public function prepareDataForCreate(
         $funnelIDs,
         ?FunnelDTO $funnelDTO = null
-    ): array;
+    );
 }

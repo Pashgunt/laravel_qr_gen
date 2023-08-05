@@ -29,4 +29,9 @@ class LocationFeedbackRepository extends Repositories
     {
         return $this->columnNames();
     }
+
+    public function updateFeedback(int $id, array $update)
+    {
+        return $this->update($this->model->where('id', $id), $update);
+    }
 }

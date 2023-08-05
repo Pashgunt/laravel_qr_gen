@@ -74,18 +74,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('/ajax')->group(function () {
         Route::put('/qr/update', [AjaxController::class, 'updateQr']);
+        Route::get('/funnel/{funnel_type_id}', [AjaxController::class, 'funnelOptions'])
+            ->middleware('funnel');
     });
 
-    Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])
+    Route::post('/funnel/{company_id?}', [FunnelController::class, 'store'])
         ->name('funnel.store');
+    Route::delete('/funnel/field/{field_id}/delete', [FunnelController::class, 'destroyField'])
+        ->name('funnel.destroyField');
+    Route::delete('/funnel/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
+        ->name('funnel.destroyFunnel');
     Route::resource('/funnel', FunnelController::class)
-        ->only(['create', 'index']);
+        ->parameters(['funnel' => 'funnel_id'])
+        ->only(['create', 'index', 'edit', 'update']);
 
     Route::resource('/company', CompanyController::class)
         ->parameters(['company' => 'company_id']);
 
-    Route::get('/feedback', [LocationFeedbackController::class, 'index'])
-        ->name('feedback.index');
+    Route::prefix('/feedback')->group(function () {
+        Route::get('/', [LocationFeedbackController::class, 'index'])
+            ->name('feedback.index');
+        Route::delete('/{id}/delete', [LocationFeedbackController::class, 'destroy'])
+            ->name('feedback.destroy');
+    });
 
     Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');
 });

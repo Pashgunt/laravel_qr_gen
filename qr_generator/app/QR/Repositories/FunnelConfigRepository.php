@@ -18,4 +18,9 @@ class FunnelConfigRepository extends Repositories
             'work_started_at' => $workStartedAt,
         ]);
     }
+
+    public function updateFunnelConfig($raw, array $update)
+    {
+        return $this->update($raw, $update);
+    }
 }

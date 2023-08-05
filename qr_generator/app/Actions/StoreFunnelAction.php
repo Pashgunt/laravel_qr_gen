@@ -10,12 +10,12 @@ use Illuminate\Pipeline\Pipeline;
 
 class StoreFunnelAction
 {
-    public function handle(FunnelRequest $request, int $companyID): void
+    public function handle(FunnelRequest $request): void
     {
         $funnelDTO = $request->makeDTO();
 
         $funnelConfigID = app(FunnelConfigRepository::class)->createFunneConfig(
-            $companyID,
+            $funnelDTO->getCompanyID(),
             $funnelDTO->getFunnelID(),
             $funnelDTO->getWorkStartDate()
         )->id;

@@ -13,7 +13,7 @@ $(document).ready(function () {
                 }
             });
             $.ajax({
-                url: `/api/funnel/${value}`,
+                url: `/ajax/funnel/${value}`,
                 contentType: false,
                 cache: false,
                 processData: false,

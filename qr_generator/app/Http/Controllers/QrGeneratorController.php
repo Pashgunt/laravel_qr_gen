@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DestroyQrCodeAction;
 use App\Actions\StoreQrCodeAction;
+use App\Actions\UpdateQrCodesAction;
 use App\Filters\QrLinkFilter;
 use App\Http\Requests\QrGenerationLinkRequest;
+use App\Jobs\UpdateQrCodeJob;
+use App\Models\Company;
 use App\Models\QrLink;
+use App\QR\Repositories\CompanyTableHashRepository;
 use App\QR\Repositories\QrLinkRepository;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Routing\ResponseFactory;
 use Illuminate\View\View;
 
 class QrGeneratorController extends Controller
@@ -30,7 +35,9 @@ class QrGeneratorController extends Controller
 
     public function create(): View
     {
-        return view('qr.create');
+        $companies = Company::all();
+
+        return view('qr.create', compact('companies'));
     }
 
     public function show(QrLinkFilter $filter): View
@@ -61,23 +68,28 @@ class QrGeneratorController extends Controller
         return view('qr.qr-edit', compact('qr'));
     }
 
-    public function update(Request $request, int $id): never
-    {
-        dd($id);
+    public function update(
+        Request $request,
+        UpdateQrCodesAction $updateQrCode,
+        int $id
+    ) {
+        $updateQrCode->handle($request);
+
+        return redirect(route('qr.index'));
     }
 
     public function store(
         QrGenerationLinkRequest $request,
         StoreQrCodeAction $storeQrCode
-    ): Redirector {
+    ) {
         $storeQrCode->handle($request);
 
         return redirect(route('qr.index'))->with('message', 'Success created qr codes');
     }
 
-    public function destroy(int $id): Redirector
+    public function destroy(int $id, DestroyQrCodeAction $destroyQrCode)
     {
-        $res = app(QrLinkRepository::class)->updateLink($id, ['is_actual' => 0]);
+        $res = $destroyQrCode->handle($id);
         return $this->prepareResultForUpdate(
             $res,
             'Succes Deleted',

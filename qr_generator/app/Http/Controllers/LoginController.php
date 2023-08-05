@@ -14,7 +14,7 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request): Redirector
+    public function store(LoginRequest $request)
     {
         $userDTO = $request->makeDTO();
         $res = Auth::attempt([
@@ -24,7 +24,7 @@ class LoginController extends Controller
         return $this->prepareResultForUpdate($res, 'Welcome', 'Error Login', 'home');
     }
 
-    public function destroy(): Redirector
+    public function destroy()
     {
         Auth::logout();
         return redirect(route("login"));

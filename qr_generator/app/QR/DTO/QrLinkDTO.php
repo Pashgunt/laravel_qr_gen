@@ -2,11 +2,15 @@
 
 namespace App\QR\DTO;
 
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+
 class QrLinkDTO
 {
 
-    private string $name;
-    private string $adress;
+    private ?int $companyID = null;
+    private ?string $name = null;
+    private ?string $adress = null;
     private ?string $link = null;
     private ?int $placeSitFrom = null;
     private ?int $placeSitTo = null;
@@ -17,6 +21,7 @@ class QrLinkDTO
     {
         $this->name = $validateData['name'];
         $this->adress = $validateData['adress'];
+        $this->companyID = $validateData['company_id'] ?? null;
         $this->link = $validateData['link'] ?? null;
         $this->placeSitFrom = $validateData['place_sit_from'] ?? null;
         $this->placeSitTo = $validateData['place_sit_to'] ?? null;
@@ -41,20 +46,20 @@ class QrLinkDTO
 
     private function generateHashParam(int $saltNumber = 0): string
     {
-        return str_replace(['/'], '', sprintf('%s%s%d', uniqid('gen'), bcrypt($this->getName()), $saltNumber));
+        return Crypt::encryptString($this->getName());
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getAdress(): string
+    public function getAdress(): ?string
     {
         return $this->adress;
     }
 
-    public function getLink(): string
+    public function getLink(): ?string
     {
         return $this->link;
     }
@@ -77,5 +82,10 @@ class QrLinkDTO
     public function getHashParams(): ?array
     {
         return $this->hashParams;
+    }
+
+    public function getCompanyID(): ?int
+    {
+        return $this->companyID;
     }
 }

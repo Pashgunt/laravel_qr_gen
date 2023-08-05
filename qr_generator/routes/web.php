@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmailController;
@@ -67,15 +68,24 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])
         ->name('home');
+
     Route::resource('/qr', QrGeneratorController::class)
         ->parameters(['qr' => 'link_id']);
+
+    Route::prefix('/ajax')->group(function () {
+        Route::put('/qr/update', [AjaxController::class, 'updateQr']);
+    });
+
     Route::post('/funnel/{company_id}', [FunnelController::class, 'store'])
         ->name('funnel.store');
     Route::resource('/funnel', FunnelController::class)
         ->only(['create', 'index']);
+
     Route::resource('/company', CompanyController::class)
         ->parameters(['company' => 'company_id']);
+
     Route::get('/feedback', [LocationFeedbackController::class, 'index'])
         ->name('feedback.index');
+
     Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');
 });

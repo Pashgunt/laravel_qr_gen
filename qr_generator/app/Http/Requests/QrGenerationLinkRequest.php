@@ -16,8 +16,9 @@ class QrGenerationLinkRequest extends FormRequest implements RequestInterface
     public function rules(): array
     {
         return [
-            'name' => 'required|alpha_num|max:255|min:2',
-            'adress' => 'required|alpha_num|max:255|min:2',
+            'company_id' => 'nullable|required_without:name,adress|integer|exists:companies,id',
+            'name' => 'nullable|required_without:company_id|alpha_num|max:255|min:2',
+            'adress' => 'nullable|required_without:company_id|alpha_num|max:255|min:2',
             'link' => 'nullable|max:255|min:2|regex:/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/mx',
             'place_sit_from' => 'nullable|integer',
             'place_sit_to' => 'nullable|integer',

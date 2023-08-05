@@ -15,7 +15,7 @@ class RegistrationController extends Controller
         return view('auth.registration');
     }
 
-    public function store(RegistrationRequest $request): Redirector
+    public function store(RegistrationRequest $request)
     {
         $userDTO = $request->makeDTO();
 

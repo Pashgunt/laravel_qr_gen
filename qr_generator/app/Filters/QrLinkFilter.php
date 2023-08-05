@@ -15,4 +15,9 @@ class QrLinkFilter extends QueryFilter
     {
         return $this->builder->where('links_for_qr_code.id', $id);
     }
+
+    public function link_ids(array $ids): Builder
+    {
+        return $this->builder->whereIn('links_for_qr_code.id', $ids);
+    }
 }

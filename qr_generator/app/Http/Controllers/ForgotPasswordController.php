@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
         return view('auth.reset-password', compact('token'));
     }
 
-    public function resetPasswordStore(ResetPasswordRequest $request): Redirector
+    public function resetPasswordStore(ResetPasswordRequest $request)
     {
         $userDTO = $request->makeDTO();
 

@@ -36,7 +36,7 @@ class CompanyController extends Controller
     public function update(
         QrGenerationLinkRequest $request,
         int $id
-    ): Redirector {
+    ) {
         $companyDTO = $request->makeDTO();
 
         $res = app(CompanyRepository::class)->updateCompany($id, [
@@ -53,7 +53,7 @@ class CompanyController extends Controller
         );
     }
 
-    public function destroy(int $id): Redirector
+    public function destroy(int $id)
     {
         $res = app(CompanyRepository::class)->updateCompany($id, ['is_actual' => 0]);
 

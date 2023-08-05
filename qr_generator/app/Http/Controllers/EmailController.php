@@ -15,7 +15,7 @@ class EmailController extends Controller
         return view('auth.verify-email');
     }
 
-    public function init(EmailVerificationRequest $request): Redirector
+    public function init(EmailVerificationRequest $request)
     {
         $request->fulfill();
 

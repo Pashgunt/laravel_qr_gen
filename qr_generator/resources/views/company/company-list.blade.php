@@ -23,7 +23,7 @@
                 @method('delete')
                 <button>Delete Company</button>
             </form>
-            <a href="#">Add Qr Codes</a>
+            <a href="{{ route('qr.create', ['company_id' => $company->id]) }}">Add Qr Codes</a>
             <hr>
         @endforeach
         {{ $companies->links() }}

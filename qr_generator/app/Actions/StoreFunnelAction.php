@@ -30,6 +30,6 @@ class StoreFunnelAction
                 FunnelLogicService::class
             ])
             ->via('storeFunnelPipeline')
-            ->then();
+            ->thenReturn();
     }
 }

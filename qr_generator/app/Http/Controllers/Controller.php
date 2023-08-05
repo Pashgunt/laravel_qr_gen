@@ -16,7 +16,7 @@ class Controller extends BaseController
         string $successMessage,
         string $errorMessage,
         string $routeName
-    ): Redirector {
+    ) {
         return $res ? redirect(route($routeName))->with('message', $successMessage) :
             redirect()->back()->withErrors('message_err', $errorMessage);
     }

@@ -10,23 +10,23 @@ use Illuminate\Support\Facades\Storage;
 class SaveQrCodeData
 {
     public function saveQrCodePipeline(
-        array $qrData,
+        array $data,
         Closure $next
     ): array {
         $linkId = app(QrLinkRepository::class)->createLink(
-            $qrData['link'],
-            $qrData['company_hash_id']
+            $data['link'],
+            $data['company_hash_id']
         )->id;
         if ($linkId) {
-            $qrData['link_id'] = $linkId;
+            $data['link_id'] = $linkId;
             $fileName = "qr_$linkId.svg";
             $filePath = sprintf("%s/%s", uniqid('qr_'), $fileName);
-            $resOfCreate = Storage::disk('public')->put($filePath, $qrData['qr']);
-            $qrData['file_path'] = current(explode("/", $filePath));
+            $resOfCreate = Storage::disk('public')->put($filePath, $data['qr']);
+            $data['file_path'] = current(explode("/", $filePath));
             if ($resOfCreate) {
                 app(QrCodeRepository::class)->createQrCode($fileName, $filePath, $linkId);
             }
         }
-        return $next($qrData);
+        return $next($data);
     }
 }

@@ -18,4 +18,11 @@ class CompanyTableHashRepository extends Repositories
             'hash_value' => $hashValue,
         ]);
     }
+
+    public function updateCompanyTableHash(
+        int $id,
+        array $update
+    ): bool {
+        return $this->update($this->model->where('id', $id), $update);
+    }
 }

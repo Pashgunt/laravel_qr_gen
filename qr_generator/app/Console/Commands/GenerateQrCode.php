@@ -25,9 +25,9 @@ class GenerateQrCode extends Command
             ])
             ->through([
                 SaveQrCodeData::class,
-                SaveQrCodePdfData::class
+                SaveQrCodePdfData::class,
             ])
             ->via('saveQrCodePipeline')
-            ->then();
+            ->thenReturn();
     }
 }

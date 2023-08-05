@@ -36,7 +36,7 @@ class FunnelController extends Controller
         FunnelRequest $request,
         StoreFunnelAction $storeFunnel,
         int $companyID
-    ): Redirector {
+    ) {
         $storeFunnel->handle($request, $companyID);
 
         return redirect(route('qr.create'));

@@ -20,4 +20,9 @@ class Controller extends BaseController
         return $res ? redirect(route($routeName))->with('message', $successMessage) :
             redirect()->back()->withErrors('message_err', $errorMessage);
     }
+
+    protected function prepareResultForAjax($resut)
+    {
+        return $resut ? response('ok') : response('error', 401);
+    }
 }

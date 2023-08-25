@@ -13,7 +13,7 @@
             <div>{{ $funnel['value_range_to'] ?? '-' }}</div>
             <div>{{ $funnel['logic_operator'] ?? '-' }}</div>
             <a href="{{ route('funnel.edit', ['funnel_id' => $funnel['funnel_config_id']]) }}">Funnel edit</a>
-            <a href="#">Field edit</a>
+            <a href="{{ route('funnel.edit.field', ['field_id' => $funnel['funnel_field_id']]) }}">Field edit</a>
             <form action="{{ route('funnel.destroyField', ['field_id' => $funnel['funnel_field_id']]) }}" method="POST">
                 @csrf
                 @method('DELETE')

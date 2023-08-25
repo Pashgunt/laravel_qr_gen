@@ -31,6 +31,17 @@ class FunnelLogicService implements Funnel
         return $next($data);
     }
 
+    public function updateFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $this->storeFunnelPipeline(
+            $data,
+            $next
+        );
+        return $next($data);
+    }
+
     public function createFunnelPipeline(
         array $data,
         Closure $next

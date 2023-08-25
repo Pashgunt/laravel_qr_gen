@@ -84,6 +84,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('funnel.destroyField');
     Route::delete('/funnel/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
         ->name('funnel.destroyFunnel');
+    Route::get('/funnel/update/field/{field_id}', [FunnelController::class, 'editField'])
+        ->name('funnel.edit.field');
+    Route::put('/funnel/update/field/{field_id}', [FunnelController::class, 'updateField'])
+        ->name('funnel.update.field');
     Route::resource('/funnel', FunnelController::class)
         ->parameters(['funnel' => 'funnel_id'])
         ->only(['create', 'index', 'edit', 'update']);

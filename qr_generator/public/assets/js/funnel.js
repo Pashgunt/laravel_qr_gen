@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $('.range__warapper').hide();
     let funnelType = $('#funnel_type'),
-        operator = $('#operator'),
+        operator = $('.operator'),
         logic = $('#logic');
 
     const changeFunnelTypeHandler = function () {
-        let value = $(this).find(`option:selected`).val();
+        let value = $(this).find(`option:selected`).val() ?? $(this).data('field-tag');
         if (value) {
             $.ajaxSetup({
                 headers: {
@@ -21,7 +21,10 @@ $(document).ready(function () {
                 .done(response => {
                     if (Object.keys(response).length) {
                         Object.keys(response).forEach(name => {
-                            $('.field').each((_, item) => $(item).append(`<option value='${response[name]}'>${name}</option>`));
+                            $('.field').each((_, item) => {
+                                $(item)
+                                    .append(`<option value='${response[name]}' ${$(item).data('field-tag') && $(item).data('field-tag') === response[name] ? 'selected' : ''}>${name}</option>`)
+                            });
                         })
                     }
                 })
@@ -45,6 +48,13 @@ $(document).ready(function () {
     };
 
     funnelType.change(changeFunnelTypeHandler);
-    operator.each((_, item) => $(item).change(changeOperatorHandler));
+
+    $(operator).change(changeOperatorHandler)
+    
+    operator.each((_, item) => {
+        return !$(item).find(`option:selected`).val() ? $(item).change(changeOperatorHandler) : changeOperatorHandler.apply(item);
+    });
     logic.each((_, item) => $(item).change(changeLogicHandler));
+
+    if (funnelType.val()) changeFunnelTypeHandler.apply(funnelType)
 })

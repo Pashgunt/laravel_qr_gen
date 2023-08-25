@@ -2,6 +2,8 @@
 
 namespace App\Qr\Services;
 
+use App\Filters\FunnelFieldFilter;
+use App\Models\FunnelFields;
 use App\Qr\Abstracts\Funnel;
 use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelLogicEnums;
@@ -28,6 +30,25 @@ class FunnelFieldService implements Funnel
         array $data,
         Closure $next
     ): array {
+        $data['funnel_field_ids'] = $this->prepareDataForCreate($data['funnel_config_id'], $data['funnel_dto']);
+        return $next($data);
+    }
+
+    public function updateFunnelPipeline(
+        array $data,
+        Closure $next
+    ): array {
+        $this->repository->updateFunnelField(
+            FunnelFields::filter(new FunnelFieldFilter(
+                null,
+                [
+                    'funnel_id' => $data['funnel_config_id'],
+                ]
+            )),
+            [
+                'is_actual' => 0,
+            ]
+        );
         $data['funnel_field_ids'] = $this->prepareDataForCreate($data['funnel_config_id'], $data['funnel_dto']);
         return $next($data);
     }

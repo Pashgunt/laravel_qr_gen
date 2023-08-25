@@ -9,7 +9,7 @@ use App\QR\Repositories\CompanyTableHashRepository;
 
 class StoreQrCodeAction
 {
-    public function handle(QrGenerationLinkRequest $request): void
+    public function handle(QrGenerationLinkRequest $request): bool
     {
         $qrLinkDTO = $request->makeDTO();
         $companyID = $qrLinkDTO->getCompanyID() ?? app(CompanyRepository::class)->createCompany(
@@ -25,5 +25,7 @@ class StoreQrCodeAction
             )->id;
             dispatch(new GenerateQrCodeFilesJob($hashValue, $companyHashId));
         }
+
+        return true;
     }
 }

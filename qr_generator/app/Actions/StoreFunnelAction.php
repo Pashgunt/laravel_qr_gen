@@ -10,7 +10,7 @@ use Illuminate\Pipeline\Pipeline;
 
 class StoreFunnelAction
 {
-    public function handle(FunnelRequest $request): void
+    public function handle(FunnelRequest $request): bool
     {
         $funnelDTO = $request->makeDTO();
 
@@ -20,7 +20,7 @@ class StoreFunnelAction
             $funnelDTO->getWorkStartDate()
         )->id;
 
-        app(Pipeline::class)
+        return (bool)app(Pipeline::class)
             ->send([
                 'funnel_config_id' => $funnelConfigID,
                 'funnel_dto' => $funnelDTO

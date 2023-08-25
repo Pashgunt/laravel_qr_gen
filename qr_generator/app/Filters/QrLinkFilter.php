@@ -20,4 +20,9 @@ class QrLinkFilter extends QueryFilter
     {
         return $this->builder->whereIn('links_for_qr_code.id', $ids);
     }
+
+    public function is_actual(int $isActual): Builder
+    {
+        return $this->builder->where('links_for_qr_code.is_actual', $isActual);
+    }
 }

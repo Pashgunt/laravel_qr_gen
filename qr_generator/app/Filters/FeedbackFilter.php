@@ -10,4 +10,9 @@ class FeedbackFilter extends QueryFilter
     {
         return $this->builder->where('company_id', $id);
     }
+
+    public function is_actual(int $isActual): Builder
+    {
+        return $this->builder->where('is_actual', $isActual);
+    }
 }

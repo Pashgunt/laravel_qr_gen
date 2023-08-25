@@ -15,4 +15,9 @@ class FunnelFieldFilter extends QueryFilter
     {
         return $this->builder->where('id', $id);
     }
+
+    public function is_actual(int $isActual): Builder
+    {
+        return $this->builder->where('is_actual', $isActual);
+    }
 }

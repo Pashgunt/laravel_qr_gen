@@ -16,11 +16,11 @@ use Illuminate\Support\Facades\Crypt;
 
 class UpdateQrCodesAction
 {
-    public function handle(Request $request): void
+    public function handle(Request $request): bool
     {
         $qrLinkRaws = QrLink::joined()
-        ->filter(new QrLinkFilter($request))
-        ->get();
+            ->filter(new QrLinkFilter($request))
+            ->get();
 
         foreach ($qrLinkRaws as $qrLink) {
             $company = Company::find($qrLink->company_id);
@@ -44,5 +44,7 @@ class UpdateQrCodesAction
                 ->via('saveQrCodePipeline')
                 ->thenReturn();
         }
+
+        return true;
     }
 }

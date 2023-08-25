@@ -43,6 +43,7 @@ class LocationFeedbackController extends Controller
                 $feedbackDTO->getContact()
             );
         } else {
+            dd("Error");
             // TODO make logic bad feedback
         }
     }
@@ -57,10 +58,10 @@ class LocationFeedbackController extends Controller
 
     public function destroy(int $id)
     {
-        $res = app(LocationFeedbackRepository::class)->updateFeedback($id, ['is_actual' => 0]);
+        $result = app(LocationFeedbackRepository::class)->updateFeedback($id, ['is_actual' => 0]);
 
         return $this->prepareResultForUpdate(
-            $res,
+            $result,
             'Succes Deleted',
             'Error Deleted',
             'feedback.index'

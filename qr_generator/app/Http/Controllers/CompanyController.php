@@ -39,14 +39,14 @@ class CompanyController extends Controller
     ) {
         $companyDTO = $request->makeDTO();
 
-        $res = app(CompanyRepository::class)->updateCompany($id, [
+        $result = app(CompanyRepository::class)->updateCompany($id, [
             'name' => $companyDTO->getName(),
             'adress' => $companyDTO->getAdress(),
             'link' => $companyDTO->getLink(),
         ]);
 
         return $this->prepareResultForUpdate(
-            $res,
+            $result,
             'Succes Edit',
             'Error Edit',
             'company.index'
@@ -55,10 +55,10 @@ class CompanyController extends Controller
 
     public function destroy(int $id)
     {
-        $res = app(CompanyRepository::class)->updateCompany($id, ['is_actual' => 0]);
+        $result = app(CompanyRepository::class)->updateCompany($id, ['is_actual' => 0]);
 
         return $this->prepareResultForUpdate(
-            $res,
+            $result,
             'Succes Deleted',
             'Error Deleted',
             'company.index'

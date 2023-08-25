@@ -17,11 +17,16 @@ class LoginController extends Controller
     public function store(LoginRequest $request)
     {
         $userDTO = $request->makeDTO();
-        $res = Auth::attempt([
+        $result = Auth::attempt([
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPasswordOrigin()
         ]);
-        return $this->prepareResultForUpdate($res, 'Welcome', 'Error Login', 'home');
+        return $this->prepareResultForUpdate(
+                $result,
+                'Welcome',
+                'Error Login',
+                'home'
+            );
     }
 
     public function destroy()

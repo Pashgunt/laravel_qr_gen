@@ -2,7 +2,6 @@
 
 namespace App\QR\Enums;
 
-use App\Qr\Abstracts\Funnel;
 use App\QR\Abstracts\FunnelEnums as AbstractsFunnelEnums;
 use App\Qr\Services\FunnelConfigService;
 use App\Qr\Services\FunnelFieldService;

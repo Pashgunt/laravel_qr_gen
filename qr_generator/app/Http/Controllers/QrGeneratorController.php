@@ -73,25 +73,36 @@ class QrGeneratorController extends Controller
         UpdateQrCodesAction $updateQrCode,
         int $id
     ) {
-        $updateQrCode->handle($request);
+        $result = $updateQrCode->handle($request);
 
-        return redirect(route('qr.index'));
+        return $this->prepareResultForUpdate(
+            $result,
+            'Succes Update',
+            'Error Update',
+            'qr.index'
+        );
     }
 
     public function store(
         QrGenerationLinkRequest $request,
         StoreQrCodeAction $storeQrCode
     ) {
-        $storeQrCode->handle($request);
+        $result = $storeQrCode->handle($request);
 
-        return redirect(route('qr.index'))->with('message', 'Success created qr codes');
+        return $this->prepareResultForUpdate(
+            $result,
+            'Succes Create',
+            'Error Create',
+            'qr.index'
+        );
     }
 
     public function destroy(int $id, DestroyQrCodeAction $destroyQrCode)
     {
-        $res = $destroyQrCode->handle($id);
+        $result = $destroyQrCode->handle($id);
+
         return $this->prepareResultForUpdate(
-            $res,
+            $result,
             'Succes Deleted',
             'Error Deleted',
             'qr.index'

@@ -69,18 +69,9 @@ class FeedbackService
     public function prepareColumnNamesForFunnelOptions(): array
     {
         $columnNames = $this->locationFeedbackRepository->getColumnList();
-        list(
-            $id,
-            $comanyID,
-            $tableID,
-            $rating,
-            $feedbackText,
-            $feedbackUserName,
-            $contactData,
-        ) = array_values($columnNames);
 
         return [
-            'Рейтинг' => $rating,
+            'Рейтинг' => current(array_filter($columnNames, fn ($column) => preg_match('/rating/ui', $column))),
         ];
     }
 
@@ -90,7 +81,7 @@ class FeedbackService
         string $funnelType,
     ): array {
         $funnelConfigs = (new FunnelFactory())
-            ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
+        ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
         return $funnelConfigs->prepareFunnelConfigs(
             new FunnelConfigFilter(app(Request::class)),
             [

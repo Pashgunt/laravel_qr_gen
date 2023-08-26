@@ -81,7 +81,7 @@ class FeedbackService
         string $funnelType,
     ): array {
         $funnelConfigs = (new FunnelFactory())
-        ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
+            ->createType(FunnelEnums::CONFIG->value, app(FunnelConfigRepository::class));
         return $funnelConfigs->prepareFunnelConfigs(
             new FunnelConfigFilter(app(Request::class)),
             [
@@ -118,7 +118,25 @@ class FeedbackService
         };
     }
 
-    // TODO make this logic through yield
+    private function checkFilterRaw(
+        array $filterRaw,
+        FeedbackDTO $feedbackDTO,
+        bool $result
+    ): bool {
+        if (isset($filterRaw) && !empty($feedbackDTO->getValidatedByKey($filterRaw['field_name']))) {
+            $logicOperator = $filterRaw['logic_operator'];
+            $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filterRaw['operator']]['operator'];
+
+            return $this->checkLogicResultForFilter(
+                $result,
+                $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name'])),
+                $logicOperator
+            );
+        }
+
+        return $result;
+    }
+
     public function checkCorrectData(
         array $filters,
         FeedbackDTO $feedbackDTO
@@ -126,34 +144,19 @@ class FeedbackService
         if (empty($filters)) return true;
 
         $result = true;
-
         array_walk($filters, function ($filterRaw, $index) use ($filters, $feedbackDTO, &$result) {
             if (!empty($feedbackDTO->getValidatedByKey($filterRaw['field_name']))) {
                 $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filterRaw['operator']]['operator'];
                 $result = $this->checkLogicResultForFilter(
                     $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name']))
                 );
-                if (isset($filters[$index + 1]) && !empty($feedbackDTO->getValidatedByKey($filters[$index + 1]['field_name']))) {
-                    $logicOperator = $filterRaw['logic_operator'];
-                    $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filters[$index + 1]['operator']]['operator'];
-                    $result = $this->checkLogicResultForFilter(
-                        $result,
-                        $this->checkResultFilter($operator, $filters[$index + 1], $feedbackDTO->getValidatedByKey($filters[$index + 1]['field_name'])),
-                        $logicOperator
-                    );
-                }
-                if (isset($filters[$index - 1]) && !empty($feedbackDTO->getValidatedByKey($filters[$index - 1]['field_name']))) {
-                    $logicOperator = $filters[$index - 1]['logic_operator'];
-                    $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filters[$index - 1]['operator']]['operator'];
-                    $result = $this->checkLogicResultForFilter(
-                        $result,
-                        $this->checkResultFilter($operator, $filters[$index - 1], $feedbackDTO->getValidatedByKey($filters[$index - 1]['field_name'])),
-                        $logicOperator
-                    );
-                }
+                $result = $this->checkFilterRaw($filters[$index + 1], $feedbackDTO, $result) &&
+                    $this->checkFilterRaw($filters[$index + 1], $feedbackDTO, $result);
+
                 if (!$result) return;
             }
         }, array_keys($filters));
+
         return $result;
     }
 }

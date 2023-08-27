@@ -9,7 +9,6 @@ use App\Models\Company;
 use App\QR\Repositories\CompanyRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 
 class CompanyController extends Controller
 {
@@ -39,11 +38,19 @@ class CompanyController extends Controller
     ) {
         $companyDTO = $request->makeDTO();
 
-        $result = app(CompanyRepository::class)->updateCompany($id, [
-            'name' => $companyDTO->getName(),
-            'adress' => $companyDTO->getAdress(),
-            'link' => $companyDTO->getLink(),
-        ]);
+        $result = app(CompanyRepository::class)->updateCompany(
+            Company::filter(
+                new CompanyFilter(null),
+                [
+                    'company_id' => $id
+                ]
+            ),
+            [
+                'name' => $companyDTO->getName(),
+                'adress' => $companyDTO->getAdress(),
+                'link' => $companyDTO->getLink(),
+            ]
+        );
 
         return $this->prepareResultForUpdate(
             $result,
@@ -55,7 +62,15 @@ class CompanyController extends Controller
 
     public function destroy(int $id)
     {
-        $result = app(CompanyRepository::class)->updateCompany($id, ['is_actual' => 0]);
+        $result = app(CompanyRepository::class)->updateCompany(
+            Company::filter(
+                new CompanyFilter(null),
+                [
+                    'company_id' => $id
+                ]
+            ),
+            ['is_actual' => 0]
+        );
 
         return $this->prepareResultForUpdate(
             $result,

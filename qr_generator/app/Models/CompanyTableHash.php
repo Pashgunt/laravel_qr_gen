@@ -25,8 +25,11 @@ class CompanyTableHash extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
-    {
-        return $filter->apply($builder);
+    public function scopeFilter(
+        Builder $builder,
+        QueryFilter $filter,
+        array $additionalParams = []
+    ) {
+        return $filter->apply($builder, $additionalParams);
     }
 }

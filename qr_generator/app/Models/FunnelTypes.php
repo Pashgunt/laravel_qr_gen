@@ -24,8 +24,11 @@ class FunnelTypes extends Model
         'is_actual',
     ];
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
-    {
-        return $filter->apply($builder);
+    public function scopeFilter(
+        Builder $builder,
+        QueryFilter $filter,
+        array $additionalParams = []
+    ) {
+        return $filter->apply($builder, $additionalParams);
     }
 }

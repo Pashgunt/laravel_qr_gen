@@ -18,12 +18,9 @@ class EditFunnelAction
         $funnelConfigID = $request->route()->parameter('funnel_id');
 
         app(FunnelConfigRepository::class)->updateFunnelConfig(
-            FunnelConfig::filter(new FunnelConfigFilter(
-                null,
-                [
-                    'funnel_id' => $funnelConfigID,
-                ]
-            )),
+            FunnelConfig::filter(new FunnelConfigFilter(null), [
+                'funnel_id' => $funnelConfigID,
+            ]),
             [
                 'funnel_type_id' => $funnelDTO->getFunnelID(),
                 'work_started_at' => $funnelDTO->getWorkStartDate(),

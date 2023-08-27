@@ -58,7 +58,15 @@ class LocationFeedbackController extends Controller
 
     public function destroy(int $id)
     {
-        $result = app(LocationFeedbackRepository::class)->updateFeedback($id, ['is_actual' => 0]);
+        $result = app(LocationFeedbackRepository::class)->updateFeedback(
+            Feedback::filter(
+                new FeedbackFilter(null),
+                [
+                    'id' => $id
+                ]
+            ),
+            ['is_actual' => 0]
+        );
 
         return $this->prepareResultForUpdate(
             $result,

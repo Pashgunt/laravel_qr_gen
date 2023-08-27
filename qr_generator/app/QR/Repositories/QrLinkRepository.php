@@ -18,9 +18,9 @@ class QrLinkRepository extends Repositories
     }
 
     public function updateLink(
-        int $linkID,
+        $raw,
         array $update
     ): bool {
-        return $this->update($this->model->where('id', $linkID), $update);
+        return $this->update($raw, $update);
     }
 }

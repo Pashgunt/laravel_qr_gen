@@ -46,28 +46,25 @@ class FunnelConfigService implements Funnel
 
     public function prepareFunnelConfigs(
         FunnelConfigFilter $filter,
+        array $additionalParams = []
     ): array {
         $configs = FunnelConfig::joined()
-            ->filter($filter)
-            ->get([
-                'funnel_fields.*',
-                'funnel_logic_blocks.*',
-                'funnel_types.*',
-                'funnel_configs.*',
-                'funnel_fields.id AS funnel_field_id',
-            ])
+            ->filter(
+                $filter,
+                $additionalParams
+            )
+            ->getResult()
             ->toArray();
 
-        //TODO make desctructurization
         return array_reduce($configs, function ($acc, $configItem) use ($configs) {
             $configDataAppend = [
-                'work_started_at' => $configItem['work_started_at'],
-                'funnel_type_name' => $configItem['funnel_type_name'],
-                'funnel_type_tag' => $configItem['funnel_type_tag'],
                 'funnel_type_id' => $configItem['funnel_type_id'],
                 'company_id' => $configItem['company_id'],
                 'funnel_config_id' => $configItem['funnel_config_id'],
                 'funnel_field_id' => $configItem['funnel_field_id'],
+                'work_started_at' => $configItem['work_started_at'],
+                'funnel_type_name' => $configItem['funnel_type_name'],
+                'funnel_type_tag' => $configItem['funnel_type_tag'],
                 'field_name' => $configItem['field_name'],
                 'operator' => $configItem['operator'],
                 'value' => $configItem['value'],

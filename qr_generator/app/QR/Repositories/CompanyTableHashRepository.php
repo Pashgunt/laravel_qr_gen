@@ -20,9 +20,9 @@ class CompanyTableHashRepository extends Repositories
     }
 
     public function updateCompanyTableHash(
-        int $id,
+        $raw,
         array $update
     ): bool {
-        return $this->update($this->model->where('id', $id), $update);
+        return $this->update($raw, $update);
     }
 }

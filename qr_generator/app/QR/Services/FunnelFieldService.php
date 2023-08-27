@@ -39,12 +39,12 @@ class FunnelFieldService implements Funnel
         Closure $next
     ): array {
         $this->repository->updateFunnelField(
-            FunnelFields::filter(new FunnelFieldFilter(
-                null,
+            FunnelFields::filter(
+                new FunnelFieldFilter(null),
                 [
                     'funnel_id' => $data['funnel_config_id'],
                 ]
-            )),
+            ),
             [
                 'is_actual' => 0,
             ]

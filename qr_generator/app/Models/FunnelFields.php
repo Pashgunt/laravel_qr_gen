@@ -22,8 +22,11 @@ class FunnelFields extends Model
 
     protected $table = 'funnel_fields';
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
-    {
-        return $filter->apply($builder);
+    public function scopeFilter(
+        Builder $builder,
+        QueryFilter $filter,
+        array $additionalParams = []
+    ) {
+        return $filter->apply($builder, $additionalParams);
     }
 }

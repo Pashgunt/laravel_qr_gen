@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,8 +28,22 @@ class FunnelConfig extends Model
             ->leftJoin('funnel_logic_blocks', 'funnel_fields.id', '=', 'funnel_logic_blocks.funnel_field_id');
     }
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    public function scopeFilter(
+        Builder $builder,
+        QueryFilter $filter,
+        array $additionalParams = []
+    ) {
+        return $filter->apply($builder, $additionalParams);
+    }
+
+    public function scopeGetResult(Builder $builder): Collection
     {
-        return $filter->apply($builder);
+        return $builder->get([
+            'funnel_fields.*',
+            'funnel_logic_blocks.*',
+            'funnel_types.*',
+            'funnel_configs.*',
+            'funnel_fields.id AS funnel_field_id',
+        ]);
     }
 }

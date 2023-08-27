@@ -20,7 +20,6 @@ use App\QR\Enums\FunnelOperatorEnums;
 use App\Qr\Repositories\FunnelFieldsRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use ShowFunnelOptions;
 
 class FunnelController extends Controller
 {

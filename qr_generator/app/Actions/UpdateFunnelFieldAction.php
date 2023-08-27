@@ -15,9 +15,12 @@ class UpdateFunnelFieldAction
         $fieldID = $request->route()->parameter('field_id');
 
         return app(FunnelFieldsRepository::class)->updateFunnelField(
-            FunnelFields::filter(new FunnelFieldFilter(null, [
-                'field_id' => $fieldID
-            ])),
+            FunnelFields::filter(
+                new FunnelFieldFilter(null),
+                [
+                    'field_id' => $fieldID
+                ]
+            ),
             [
                 'field_name' => $funnelFieldDTO->getField(),
                 'operator' => $funnelFieldDTO->getOperator(),

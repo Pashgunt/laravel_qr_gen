@@ -36,7 +36,9 @@ class FeedbackService
     ): array {
         $data['feedback_list'] = Feedback::filter(
             $this->filters,
-            ['company_id' => $data['company']->id]
+            [
+                'company_id' => $data['company']->id
+            ]
         )->paginate(10);
         return $next($data);
     }
@@ -45,7 +47,8 @@ class FeedbackService
         array $data,
         Closure $next
     ): array {
-        $data['feedback'] = Feedback::filter($this->filters)->paginate(10);
+        $data['feedback'] = Feedback::filter($this->filters)
+            ->paginate(10);
         return $next($data);
     }
 

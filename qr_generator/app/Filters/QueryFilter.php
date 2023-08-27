@@ -8,31 +8,30 @@ use Illuminate\Http\Request;
 abstract class QueryFilter
 {
     protected $request;
-    
-    protected array $addedParams;
-    
+
     protected $builder;
-    
+
     protected string $delimiter = ',';
-    
-    //TODO make add additionalParams and check is work
-    public function __construct(?Request $request, array $addedFilterParams = [])
+
+    public function __construct(?Request $request)
     {
         $this->request = $request ?? [];
-        $this->addedParams = $addedFilterParams;
     }
-    public function apply(Builder $builder): void
-    {
+
+    public function apply(
+        Builder $builder,
+        array $additionalParams = []
+    ): void {
         $this->builder = $builder;
 
-        foreach ($this->fields() as $field => $value) {
+        foreach ($this->fields($additionalParams) as $field => $value) {
             if (method_exists($this, $field)) {
                 call_user_func_array([$this, $field], [$value]);
             }
         }
     }
 
-    protected function fields(): array
+    protected function fields(array $additionalParams = []): array
     {
         return array_filter(
             array_map(function ($item) {
@@ -41,7 +40,7 @@ abstract class QueryFilter
             }, array_merge(
                 $this->request ? $this->request?->route()?->parameters() : [],
                 $this->request ? $this->request?->all() : [],
-                $this->addedParams
+                $additionalParams
             ))
         );
     }

@@ -23,13 +23,8 @@ class QrGeneratorController extends Controller
     {
         $qr = QrLink::joined()
             ->filter($filter)
-            ->paginate(10, [
-                'qr_codes.file_name AS svg_file_name',
-                'qr_codes.file_path AS svg_file_path',
-                'company_table_hash.*',
-                'qr_codes_pdf.*',
-                'links_for_qr_code.*',
-            ]);
+            ->paginateResult();
+
         return view('qr.qr-list', compact('qr'));
     }
 
@@ -44,13 +39,8 @@ class QrGeneratorController extends Controller
     {
         $qr = QrLink::joined()
             ->filter($filter)
-            ->first([
-                'qr_codes.file_name AS svg_file_name',
-                'qr_codes.file_path AS svg_file_path',
-                'company_table_hash.*',
-                'qr_codes_pdf.*',
-                'links_for_qr_code.*',
-            ]);
+            ->firstResult();
+
         return view('qr.qr-detail', compact('qr'));
     }
 
@@ -58,13 +48,8 @@ class QrGeneratorController extends Controller
     {
         $qr = QrLink::joined()
             ->filter($filter)
-            ->first([
-                'qr_codes.file_name AS svg_file_name',
-                'qr_codes.file_path AS svg_file_path',
-                'company_table_hash.*',
-                'qr_codes_pdf.*',
-                'links_for_qr_code.*',
-            ]);
+            ->firstResult();
+
         return view('qr.qr-edit', compact('qr'));
     }
 

@@ -33,7 +33,7 @@ Route::middleware(['guest'])->group(function () {
     });
     Route::prefix('/login')->group(function () {
         Route::get("/", [LoginController::class, 'index'])
-            ->name('login');
+            ->name('login.index');
         Route::post("/", [LoginController::class, 'store'])
             ->name('login.store');
     });
@@ -78,16 +78,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->middleware('funnel');
     });
 
-    Route::post('/funnel/{company_id?}', [FunnelController::class, 'store'])
-        ->name('funnel.store');
-    Route::delete('/funnel/field/{field_id}/delete', [FunnelController::class, 'destroyField'])
-        ->name('funnel.destroyField');
-    Route::delete('/funnel/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
-        ->name('funnel.destroyFunnel');
-    Route::get('/funnel/update/field/{field_id}', [FunnelController::class, 'editField'])
-        ->name('funnel.edit.field');
-    Route::put('/funnel/update/field/{field_id}', [FunnelController::class, 'updateField'])
-        ->name('funnel.update.field');
+    Route::prefix('/')->group(function () {
+        Route::post('/funnel/{company_id?}', [FunnelController::class, 'store'])
+            ->name('funnel.store');
+        Route::delete('/funnel/field/{field_id}/delete', [FunnelController::class, 'destroyField'])
+            ->name('funnel.destroyField');
+        Route::delete('/funnel/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
+            ->name('funnel.destroyFunnel');
+        Route::get('/funnel/update/field/{field_id}', [FunnelController::class, 'editField'])
+            ->name('funnel.edit.field');
+        Route::put('/funnel/update/field/{field_id}', [FunnelController::class, 'updateField'])
+            ->name('funnel.update.field');
+    });
+
     Route::resource('/funnel', FunnelController::class)
         ->parameters(['funnel' => 'funnel_id'])
         ->only(['create', 'index', 'edit', 'update']);

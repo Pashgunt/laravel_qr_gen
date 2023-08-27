@@ -49,11 +49,12 @@ $(document).ready(function () {
 
     funnelType.change(changeFunnelTypeHandler);
 
-    $(operator).change(changeOperatorHandler)
-    
+    $(operator).change(changeOperatorHandler.bind(operator))
+
     operator.each((_, item) => {
         return !$(item).find(`option:selected`).val() ? $(item).change(changeOperatorHandler) : changeOperatorHandler.apply(item);
     });
+
     logic.each((_, item) => $(item).change(changeLogicHandler));
 
     if (funnelType.val()) changeFunnelTypeHandler.apply(funnelType)

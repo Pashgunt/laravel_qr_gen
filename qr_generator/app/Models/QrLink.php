@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Filters\QueryFilter;
 use App\QR\Enums\QrCodeEnums;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,8 +36,35 @@ class QrLink extends Model
             ->leftJoin('qr_codes_pdf', 'links_for_qr_code.id', '=', 'qr_codes_pdf.link_id');
     }
 
-    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    public function scopeFilter(
+        Builder $builder,
+        QueryFilter $filter,
+        array $additionalParams = []
+    ) {
+        return $filter->apply($builder, $additionalParams);
+    }
+
+    public function scopeFirstResult(Builder $builder): object|null
     {
-        return $filter->apply($builder);
+        return $builder->first([
+            'qr_codes.file_name AS svg_file_name',
+            'qr_codes.file_path AS svg_file_path',
+            'company_table_hash.*',
+            'qr_codes_pdf.*',
+            'links_for_qr_code.*',
+        ]);
+    }
+
+    public function scopePaginateResult(
+        Builder $builder,
+        int $paginate = 10
+    ): LengthAwarePaginator {
+        return $builder->paginate($paginate, [
+            'qr_codes.file_name AS svg_file_name',
+            'qr_codes.file_path AS svg_file_path',
+            'company_table_hash.*',
+            'qr_codes_pdf.*',
+            'links_for_qr_code.*',
+        ]);
     }
 }

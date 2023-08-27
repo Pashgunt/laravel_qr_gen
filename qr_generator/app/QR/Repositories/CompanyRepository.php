@@ -20,9 +20,9 @@ class CompanyRepository extends Repositories
     }
 
     public function updateCompany(
-        int $companyID,
+        $raw,
         array $update
     ): bool {
-        return $this->update($this->model->where('id', $companyID), $update);
+        return $this->update($raw, $update);
     }
 }

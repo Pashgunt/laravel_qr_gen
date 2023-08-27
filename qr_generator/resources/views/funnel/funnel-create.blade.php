@@ -39,7 +39,7 @@
                     </div>
                     <div>
                         <label for="operator">Operator</label>
-                        <select name="operator[]" id="operator">
+                        <select name="operator[]" id="operator" class="operator">
                             <option value="">Выберите тип воронки</option>
                             @foreach ($funnel['operators'] as $operator)
                                 <option value="{{ $operator['tag'] }}"><?= $operator['name'] ?></option>

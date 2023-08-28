@@ -124,12 +124,12 @@ class FunnelController extends Controller
         $data = [
             'field_data' => $funnelConfig,
             'funnel_options' => $funnelOptions
-                ->handle(new FunnelTypeFilter(
-                    null,
+                ->handle(
+                    new FunnelTypeFilter(null),
                     [
                         'funnel_type_id' => $funnelConfig['funnel_type_id']
                     ]
-                )),
+                ),
             'operators' => FunnelOperatorEnums::getAssociations()
         ];
 

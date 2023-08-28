@@ -8,7 +8,7 @@
             <div>{{ $feedback->rating }}</div>
             <div>{{ $feedback->feedback_text }}</div>
             <div>{{ $feedback->feedback_user_name }}</div>
-            <form action="{{ route('feedback.destroy', ['id' => $feedback->id]) }}" method="POST">
+            <form action="{{ route('feedback.destroy', ['feedback_id' => $feedback->id]) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button>Delete</button>

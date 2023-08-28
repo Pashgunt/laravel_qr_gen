@@ -79,4 +79,21 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
     }
+
+    public function provides()
+    {
+        return [
+            CompanyRepository::class,
+            CompanyTableHashRepository::class,
+            FunnelTypesRepository::class,
+            LocationFeedbackRepository::class,
+            QrCodeRepository::class,
+            QrLinkRepository::class,
+            QrPdfRepository::class,
+            FunnelConfigRepository::class,
+            FunnelFieldsRepository::class,
+            FunnelLogicRepository::class,
+            UserRepository::class,
+        ];
+    }
 }

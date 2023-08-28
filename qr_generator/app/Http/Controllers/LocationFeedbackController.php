@@ -56,13 +56,13 @@ class LocationFeedbackController extends Controller
         return view('location.feedback', compact('data'));
     }
 
-    public function destroy(int $id)
+    public function destroy(Feedback $feedback)
     {
         $result = app(LocationFeedbackRepository::class)->updateFeedback(
             Feedback::filter(
                 new FeedbackFilter(null),
                 [
-                    'id' => $id
+                    'id' => $feedback->id
                 ]
             ),
             ['is_actual' => 0]

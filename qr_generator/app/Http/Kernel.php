@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\FunnelTructID;
 use App\Http\Middleware\LocationHash;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Session\Middleware\AuthenticateSession;
 
 class Kernel extends HttpKernel
 {
@@ -23,6 +24,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        AuthenticateSession::class,
     ];
 
     /**

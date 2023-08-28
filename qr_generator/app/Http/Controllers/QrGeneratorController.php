@@ -7,13 +7,9 @@ use App\Actions\StoreQrCodeAction;
 use App\Actions\UpdateQrCodesAction;
 use App\Filters\QrLinkFilter;
 use App\Http\Requests\QrGenerationLinkRequest;
-use App\Jobs\UpdateQrCodeJob;
 use App\Models\Company;
 use App\Models\QrLink;
-use App\QR\Repositories\CompanyTableHashRepository;
-use App\QR\Repositories\QrLinkRepository;
 use Illuminate\Http\Request;
-use Illuminate\Routing\ResponseFactory;
 use Illuminate\View\View;
 
 class QrGeneratorController extends Controller
@@ -56,7 +52,7 @@ class QrGeneratorController extends Controller
     public function update(
         Request $request,
         UpdateQrCodesAction $updateQrCode,
-        int $id
+        QrLink $link
     ) {
         $result = $updateQrCode->handle($request);
 
@@ -82,9 +78,11 @@ class QrGeneratorController extends Controller
         );
     }
 
-    public function destroy(int $id, DestroyQrCodeAction $destroyQrCode)
-    {
-        $result = $destroyQrCode->handle($id);
+    public function destroy(
+        QrLink $link,
+        DestroyQrCodeAction $destroyQrCode
+    ) {
+        $result = $destroyQrCode->handle($link->id);
 
         return $this->prepareResultForUpdate(
             $result,

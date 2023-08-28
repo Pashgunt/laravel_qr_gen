@@ -46,13 +46,19 @@ class FunnelTypeService implements Funnel
         return $next($data);
     }
 
-    public function prepareFunnelFields(FunnelTypeFilter $filter): array
-    {
+    public function prepareFunnelFields(
+        FunnelTypeFilter $filter,
+        array $additionalParams = []
+    ): array {
         $locationFeedbackService = new FeedbackService(new LocationFeedbackRepository(new Feedback()));
-        $funnel = FunnelTypes::filter($filter)->first();
+        $funnel = FunnelTypes::filter(
+            $filter,
+            $additionalParams
+        )->first();
         $funnelTag = $funnel->funnel_type_tag;
         return match ($funnelTag) {
-            FunnelEnums::FEEDBACK->value => $locationFeedbackService->prepareColumnNamesForFunnelOptions()
+            FunnelEnums::FEEDBACK->value => $locationFeedbackService->prepareColumnNamesForFunnelOptions(),
+            default => '',
         };
     }
 }

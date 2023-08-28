@@ -13,97 +13,137 @@ use App\Http\Controllers\QrGeneratorController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/404', 'components.404')->name('404');
+Route::view('/404', 'components.404')
+    ->name('404');
 
-Route::middleware(['location.hash'])->group(function () {
-    Route::prefix('/location')->group(function () {
-        Route::post('/{qr}', [LocationFeedbackController::class, 'store'])->name('location.store');
-    });
-    Route::resource('/location', LocationFeedbackController::class)
-        ->parameters(['location' => 'qr'])
-        ->only(['show']);
-});
-
-Route::middleware(['guest'])->group(function () {
-    Route::prefix('/registration')->group(function () {
-        Route::get("/", [RegistrationController::class, 'index'])
-            ->name('registration');
-        Route::post("/", [RegistrationController::class, 'store'])
-            ->name('registration.store');
-    });
-    Route::prefix('/login')->group(function () {
-        Route::get("/", [LoginController::class, 'index'])
-            ->name('login.index');
-        Route::post("/", [LoginController::class, 'store'])
-            ->name('login.store');
-    });
-    Route::prefix('/forgot-password')->group(function () {
-        Route::get('/', [ForgotPasswordController::class, 'index'])
-            ->name('password.request');
-        Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
-            ->name('password.email');
-    });
-    Route::prefix('/reset-password')->group(function () {
-        Route::get('/{token}', [ForgotPasswordController::class, 'resetPasswordIndex'])
-            ->name('password.reset');
-        Route::post('/', [ForgotPasswordController::class, 'resetPasswordStore'])
-            ->name('password.update');
-    });
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('/email')->group(function () {
-        Route::get('/verify', [EmailController::class, 'index'])
-            ->name('verification.notice');
-        Route::get('/verify/{id}/{hash}', [EmailController::class, 'init'])
-            ->middleware(['signed'])
-            ->name('verification.verify');
-        Route::post('/verification-notification', [EmailController::class, 'sendNewLink'])
-            ->middleware(['throttle:6,1'])
-            ->name('verification.send');
-    });
-    Route::get('/logout', [LoginController::class, 'destroy'])->name('login.destroy');
-});
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])
-        ->name('home');
-
-    Route::resource('/qr', QrGeneratorController::class)
-        ->parameters(['qr' => 'link_id']);
-
-    Route::prefix('/ajax')->group(function () {
-        Route::put('/qr/update', [AjaxController::class, 'updateQr']);
-        Route::get('/funnel/{funnel_type_id}', [AjaxController::class, 'funnelOptions'])
-            ->middleware('funnel');
+Route::middleware(['location.hash'])
+    ->group(function () {
+        Route::prefix('/location')
+            ->name('location.')
+            ->group(function () {
+                Route::post('/{qr}', [LocationFeedbackController::class, 'store'])
+                    ->name('store')
+                    ->whereAlphaNumeric('qr');
+            });
+        Route::resource('/location', LocationFeedbackController::class)
+            ->parameters(['location' => 'qr'])
+            ->only(['show'])
+            ->missing(function () {
+                return redirect(route('home'));
+            });
     });
 
-    Route::prefix('/')->group(function () {
-        Route::post('/funnel/{company_id?}', [FunnelController::class, 'store'])
-            ->name('funnel.store');
-        Route::delete('/funnel/field/{field_id}/delete', [FunnelController::class, 'destroyField'])
-            ->name('funnel.destroyField');
-        Route::delete('/funnel/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
-            ->name('funnel.destroyFunnel');
-        Route::get('/funnel/update/field/{field_id}', [FunnelController::class, 'editField'])
-            ->name('funnel.edit.field');
-        Route::put('/funnel/update/field/{field_id}', [FunnelController::class, 'updateField'])
-            ->name('funnel.update.field');
+Route::middleware(['guest', 'throttle:authorization'])
+    ->group(function () {
+        Route::prefix('/registration')
+            ->name('registration.')
+            ->group(function () {
+                Route::get("/", [RegistrationController::class, 'index'])
+                    ->name('index');
+                Route::post("/", [RegistrationController::class, 'store'])
+                    ->name('store');
+            });
+        Route::prefix('/login')
+            ->name('login.')
+            ->group(function () {
+                Route::get("/", [LoginController::class, 'index'])
+                    ->name('index');
+                Route::post("/", [LoginController::class, 'store'])
+                    ->name('store');
+            });
+
+        Route::name('password.')
+            ->group(function () {
+                Route::prefix('/forgot-password')
+                    ->group(function () {
+                        Route::get('/', [ForgotPasswordController::class, 'index'])
+                            ->name('request');
+                        Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
+                            ->name('email');
+                    });
+                Route::prefix('/reset-password')
+                    ->group(function () {
+                        Route::get('/{token}', [ForgotPasswordController::class, 'resetPasswordIndex'])
+                            ->name('reset')
+                            ->whereAlphaNumeric('token');
+                        Route::post('/', [ForgotPasswordController::class, 'resetPasswordStore'])
+                            ->name('update');
+                    });
+            });
     });
 
-    Route::resource('/funnel', FunnelController::class)
-        ->parameters(['funnel' => 'funnel_id'])
-        ->only(['create', 'index', 'edit', 'update']);
-
-    Route::resource('/company', CompanyController::class)
-        ->parameters(['company' => 'company_id']);
-
-    Route::prefix('/feedback')->group(function () {
-        Route::get('/', [LocationFeedbackController::class, 'index'])
-            ->name('feedback.index');
-        Route::delete('/{id}/delete', [LocationFeedbackController::class, 'destroy'])
-            ->name('feedback.destroy');
+Route::middleware(['auth'])
+    ->group(function () {
+        Route::prefix('/email')
+            ->name('verification.')
+            ->group(function () {
+                Route::get('/verify', [EmailController::class, 'index'])
+                    ->name('notice');
+                Route::get('/verify/{id}/{hash}', [EmailController::class, 'init'])
+                    ->middleware(['signed'])
+                    ->name('verify')
+                    ->whereAlphaNumeric('hash');
+                Route::post('/verification-notification', [EmailController::class, 'sendNewLink'])
+                    ->middleware(['throttle:6,1'])
+                    ->name('send');
+            });
+        Route::get('/logout', [LoginController::class, 'destroy'])
+            ->name('login.destroy');
     });
 
-    Route::get('/download/{folder}/{file}', DownloadController::class)->name('download');
-});
+Route::middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])
+            ->name('home');
+
+        Route::resource('/qr', QrGeneratorController::class)
+            ->parameters(['qr' => 'link_id']);
+
+        Route::prefix('/ajax')
+            ->group(function () {
+                Route::put('/qr/update', [AjaxController::class, 'updateQr']);
+                Route::get('/funnel/{funnel_type_id}', [AjaxController::class, 'funnelOptions'])
+                    ->middleware('funnel')
+                    ->whereNumber('funnel_type_id');
+            });
+
+        Route::prefix('/funnel')
+            ->name('funnel.')
+            ->group(function () {
+                Route::post('/{company_id?}', [FunnelController::class, 'store'])
+                    ->name('store');
+                Route::delete('/field/{field_id}/delete', [FunnelController::class, 'destroyField'])
+                    ->name('destroyField');
+                Route::delete('/{funnel_id}/delete', [FunnelController::class, 'destroyFunnel'])
+                    ->name('destroyFunnel');
+                Route::get('/update/field/{field_id}', [FunnelController::class, 'editField'])
+                    ->name('edit.field');
+                Route::put('/update/field/{field_id}', [FunnelController::class, 'updateField'])
+                    ->name('update.field');
+            });
+
+        Route::resource('/funnel', FunnelController::class)
+            ->parameters(['funnel' => 'funnel_id'])
+            ->only(['create', 'index', 'edit', 'update'])
+            ->missing(function () {
+                return redirect(route('home'));
+            });
+
+        Route::resource('/company', CompanyController::class)
+            ->parameters(['company' => 'company_id']);
+
+        Route::prefix('/feedback')
+            ->name('feedback.')
+            ->group(function () {
+                Route::get('/', [LocationFeedbackController::class, 'index'])
+                    ->name('index');
+                Route::delete('/{feedback_id}/delete', [LocationFeedbackController::class, 'destroy'])
+                    ->name('destroy')
+                    ->whereNumber('id');
+            });
+
+        Route::get('/download/{folder}/{file}', DownloadController::class)
+            ->middleware(['throttle:download'])
+            ->name('download')
+            ->whereAlphaNumeric(['folder', 'file']);
+    });

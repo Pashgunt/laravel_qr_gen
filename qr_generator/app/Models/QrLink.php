@@ -26,6 +26,7 @@ class QrLink extends Model
         return match ($typeCode) {
             QrCodeEnums::IMG_QR_CODE->value => $this->hasMany(QrCode::class, 'link_id', 'id'),
             QrCodeEnums::PDF_QR_CODE->value => $this->hasMany(QrPdf::class, 'link_id', 'id'),
+            default => '',
         };
     }
 

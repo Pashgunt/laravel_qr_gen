@@ -17,6 +17,7 @@ enum FunnelOperatorEnums: string implements FunnelEnums
                 self::EQUAL->value => self::prepareFunnelOperators('равно', 'equal', $operator),
                 self::NOT_EQUAL->value => self::prepareFunnelOperators('не равно', 'not_equal', $operator),
                 self::RANGE->value => self::prepareFunnelOperators('в интервале', 'range', $operator),
+                default => '',
             };
         }, array_column(self::cases(), 'value'));
     }

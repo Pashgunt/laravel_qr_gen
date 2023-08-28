@@ -104,6 +104,7 @@ class FeedbackService
             FunnelOperatorEnums::RANGE->value => $value >= $filterRaw['value_range_from'] && $value <= $filterRaw['value_range_to'],
             FunnelOperatorEnums::EQUAL->value => $value == $filterRaw['value'],
             FunnelOperatorEnums::EQUAL->value => $value != $filterRaw['value'],
+            default => '',
         };
     }
 
@@ -118,6 +119,7 @@ class FeedbackService
         return match ($logicOperator) {
             FunnelLogicEnums::AND->value => $resultFirst && $resultSecond,
             FunnelLogicEnums::OR->value => $resultFirst || $resultSecond,
+            default => '',
         };
     }
 

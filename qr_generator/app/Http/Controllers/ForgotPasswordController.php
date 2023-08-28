@@ -9,7 +9,7 @@ use App\Qr\Repositories\UserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
@@ -40,6 +40,8 @@ class ForgotPasswordController extends Controller
 
         $status = app(UserRepository::class)
             ->changePasswordForUser($userDTO->getValidateedData());
+
+        Auth::logoutOtherDevices($userDTO->getPasswordOrigin());
 
         return $status === Password::PASSWORD_RESET
             ? redirect(route('login'))->with('status', __($status))

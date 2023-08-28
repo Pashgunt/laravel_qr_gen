@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Company;
+use App\Models\Feedback;
+use App\Models\QrLink;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -24,12 +27,22 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        Route::model('company_id', Company::class);
+        Route::model('feedback_id', Feedback::class);
+        Route::model('link_id', QrLink::class);
+
+        Route::pattern('id', '[0-9]+');
+        Route::pattern('company_id', '[0-9]+');
+        Route::pattern('field_id', '[0-9]+');
+        Route::pattern('funnel_id', '[0-9]+');
+
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
         $this->configureRateLimiting();
-        
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
@@ -44,6 +57,24 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+
+        RateLimiter::for('authorization', function (Request $request) {
+            Limit::perMinute(5)->by($request->ip())->response(function () {
+                return response('Max rate limit for auth request', 429);
+            });
+        });
+
+        RateLimiter::for('download', function (Request $request) {
+            Limit::perMinute(5)->by($request->ip())->response(function () {
+                return response('Max rate limit for download file request', 429);
+            });
+        });
+
+        RateLimiter::for('auth', function (Request $request) {
+            return Limit::perMinute(1000)->by($request->ip())->response(function () {
+                return response('max request rate limit', 429);
+            });
         });
     }
 }

@@ -27,6 +27,7 @@ enum FunnelEnums: string implements AbstractsFunnelEnums
                 self::FIELD->value => new FunnelFieldService($repository),
                 self::LOGIC->value => new FunnelLogicService($repository),
                 self::TYPE->value => new FunnelTypeService($repository),
+                default => '',
             };
         };
     }

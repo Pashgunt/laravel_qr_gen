@@ -15,6 +15,7 @@ enum FunnelLogicEnums: string implements FunnelEnums
             return match ($operator) {
                 self::AND->value => self::prepareFunnelOperators('И', $operator),
                 self::OR->value => self::prepareFunnelOperators('ИЛИ', $operator),
+                default => '',
             };
         }, array_column(self::cases(), 'value'));
     }

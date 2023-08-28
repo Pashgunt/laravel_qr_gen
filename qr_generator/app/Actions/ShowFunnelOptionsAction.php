@@ -9,10 +9,12 @@ use App\Qr\Services\FunnelFactory;
 
 class ShowFunnelOptionsAction
 {
-    public function handle(FunnelTypeFilter $filter): array
-    {
+    public function handle(
+        FunnelTypeFilter $filter,
+        array $additionalParams = []
+    ): array {
         return (new FunnelFactory())
-        ->createType(FunnelEnums::TYPE->value, app(FunnelTypesRepository::class))
-        ->prepareFunnelFields($filter);
+            ->createType(FunnelEnums::TYPE->value, app(FunnelTypesRepository::class))
+            ->prepareFunnelFields($filter, $additionalParams);
     }
 }

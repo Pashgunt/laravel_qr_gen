@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\SubdomainAuth;
+
 return [
 
     /*
@@ -40,6 +42,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'subdomain' => [
+            'driver' => 'subdomain',
+            'provider' => 'subdomain',
+        ],
     ],
 
     /*
@@ -65,10 +72,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'subdomain' => [
+            'driver' => 'eloquent',
+            'model' => SubdomainAuth::class,
+        ]
     ],
 
     /*

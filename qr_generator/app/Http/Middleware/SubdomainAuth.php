@@ -18,12 +18,17 @@ class SubdomainAuth
 
         $subdomain = Subdomain::getSubdomain($request->getHost());
 
-        $res = Auth::guard('subdomain')->validate([
+        $result = Auth::guard('subdomain')->validate([
             'subdomain' => $subdomain,
             'email' => $user->email,
         ]);
 
-        if (!$res) return redirect()->away(Subdomain::generateRedirectUrl(env('APP_URL')));
+        if (!$result) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->away(Subdomain::generateRedirectUrl(env('APP_URL')));
+        }
 
         $request->merge([
             'subdomain' => $subdomain,

@@ -15,6 +15,7 @@ class StoreLoginAction
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPasswordOrigin()
         ]);
+        $subdomain = '';
 
         if ($result) {
             $email = Auth::guard('web')->user()->email;

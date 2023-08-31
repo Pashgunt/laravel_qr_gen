@@ -12,7 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationFeedbackController;
 use App\Http\Controllers\QrGeneratorController;
 
-Route::middleware(['guest', 'throttle:authorization'])
+Route::middleware(['guest'])
     ->group(function () {
         Route::prefix('/login')
             ->name('login.')
@@ -51,7 +51,6 @@ Route::middleware(['auth', 'throttle:authorization', 'subdomain'])
                 Route::get('/verify', [EmailController::class, 'index'])
                     ->name('notice');
                 Route::get('/verify/{id}/{hash}', [EmailController::class, 'init'])
-                    ->middleware(['signed'])
                     ->name('verify')
                     ->whereAlphaNumeric('hash');
                 Route::post('/verification-notification', [EmailController::class, 'sendNewLink'])

@@ -27,7 +27,7 @@ class RegisterUserAction
                     $userDTO->getEmail(),
                     $user->id
                 );
-            RegisterMailJob::dispatchSync($user);
+            RegisterMailJob::dispatchSync($user, $subdomain);
         }
 
 

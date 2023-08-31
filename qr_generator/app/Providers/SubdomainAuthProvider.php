@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\SubdomainAuth;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\ServiceProvider;
 
 class SubdomainAuthProvider extends ServiceProvider
@@ -16,7 +15,7 @@ class SubdomainAuthProvider extends ServiceProvider
         $this->model = $subdomain;
     }
 
-    public function retrieveByCredentials(array $credentials): Collection|null
+    public function retrieveByCredentials(array $credentials): SubdomainAuth|null
     {
         if (empty($credentials)) {
             return null;
@@ -24,7 +23,7 @@ class SubdomainAuthProvider extends ServiceProvider
         $subdomain = $this->model->where([
             'subdomain' => $credentials['subdomain'],
             'email' => $credentials['email']
-        ])->get();
+        ])->first();
         return $subdomain;
     }
 
@@ -35,5 +34,24 @@ class SubdomainAuthProvider extends ServiceProvider
         if (!$subdomain) return false;
         return $subdomain->subdomain === $credentials['subdomain']
             && $subdomain->email === $credentials['email'];
+    }
+
+    public function retrieveByCredentialSubdomain(array $credentials): SubdomainAuth|null
+    {
+        if (empty($credentials)) {
+            return null;
+        }
+        $subdomain = $this->model->where([
+            'subdomain' => $credentials['subdomain'],
+        ])->first();
+        return $subdomain;
+    }
+
+    public function validateCredetialSubdomain(
+        SubdomainAuth $subdomain,
+        array $credentials = []
+    ) {
+        if (!$subdomain) return false;
+        return $subdomain->subdomain === $credentials['subdomain'];
     }
 }

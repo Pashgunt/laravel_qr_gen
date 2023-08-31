@@ -25,4 +25,14 @@ class Controller extends BaseController
     {
         return $resut ? response('ok') : response('error', 401);
     }
+
+    protected function makePrepareResponseForSubdomain(
+        bool $res,
+        string $successMessage,
+        string $errorMessage,
+        string $path
+    ) {
+        return $res ? redirect()->away($path)->with('message', $successMessage) :
+            redirect()->back()->withErrors('message_err', $errorMessage);
+    }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StoreLoginAction;
 use App\Http\Requests\LoginRequest;
+use App\Qr\Helpers\Subdomain;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -15,27 +16,25 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(LoginRequest $request)
-    {
-        $userDTO = $request->makeDTO();
-        $result = Auth::attempt([
-            'email' => $userDTO->getEmail(),
-            'password' => $userDTO->getPasswordOrigin()
-        ]);
-        $request->session()->regenerate();
-        return $this->prepareResultForUpdate(
-            $result,
+    public function store(
+        LoginRequest $request,
+        StoreLoginAction $storeLogin
+    ) {
+        $result = $storeLogin->handle($request);
+        return $this->makePrepareResponseForSubdomain(
+            $result['result'],
             'Welcome',
             'Error Login',
-            'home'
+            Subdomain::generateRedirectUrl($result['subdomain'], 'home')
         );
     }
 
     public function destroy(Request $request)
     {
-        Auth::logout();
+        Auth::guard('web')->logout();
+        Auth::guard('subdomain')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect(route("login"));
+        return redirect(route("login.index"));
     }
 }

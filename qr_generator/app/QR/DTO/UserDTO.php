@@ -51,4 +51,9 @@ class UserDTO
     {
         return $this->validated;
     }
+
+    public function getEmailSubdomain(): string
+    {
+        return current(explode('@', $this->getEmail()));
+    }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CustomDomain;
 use App\Http\Middleware\FunnelTructID;
 use App\Http\Middleware\LocationHash;
+use App\Http\Middleware\SubdomainAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Session\Middleware\AuthenticateSession;
 
@@ -47,6 +49,10 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'domain' => [
+            CustomDomain::class,
+        ],
     ];
 
     /**
@@ -70,5 +76,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'location.hash' => LocationHash::class,
         'funnel' => FunnelTructID::class,
+        'subdomain' => SubdomainAuth::class,
     ];
 }

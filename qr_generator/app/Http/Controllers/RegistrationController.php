@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\RegisterUserAction;
 use App\Http\Requests\RegistrationRequest;
-use App\Jobs\RegisterMailJob;
-use App\Qr\Repositories\UserRepository;
-use Illuminate\Routing\Redirector;
-use Illuminate\View\View;
+use App\Qr\Helpers\Subdomain;
 
 class RegistrationController extends Controller
 {
-    public function index(): View
+    public function index()
     {
         return view('auth.registration');
     }
 
-    public function store(RegistrationRequest $request)
-    {
-        $userDTO = $request->makeDTO();
+    public function store(
+        RegistrationRequest $request,
+        RegisterUserAction $registerUser
+    ) {
+        $register = $registerUser->handle($request);
 
-        $user = app(UserRepository::class)->createUser(
-            $userDTO->getName(),
-            $userDTO->getEmail(),
-            $userDTO->getPassword()
-        );
-
-        RegisterMailJob::dispatchSync($user);
-
-        return redirect(route('login'))->with('email', $user->email);
+        return redirect()
+            ->away(
+                Subdomain::generateRedirectUrl($register['subdomain']->subdomain, 'login')
+            )
+            ->with('email', $register['user']->email);
     }
 }

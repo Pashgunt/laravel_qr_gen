@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('company_table_hash', function (Blueprint $table) {
             $table->id();
-            $table->integer('company_id');
+            $table->unsignedBigInteger('company_id');
             $table->integer('table_number');
             $table->text('hash_value');
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('subdomain');
             $table->string('email');
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->tinyInteger('is_actual')->default(1);
             $table->timestamps();
+
+            $table->foreign('user_id')->on('id')->references('users');
         });
     }
 

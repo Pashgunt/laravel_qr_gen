@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('funnel_fields', function (Blueprint $table) {
             $table->id();
-            $table->integer('funnel_config_id');
+            $table->unsignedBigInteger('funnel_config_id');
             $table->string('field_name');
             $table->string('operator');
             $table->integer('value')->nullable(true)->default(null);
@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('value_range_to')->nullable(true)->default(null);
             $table->integer('is_actual')->default(1);
             $table->timestamps();
+
+            $table->foreign('funnel_config_id')->references('id')->on('funnel_configs');
         });
     }
 

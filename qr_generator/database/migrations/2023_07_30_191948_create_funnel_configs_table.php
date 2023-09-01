@@ -10,10 +10,12 @@ return new class extends Migration
     {
         Schema::create('funnel_configs', function (Blueprint $table) {
             $table->id();
-            $table->integer('funnel_type_id');
+            $table->unsignedBigInteger('funnel_type_id');
             $table->date('work_started_at');
             $table->tinyInteger('is_actual')->default(1);
             $table->timestamps();
+
+            $table->foreign('funnel_type_id')->references('id')->on('funnel_types');
         });
     }
 

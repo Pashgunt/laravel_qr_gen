@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('file_name');
             $table->string('file_path');
-            $table->integer('link_id');
+            $table->unsignedBigInteger('link_id');
             $table->timestamps();
+
+            $table->foreign('link_id')->references('id')->on('links_for_qr_code');
         });
     }
 

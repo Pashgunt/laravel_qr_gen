@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('links_for_qr_code', function (Blueprint $table) {
             $table->id();
-            $table->integer('company_hash_id');
+            $table->unsignedBigInteger('company_hash_id');
             $table->text('link');
             $table->integer('is_actual')->default(1)->nullable(false);
             $table->timestamps();
+
+            $table->foreign('company_hash_id')->references('id')->on('company_table_hash');
         });
     }
 

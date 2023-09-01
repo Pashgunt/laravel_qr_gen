@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('funnel_logic_blocks', function (Blueprint $table) {
             $table->id();
-            $table->integer('funnel_field_id');
+            $table->unsignedBigInteger('funnel_field_id');
             $table->string('logic_operator');
             $table->timestamps();
+
+            $table->foreign('funnel_field_id')->references('id')->on('funnel_fields');
         });
     }
 

@@ -37,10 +37,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::pattern('field_id', '[0-9]+');
         Route::pattern('funnel_id', '[0-9]+');
 
-        RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
-        });
-
         $this->configureRateLimiting();
 
         $this->routes(function () {
@@ -61,6 +57,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+
+        RateLimiter::for('domain', function (Request $request) {
+            return Limit::perMinute(20)->by($request->user()->id ?: $request->ip())->response(function () {
+                return response('Max rate limit', 429);
+            });
         });
 
         RateLimiter::for('authorization', function (Request $request) {

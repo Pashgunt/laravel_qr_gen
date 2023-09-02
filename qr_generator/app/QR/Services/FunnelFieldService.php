@@ -40,7 +40,7 @@ class FunnelFieldService implements Funnel
     ): array {
         $this->repository->updateFunnelField(
             FunnelFields::filter(
-                new FunnelFieldFilter(null),
+                new FunnelFieldFilter(),
                 [
                     'funnel_id' => $data['funnel_config_id'],
                 ]

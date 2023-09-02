@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 abstract class QueryFilter
 {
-    protected $request;
+    protected ?Request $request;
 
     protected $builder;
 
     protected string $delimiter = ',';
 
-    public function __construct(?Request $request)
+    public function __construct(?Request $request = null)
     {
         $this->request = $request ?? [];
     }

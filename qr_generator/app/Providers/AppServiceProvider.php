@@ -5,10 +5,13 @@ namespace App\Providers;
 use App\Models\Company;
 use App\Models\CompanyTableHash;
 use App\Models\Feedback as ModelsFeedback;
+use App\Models\FeedbackFilter;
 use App\Models\FunnelConfig;
 use App\Models\FunnelFields;
 use App\Models\FunnelLogic;
 use App\Models\FunnelTypes;
+use App\Models\PageSetings;
+use App\Models\PageSettingLinks;
 use App\Models\QrCode;
 use App\Models\QrLink;
 use App\Models\QrPdf;
@@ -16,17 +19,19 @@ use App\Models\SubdomainAuth;
 use App\Models\User;
 use App\QR\Repositories\CompanyRepository;
 use App\QR\Repositories\CompanyTableHashRepository;
+use App\QR\Repositories\FeedbackFilterRepository;
 use App\Qr\Repositories\FunnelConfigRepository;
 use App\Qr\Repositories\FunnelFieldsRepository;
 use App\Qr\Repositories\FunnelLogicRepository;
 use App\QR\Repositories\FunnelTypesRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
+use App\Qr\Repositories\PageSettingLinksRepository;
+use App\Qr\Repositories\PageSettingRepository;
 use App\QR\Repositories\QrCodeRepository;
 use App\QR\Repositories\QrLinkRepository;
 use App\QR\Repositories\QrPdfRepository;
 use App\QR\Repositories\SubdomainAuthRepository;
 use App\Qr\Repositories\UserRepository;
-use App\QR\Services\FeedbackService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -80,6 +85,19 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(SubdomainAuthRepository::class, function ($app) {
             return new SubdomainAuthRepository(new SubdomainAuth());
         });
+
+        $this->app->singleton(FeedbackFilterRepository::class, function ($app) {
+            return new FeedbackFilterRepository(new FeedbackFilter());
+        });
+
+        $this->app->singleton(PageSettingRepository::class, function ($app) {
+            return new PageSettingRepository(new PageSetings());
+        });
+        
+        $this->app->singleton(PageSettingLinksRepository::class, function ($app) {
+            return new PageSettingLinksRepository(new PageSettingLinks());
+        });
+
     }
 
     public function boot(): void
@@ -101,6 +119,9 @@ class AppServiceProvider extends ServiceProvider
             FunnelLogicRepository::class,
             UserRepository::class,
             SubdomainAuthRepository::class,
+            FeedbackFilterRepository::class,
+            PageSettingRepository::class,
+            PageSettingLinksRepository::class,
         ];
     }
 }

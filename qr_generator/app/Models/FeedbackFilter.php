@@ -6,30 +6,33 @@ use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Company extends Model
+class FeedbackFilter extends Model
 {
     use HasFactory;
 
+    protected $table = 'feedback_filter_results';
+
     protected $fillable = [
-        'name',
-        'adress',
-        'link',
+        'feedback_id',
+        'filter_result',
+        'filter_result_descripton',
+        'hash'
     ];
-
-    protected $table = 'companies';
-
-    public function getCompanyTables(): HasMany
-    {
-        return $this->hasMany(CompanyTableHash::class, 'company_id', 'id');
-    }
 
     public function scopeFilter(
         Builder $builder,
         ?QueryFilter $filter = null,
         array $additionalParams = []
     ) {
-        return $filter?->apply($builder, $additionalParams);
+        return $filter?->apply(
+            $builder,
+            $additionalParams
+        );
+    }
+
+    public function getFeedback()
+    {
+        return $this->hasOne(Feedback::class, 'id', 'feedback_id');
     }
 }

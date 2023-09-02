@@ -6,11 +6,13 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\FeedbackPageSettingsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationFeedbackController;
 use App\Http\Controllers\QrGeneratorController;
+use App\Providers\RouteServiceProvider;
 
 Route::middleware(['guest'])
     ->group(function () {
@@ -65,7 +67,7 @@ Route::middleware(['auth', 'throttle:authorization', 'subdomain'])
 Route::middleware(['auth', 'verified', 'subdomain'])
     ->group(function () {
         Route::get('/home', [HomeController::class, 'index'])
-            ->name('home');
+            ->name(RouteServiceProvider::HOME);
 
         Route::resource('/qr', QrGeneratorController::class)
             ->parameters(['qr' => 'link_id']);
@@ -97,7 +99,7 @@ Route::middleware(['auth', 'verified', 'subdomain'])
             ->parameters(['funnel' => 'funnel_id'])
             ->only(['create', 'index', 'edit', 'update'])
             ->missing(function () {
-                return redirect(route('home'));
+                return redirect(route(RouteServiceProvider::HOME));
             });
 
         Route::resource('/company', CompanyController::class)
@@ -112,6 +114,9 @@ Route::middleware(['auth', 'verified', 'subdomain'])
                     ->name('destroy')
                     ->whereNumber('id');
             });
+
+        Route::resource('/page-settings', FeedbackPageSettingsController::class)
+            ->parameter('page-settings', 'page_setting');
 
         Route::get('/download/{folder}/{file}', DownloadController::class)
             ->middleware(['throttle:download'])

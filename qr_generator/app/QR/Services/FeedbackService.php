@@ -99,13 +99,48 @@ class FeedbackService
         string $operator,
         array $filterRaw,
         int $value
-    ): bool {
-        return match ($operator) {
-            FunnelOperatorEnums::RANGE->value => $value >= $filterRaw['value_range_from'] && $value <= $filterRaw['value_range_to'],
-            FunnelOperatorEnums::EQUAL->value => $value == $filterRaw['value'],
-            FunnelOperatorEnums::EQUAL->value => $value != $filterRaw['value'],
-            default => '',
-        };
+    ): array {
+        switch ($operator) {
+            case FunnelOperatorEnums::RANGE->value:
+                $result = $value >= $filterRaw['value_range_from'] && $value <= $filterRaw['value_range_to'];
+                $description = !$result ?
+                    sprintf(
+                        'Значения поля %s не попало в промежуток от %d до %d',
+                        $filterRaw['field_name'],
+                        (int)$filterRaw['value_range_from'],
+                        (int)$filterRaw['value_range_to']
+                    )
+                    : '';
+                return compact('result', 'description');
+                break;
+            case FunnelOperatorEnums::EQUAL->value:
+                $result = $value == $filterRaw['value'];
+                $description = !$result ?
+                    sprintf(
+                        'Значение поля %s не равно %d',
+                        $filterRaw['field_name'],
+                        (int)$filterRaw['value']
+                    )
+                    : '';
+                return compact('result', 'description');
+                break;
+            case FunnelOperatorEnums::NOT_EQUAL->value:
+                $result = $value != $filterRaw['value'];
+                $description = !$result ?
+                    sprintf(
+                        'Значение поля %s должно быть равно %d',
+                        $filterRaw['field_name'],
+                        (int)$filterRaw['value']
+                    )
+                    : '';
+                return compact('result', 'description');
+                break;
+        }
+
+        return [
+            'result' => true,
+            'description' => '',
+        ];
     }
 
     private function checkLogicResultForFilter(
@@ -119,49 +154,63 @@ class FeedbackService
         return match ($logicOperator) {
             FunnelLogicEnums::AND->value => $resultFirst && $resultSecond,
             FunnelLogicEnums::OR->value => $resultFirst || $resultSecond,
-            default => '',
+            default => $resultFirst && $resultSecond,
         };
     }
 
     private function checkFilterRaw(
         array $filterRaw,
         FeedbackDTO $feedbackDTO,
-        bool $result
-    ): bool {
-        if (isset($filterRaw) && !empty($feedbackDTO->getValidatedByKey($filterRaw['field_name']))) {
-            $logicOperator = $filterRaw['logic_operator'];
+        array $result
+    ): array {
+        if (!empty($feedbackDTO->getValidatedByKey($filterRaw['field_name']))) {
+            $logicOperator = $filterRaw['logic_operator'] ?? '';
             $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filterRaw['operator']]['operator'];
-
-            return $this->checkLogicResultForFilter(
-                $result,
-                $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name'])),
-                $logicOperator
-            );
+            $checkResutFilter = $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name']));
+            return [
+                'result' => $this->checkLogicResultForFilter(
+                    $result['result'],
+                    $checkResutFilter['result'],
+                    $logicOperator
+                ),
+                'description' => $checkResutFilter['description'],
+            ];
         }
-
         return $result;
     }
 
     public function checkCorrectData(
         array $filters,
         FeedbackDTO $feedbackDTO
-    ): bool {
-        if (empty($filters)) return true;
-
-        $result = true;
+    ): array {
+        if (empty($filters)) return [
+            'result' => true,
+            'description' => '',
+        ];
+        $result = [
+            'result' => true,
+            'description' => '',
+        ];
         array_walk($filters, function ($filterRaw, $index) use ($filters, $feedbackDTO, &$result) {
             if (!empty($feedbackDTO->getValidatedByKey($filterRaw['field_name']))) {
                 $operator = Arrays::index(FunnelOperatorEnums::getAssociations(), 'tag')[$filterRaw['operator']]['operator'];
-                $result = $this->checkLogicResultForFilter(
-                    $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name']))
+                $result['result'] = $this->checkLogicResultForFilter(
+                    $this->checkResultFilter($operator, $filterRaw, $feedbackDTO->getValidatedByKey($filterRaw['field_name']))['result']
                 );
-                $result = $this->checkFilterRaw($filters[$index + 1], $feedbackDTO, $result) &&
-                    $this->checkFilterRaw($filters[$index + 1], $feedbackDTO, $result);
-
+                if (isset($filters[$index + 1])) {
+                    $resultOfCheck = $this->checkFilterRaw($filters[$index + 1], $feedbackDTO, $result);
+                    $result['result'] = $resultOfCheck['result'];
+                    $result['description'] .= "{$resultOfCheck['description']} ";
+                }
+                if (isset($filters[$index - 1])) {
+                    $resultOfCheck = $this->checkFilterRaw($filters[$index - 1], $feedbackDTO, $result);
+                    $result['result'] = $resultOfCheck['result'];
+                    $result['description'] .= "{$resultOfCheck['description']} ";
+                }
                 if (!$result) return;
             }
         }, array_keys($filters));
-
+        if ($result['result']) $result['description'] = '';
         return $result;
     }
 }

@@ -16,7 +16,7 @@ class UpdateFunnelFieldAction
 
         return app(FunnelFieldsRepository::class)->updateFunnelField(
             FunnelFields::filter(
-                new FunnelFieldFilter(null),
+                new FunnelFieldFilter(),
                 [
                     'field_id' => $fieldID
                 ]

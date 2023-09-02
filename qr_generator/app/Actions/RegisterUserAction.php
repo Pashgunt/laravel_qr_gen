@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
+use App\Events\RegisteredUser;
 use App\Http\Requests\RegistrationRequest;
-use App\Jobs\RegisterMailJob;
 use App\QR\Repositories\SubdomainAuthRepository;
 use App\Qr\Repositories\UserRepository;
 
@@ -27,7 +27,8 @@ class RegisterUserAction
                     $userDTO->getEmail(),
                     $user->id
                 );
-            RegisterMailJob::dispatchSync($user, $subdomain);
+
+            event(new RegisteredUser($user, $subdomain));
         }
 
 

@@ -36,7 +36,7 @@ class QrLinkService
     ): array {
         app(QrLinkRepository::class)->updateLink(
             QrLink::filter(
-                new QrLinkFilter(null),
+                new QrLinkFilter(),
                 [
                     'link_id' => $data['link_id'],
                 ]

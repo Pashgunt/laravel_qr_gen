@@ -3,7 +3,18 @@
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\LocationFeedbackController;
 use App\Http\Controllers\RegistrationController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
+
+Route::middleware(['location.result'])
+    ->group(function () {
+        Route::prefix('/location')
+            ->name('location.')
+            ->group(function () {
+                Route::get('/result/{result}/{hash}', [LocationFeedbackController::class, 'resultFeedback'])
+                    ->name('result');
+            });
+    });
 
 Route::middleware(['location.hash'])
     ->group(function () {
@@ -18,14 +29,14 @@ Route::middleware(['location.hash'])
             ->parameters(['location' => 'qr'])
             ->only(['show'])
             ->missing(function () {
-                return redirect(route('home'));
+                return redirect(route(RouteServiceProvider::HOME));
             });
     });
 
 Route::middleware(['guest', 'throttle:authorization'])
     ->group(function () {
         Route::get('/', [GuestController::class, 'index'])
-            ->name('guest');
+            ->name(RouteServiceProvider::ROUTE_NAME_GUEST);
         Route::view('/404', 'components.404')
             ->name('404');
         Route::prefix('/registration')

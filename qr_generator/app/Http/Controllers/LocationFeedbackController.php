@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\ResultFeedbackAction;
 use App\Actions\ShowFeedbackAction;
-use App\Filters\CompanyHashFilter;
+use App\Actions\StoreFeedbackAction;
 use App\Filters\FeedbackFilter;
+use App\Filters\FeedbackFilterResultFilter;
 use App\Http\Requests\FeedbackRequest;
-use App\Models\CompanyTableHash;
 use App\Models\Feedback;
-use App\QR\Enums\FunnelEnums;
+use App\Providers\RouteServiceProvider;
+use App\QR\Enums\PageTypeSetings;
 use App\QR\Repositories\LocationFeedbackRepository;
-use App\QR\Services\FeedbackService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
 class LocationFeedbackController extends Controller
@@ -20,32 +23,28 @@ class LocationFeedbackController extends Controller
     public function index(FeedbackFilter $filter): View
     {
         $feedbacks = Feedback::filter($filter)->paginate(10);
-
         return view('location.feedback-list', compact('feedbacks'));
     }
 
-    public function store(FeedbackRequest $request): void
-    {
-        $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
-        $feedbackDTO = $request->makeDTO();
-        $tableData = CompanyTableHash::filter(new CompanyHashFilter($request))->first();;
-        $companyID  = $tableData->company_id;
-        $tabeID  = $tableData->id;
-        $filters = $feedbackService->feedbackFilters($companyID, 1, FunnelEnums::FEEDBACK->value);
-        $filterResult = $feedbackService->checkCorrectData($filters, $feedbackDTO);
-        if ($filterResult) {
-            app(LocationFeedbackRepository::class)->createNewFeedback(
-                $companyID,
-                $tabeID,
-                $feedbackDTO->getRating(),
-                $feedbackDTO->getFeedbackText(),
-                $feedbackDTO->getName(),
-                $feedbackDTO->getContact()
-            );
-        } else {
-            dd("Error");
-            // TODO make logic bad feedback
-        }
+    public function resultFeedback(
+        Request $request,
+        FeedbackFilterResultFilter $filter,
+        ResultFeedbackAction $resultFeedback
+    ) {
+        $page = $resultFeedback->hande($request, $filter);
+        return view('location.feedback-success', compact('page'));
+    }
+
+    public function store(
+        FeedbackRequest $request,
+        StoreFeedbackAction $storeFeedback,
+    ): Redirector|RedirectResponse {
+        $result = $storeFeedback->handle($request);
+        if (!$result['result'] && empty($result['hash'])) return redirect(route(RouteServiceProvider::ROUTE_NAME_GUEST));
+        return redirect(route('location.result', [
+            'hash' => $result['hash'],
+            'result' => $result['result'] ? PageTypeSetings::POSITIVE->value : PageTypeSetings::NEGATIVE->value,
+        ]));
     }
 
     public function show(

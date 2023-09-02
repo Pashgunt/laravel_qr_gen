@@ -9,6 +9,7 @@ use App\Actions\ShowFunnelConfigAction;
 use App\Actions\ShowFunnelOptionsAction;
 use App\Actions\StoreFunnelAction;
 use App\Actions\UpdateFunnelFieldAction;
+use App\Filters\CompanyFilter;
 use App\Filters\FunnelConfigFilter;
 use App\Filters\FunnelFieldFilter;
 use App\Filters\FunnelTypeFilter;
@@ -36,7 +37,7 @@ class FunnelController extends Controller
         Request $request,
         CreateFunnelAction $createFunnel
     ): View {
-        $companies = Company::all();
+        $companies = Company::filter()->get();
         $funnel = $createFunnel->handle($request);
 
         return view('funnel.funnel-create', compact('funnel', 'companies'));

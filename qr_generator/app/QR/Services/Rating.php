@@ -22,7 +22,7 @@ class Rating
         $data['rating'] = Feedback::filter(
             $this->feedbackFilter,
             [
-                'company_id' => $data['company']->id
+                'company_id' => $data['company']->company_id
             ]
         )->avg('rating') ?? 0;
         return $next($data);

@@ -20,17 +20,18 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = 'home';
+
+    public const ROUTE_NAME_GUEST = 'guest';
+
+    public const SUBDOMAIN_LOCATION_FEEDBACK = 'feed';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */
     public function boot(): void
     {
-
-        Route::model('company_id', Company::class);
         Route::model('feedback_id', Feedback::class);
-        Route::model('link_id', QrLink::class);
 
         Route::pattern('id', '[0-9]+');
         Route::pattern('company_id', '[0-9]+');

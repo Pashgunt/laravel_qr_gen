@@ -18,7 +18,7 @@ class EditFunnelAction
         $funnelConfigID = $request->route()->parameter('funnel_id');
 
         app(FunnelConfigRepository::class)->updateFunnelConfig(
-            FunnelConfig::filter(new FunnelConfigFilter(null), [
+            FunnelConfig::filter(new FunnelConfigFilter(), [
                 'funnel_id' => $funnelConfigID,
             ]),
             [

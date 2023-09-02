@@ -34,7 +34,7 @@ class CompanyController extends Controller
 
     public function update(
         QrGenerationLinkRequest $request,
-        Company $company
+        int $id
     ) {
         $companyDTO = $request->makeDTO();
 
@@ -42,7 +42,7 @@ class CompanyController extends Controller
             Company::filter(
                 new CompanyFilter(null),
                 [
-                    'company_id' => $company->id
+                    'company_id' => $id
                 ]
             ),
             [
@@ -60,13 +60,13 @@ class CompanyController extends Controller
         );
     }
 
-    public function destroy(Company $company)
+    public function destroy(int $id)
     {
         $result = app(CompanyRepository::class)->updateCompany(
             Company::filter(
                 new CompanyFilter(null),
                 [
-                    'company_id' => $company->id
+                    'company_id' => $id
                 ]
             ),
             ['is_actual' => 0]

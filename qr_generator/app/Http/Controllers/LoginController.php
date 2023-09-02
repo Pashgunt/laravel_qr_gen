@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\StoreLoginAction;
 use App\Http\Requests\LoginRequest;
+use App\Providers\RouteServiceProvider;
 use App\Qr\Helpers\Subdomain;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class LoginController extends Controller
             $result['result'],
             'Welcome',
             'Error Login',
-            Subdomain::generateRedirectUrl($result['subdomain'], 'home')
+            Subdomain::generateRedirectUrl($result['subdomain'], RouteServiceProvider::HOME)
         );
     }
 

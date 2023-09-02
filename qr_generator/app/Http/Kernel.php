@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\CustomDomain;
 use App\Http\Middleware\FunnelTructID;
+use App\Http\Middleware\LocationFeedbackHashResultMiddleware;
 use App\Http\Middleware\LocationHash;
 use App\Http\Middleware\SubdomainAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -77,5 +78,6 @@ class Kernel extends HttpKernel
         'location.hash' => LocationHash::class,
         'funnel' => FunnelTructID::class,
         'subdomain' => SubdomainAuth::class,
+        'location.result' => LocationFeedbackHashResultMiddleware::class,
     ];
 }

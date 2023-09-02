@@ -13,7 +13,7 @@ class DestroyQrCodeAction
     {
         $resultOfDeleteLink = app(QrLinkRepository::class)->updateLink(
             QrLink::filter(
-                new QrLinkFilter(null),
+                new QrLinkFilter(),
                 [
                     'link_id' => $id
                 ]
@@ -24,7 +24,7 @@ class DestroyQrCodeAction
         $resultOfDeleteHash = app(CompanyTableHashRepository::class)
             ->updateCompanyTableHash(
                 QrLink::filter(
-                    new QrLinkFilter(null),
+                    new QrLinkFilter(),
                     [
                         'link_id' => $id
                     ]

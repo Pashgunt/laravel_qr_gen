@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
@@ -19,7 +20,7 @@ class EmailController extends Controller
     {
         $request->fulfill();
 
-        return redirect(route('home'));
+        return redirect(route(RouteServiceProvider::HOME));
     }
 
     public function sendNewLink(Request $request): RedirectResponse

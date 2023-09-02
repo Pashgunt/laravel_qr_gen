@@ -19,6 +19,7 @@
             <a href="{{ route('qr.index') }}">QR</a>
             <a href="{{ route('feedback.index') }}">Feedbacks</a>
             <a href="{{ route('funnel.index') }}">Воронки</a>
+            <a href="{{route('page-settings.index')}}">Настройки страниц</a>
             <a href="{{ route('login.destroy') }}">Logout</a>
         </menu>
     @endauth

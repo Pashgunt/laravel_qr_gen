@@ -2,9 +2,12 @@
 
 namespace App\Actions;
 
+use App\Events\SendFeedback;
 use App\Filters\CompanyHashFilter;
+use App\Filters\NotificationConfigFilter;
 use App\Http\Requests\FeedbackRequest;
 use App\Models\CompanyTableHash;
+use App\Models\NotificationConfig;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\FeedbackFilterRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
@@ -14,6 +17,7 @@ class StoreFeedbackAction
 {
     public function handle(FeedbackRequest $request)
     {
+        //TODO make in Pipeline
         $feedbackService = new FeedbackService(app(LocationFeedbackRepository::class));
         $feedbackDTO = $request->makeDTO();
         $tableData = CompanyTableHash::filter(new CompanyHashFilter($request))->first();
@@ -38,7 +42,12 @@ class StoreFeedbackAction
                     $hash
                 );
 
-            $filterResult['result'] ? 1 : 0;
+            $notificationConfig = NotificationConfig::filter(
+                new NotificationConfigFilter($request),
+                ['company_id' => $companyID]
+            )->first();
+
+            if ($notificationConfig) event(new SendFeedback($feedback, $notificationConfig, $filterResult));
 
             return [
                 'result' => $filterResult['result'],

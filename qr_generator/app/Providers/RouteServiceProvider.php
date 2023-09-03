@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Company;
 use App\Models\Feedback;
+use App\Models\NotificationConfig;
 use App\Models\QrLink;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -32,7 +33,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Route::model('feedback_id', Feedback::class);
-
+        
         Route::pattern('id', '[0-9]+');
         Route::pattern('company_id', '[0-9]+');
         Route::pattern('field_id', '[0-9]+');

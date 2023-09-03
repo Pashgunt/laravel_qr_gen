@@ -11,6 +11,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FunnelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocationFeedbackController;
+use App\Http\Controllers\NotificationConfigController;
 use App\Http\Controllers\QrGeneratorController;
 use App\Providers\RouteServiceProvider;
 
@@ -114,6 +115,9 @@ Route::middleware(['auth', 'verified', 'subdomain'])
                     ->name('destroy')
                     ->whereNumber('id');
             });
+
+        Route::resource('notification-config', NotificationConfigController::class)
+            ->parameter('notification-config', 'notification_config:id');
 
         Route::resource('/page-settings', FeedbackPageSettingsController::class)
             ->parameter('page-settings', 'page_setting');

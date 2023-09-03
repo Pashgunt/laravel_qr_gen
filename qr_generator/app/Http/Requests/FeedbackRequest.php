@@ -18,8 +18,8 @@ class FeedbackRequest extends FormRequest implements RequestInterface
     {
         return [
             'rating' => 'required|integer|min:0|max:10',
-            'feedback_text' => 'required|alpha_num|max:255|min:2',
-            'name' => 'required|alpha_num|max:255|min:2',
+            'feedback_text' => 'nullable|alpha_num|max:255|min:2',
+            'name' => 'nullable|alpha_num|max:255|min:2',
             'contact' => 'nullable'
         ];
     }

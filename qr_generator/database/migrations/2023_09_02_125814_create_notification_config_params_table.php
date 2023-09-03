@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email');
             $table->tinyInteger('is_send_positive')->default(1);
             $table->tinyInteger('is_send_negative')->default(1);
+            $table->tinyInteger('is_actual')->default(1);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies');
         });

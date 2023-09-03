@@ -26,7 +26,7 @@ class PageSettingFeedbackRequest extends FormRequest implements RequestInterface
             'map_links.*' => 'nullable|string',
             'map_names' => 'nullable|array',
             'map_names.*' => 'nullable|string',
-            'show_company_contact' => 'nullable',
+            'show_company_contact' => 'nullable|string',
         ];
     }
 

@@ -10,6 +10,7 @@ use App\Models\FunnelConfig;
 use App\Models\FunnelFields;
 use App\Models\FunnelLogic;
 use App\Models\FunnelTypes;
+use App\Models\NotificationConfig;
 use App\Models\PageSetings;
 use App\Models\PageSettingLinks;
 use App\Models\QrCode;
@@ -25,6 +26,7 @@ use App\Qr\Repositories\FunnelFieldsRepository;
 use App\Qr\Repositories\FunnelLogicRepository;
 use App\QR\Repositories\FunnelTypesRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
+use App\QR\Repositories\NotificationConfigRepository;
 use App\Qr\Repositories\PageSettingLinksRepository;
 use App\Qr\Repositories\PageSettingRepository;
 use App\QR\Repositories\QrCodeRepository;
@@ -93,11 +95,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(PageSettingRepository::class, function ($app) {
             return new PageSettingRepository(new PageSetings());
         });
-        
+
         $this->app->singleton(PageSettingLinksRepository::class, function ($app) {
             return new PageSettingLinksRepository(new PageSettingLinks());
         });
 
+        $this->app->singleton(NotificationConfigRepository::class, function ($app) {
+            return new NotificationConfigRepository(new NotificationConfig());
+        });
     }
 
     public function boot(): void
@@ -122,6 +127,7 @@ class AppServiceProvider extends ServiceProvider
             FeedbackFilterRepository::class,
             PageSettingRepository::class,
             PageSettingLinksRepository::class,
+            NotificationConfigRepository::class,
         ];
     }
 }

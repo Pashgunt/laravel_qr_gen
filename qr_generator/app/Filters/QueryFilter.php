@@ -15,7 +15,7 @@ abstract class QueryFilter
 
     public function __construct(?Request $request = null)
     {
-        $this->request = $request ?? [];
+        $this->request = $request;
     }
 
     public function apply(

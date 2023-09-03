@@ -15,7 +15,7 @@ class PageSettingDTO
     private ?string $textNegative;
     private array $mapLinks;
     private  array $mapNames;
-    private bool $showCompanyContact;
+    private string $showCompanyContact;
 
     public function __construct(array $validated)
     {
@@ -27,7 +27,7 @@ class PageSettingDTO
         $this->textNegative = $validated['text_negative'] ?? null;
         $this->mapLinks = $validated['map_links'] ?? [];
         $this->mapNames = $validated['map_names'] ?? [];
-        $this->showCompanyContact = $validated['show_company_contact'] ?? false;
+        $this->showCompanyContact = $validated['show_company_contact'] ?? '';
     }
 
     public function getPageType(): string
@@ -75,6 +75,6 @@ class PageSettingDTO
 
     public function  getShowCompanyContact(): int
     {
-        return (int)$this->showCompanyContact;
+        return (int)$this->showCompanyContact === 'on' ? 1 : 0;
     }
 }

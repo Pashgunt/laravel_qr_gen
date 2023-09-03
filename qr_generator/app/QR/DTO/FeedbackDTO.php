@@ -14,8 +14,8 @@ class FeedbackDTO
     {
         $this->validated = $validated;
         $this->rating = $validated['rating'];
-        $this->feedbackText = $validated['feedback_text'];
-        $this->name = $validated['name'];
+        $this->feedbackText = $validated['feedback_text'] ?? '';
+        $this->name = $validated['name'] ?? '';
         $this->contact = $validated['contact'] ?? null;
     }
 

@@ -17,6 +17,8 @@ class NotificationConfig extends Model
     protected $fillable = [
         'company_id',
         'email',
+        'is_send_positive',
+        'is_send_negative',
     ];
 
     public function routeNotificationForMail($notification)
@@ -24,10 +26,22 @@ class NotificationConfig extends Model
         return $this->email;
     }
 
+    public function scopeJoined(Builder $builder){
+        return $builder->join('companies', 'notification_config_params.company_id', '=', 'companies.id');
+    }
+
+    public function scopeGetParams(Builder $builder){
+        return $builder->get([
+            'notification_config_params.*',
+            'companies.*',
+            'notification_config_params.id as notification_id'
+        ]);
+    }
+
     public function scopeFilter(
         Builder $builder,
         ?QueryFilter $filter = null,
-        array $additionalParams
+        array $additionalParams = []
     ) {
         return $filter?->apply($builder, $additionalParams);
     }

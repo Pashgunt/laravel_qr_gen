@@ -10,6 +10,7 @@ use App\QR\Repositories\NotificationConfigRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
+//TODO make opportunity add more one email and etc for notification
 class NotificationConfigController extends Controller
 {
     public function index(Request $request): View

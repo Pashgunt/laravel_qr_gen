@@ -75,6 +75,6 @@ class PageSettingDTO
 
     public function  getShowCompanyContact(): int
     {
-        return (int)$this->showCompanyContact === 'on' ? 1 : 0;
+        return $this->showCompanyContact === 'on' ? 1 : 0;
     }
 }

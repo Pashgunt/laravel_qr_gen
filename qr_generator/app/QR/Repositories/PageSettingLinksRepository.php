@@ -17,4 +17,9 @@ class PageSettingLinksRepository extends Repositories
             'page_setting_id' => $pageSettingId,
         ]);
     }
+
+    public function updatePageSettingLink($raw, array $update)
+    {
+        return $this->update($raw, $update);
+    }
 }

@@ -24,6 +24,6 @@ class PageSettingRepository extends Repositories
 
     public function updatePageSetting($raw, array $update)
     {
-        $this->update($raw, $update);
+        return $this->update($raw, $update);
     }
 }

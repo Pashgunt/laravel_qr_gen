@@ -26,6 +26,20 @@ class PageSetings extends Model
         return $this->hasMany(PageSettingLinks::class, 'page_setting_id', 'id');
     }
 
+    public function scopeJoined(Builder $builder)
+    {
+        return $builder->join('companies', 'feedback_page_settings.company_id', '=', 'companies.id');
+    }
+
+    public function scopeGetParams(Builder $builder)
+    {
+        return $builder->get([
+            'feedback_page_settings.*',
+            'companies.*',
+            'feedback_page_settings.id as id'
+        ]);
+    }
+
     public function scopeFilter(
         Builder $builder,
         ?QueryFilter $filter = NULL,

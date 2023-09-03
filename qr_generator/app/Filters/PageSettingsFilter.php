@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PageSettingsFilter extends QueryFilter
 {
+    public function page_setting(int $pageSettingId): Builder
+    {
+        return $this->builder->where('feedback_page_settings.id', $pageSettingId);
+    }
+    
     public function company_id(int $companyID): Builder
     {
         return $this->builder->where('company_id', $companyID);

@@ -119,6 +119,17 @@ Route::middleware(['auth', 'verified', 'subdomain'])
         Route::resource('notification-config', NotificationConfigController::class)
             ->parameter('notification-config', 'notification_config:id');
 
+        Route::prefix('/page-settings')
+            ->name('page-settings.')
+            ->group(function () {
+                Route::delete('/link/{link_id}/delete', [FeedbackPageSettingsController::class, 'destroyPageSettingLink'])
+                    ->name('destroyLink');
+                Route::get('/link/{link_id}/update', [FeedbackPageSettingsController::class, 'editPageSettingLink'])
+                    ->name('updateLink');
+                Route::put('/link/{link_id}/update', [FeedbackPageSettingsController::class, 'updatePageSettingLink'])
+                    ->name('updateLink');
+            });
+
         Route::resource('/page-settings', FeedbackPageSettingsController::class)
             ->parameter('page-settings', 'page_setting');
 

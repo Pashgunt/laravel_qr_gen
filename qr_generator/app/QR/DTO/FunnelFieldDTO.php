@@ -6,17 +6,17 @@ class FunnelFieldDTO
 {
     private string $fields;
     private string $operators;
-    private int $value;
-    private int $rangeFrom;
-    private int $rangeTo;
+    private ?int $value;
+    private ?int $rangeFrom;
+    private ?int $rangeTo;
 
     public function __construct($validated)
     {
         $this->fields = $validated['field'];
         $this->operators = $validated['operator'];
         $this->value = $validated['value'];
-        $this->rangeFrom = $validated['range'];
-        $this->rangeTo = $validated['range_to'];
+        $this->rangeFrom = $validated['range'] ?? null;
+        $this->rangeTo = $validated['range_to'] ?? null;
     }
 
     public function getField(): string

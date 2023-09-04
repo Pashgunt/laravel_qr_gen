@@ -10,4 +10,9 @@ class CompanyHashFilter extends QueryFilter
     {
         return $this->builder->where('hash_value', $hash);
     }
+
+    public function company_hash_id(int $id)
+    {
+        return $this->builder->where('id', $id);
+    }
 }

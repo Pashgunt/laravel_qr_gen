@@ -1,5 +1,7 @@
 <?php
 
+use App\Qr\Helpers\Arrays;
+use App\Qr\Helpers\Subdomain;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;
@@ -180,6 +182,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Subdomain' => Subdomain::class,
+        'Arrays' => Arrays::class,
     ])->toArray(),
 
 ];

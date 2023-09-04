@@ -22,7 +22,7 @@
                     <form action="{{ route('qr.destroy', ['link_id' => $qrItem->link_id]) }}" method="POST">
                         @csrf
                         @method('delete')
-                        <button>Delete Company</button>
+                        <button>Delete QR</button>
                     </form>
                     <a
                         href="{{ route('download', [

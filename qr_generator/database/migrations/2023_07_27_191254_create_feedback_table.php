@@ -21,9 +21,6 @@ return new class extends Migration
             $table->text('contact_data')->default(null)->nullable(true);
             $table->integer('is_actual')->default(1);
             $table->timestamps();
-
-            $table->foreign('company_id')->on('id')->references('companies');
-            $table->foreign('table_id')->on('table_number')->references('company_table_hash');
         });
     }
 

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->tinyInteger('is_actual')->default(1);
             $table->timestamps();
 
-            $table->foreign('user_id')->on('id')->references('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

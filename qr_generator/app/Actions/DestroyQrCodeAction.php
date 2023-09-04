@@ -9,26 +9,16 @@ use App\QR\Repositories\QrLinkRepository;
 
 class DestroyQrCodeAction
 {
-    public function handle(int $id): bool
+    public function handle(QrLinkFilter $filter): bool
     {
         $resultOfDeleteLink = app(QrLinkRepository::class)->updateLink(
-            QrLink::filter(
-                new QrLinkFilter(),
-                [
-                    'link_id' => $id
-                ]
-            ),
+            QrLink::filter($filter),
             ['is_actual' => 0]
         );
         if (!$resultOfDeleteLink) return false;
         $resultOfDeleteHash = app(CompanyTableHashRepository::class)
             ->updateCompanyTableHash(
-                QrLink::filter(
-                    new QrLinkFilter(),
-                    [
-                        'link_id' => $id
-                    ]
-                ),
+                QrLink::filter($filter),
                 ['is_actual' => 0]
             );
         if (!$resultOfDeleteHash) return false;

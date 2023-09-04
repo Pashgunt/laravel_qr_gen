@@ -79,10 +79,10 @@ class QrGeneratorController extends Controller
     }
 
     public function destroy(
-        QrLink $link,
+        QrLinkFilter $filter,
         DestroyQrCodeAction $destroyQrCode
     ) {
-        $result = $destroyQrCode->handle($link->id);
+        $result = $destroyQrCode->handle($filter);
 
         return $this->prepareResultForUpdate(
             $result,

@@ -18,9 +18,9 @@ class FieldRequest extends FormRequest implements RequestInterface
         return [
             'field' => 'required|string|min:1|max:255',
             'operator' => 'required|string|min:1|max:255',
-            'value' => 'required|int',
-            'range' => 'required|int',
-            'range_to' => 'required|int',
+            'value' => 'nullable|required_without:range,range_to|int',
+            'range' => 'nullable|required_without:value|int',
+            'range_to' => 'nullable|required_without:value|int',
         ];
     }
 

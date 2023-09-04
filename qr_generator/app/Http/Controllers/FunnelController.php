@@ -53,7 +53,7 @@ class FunnelController extends Controller
             $result,
             'Succes Create',
             'Error Creare',
-            'qr.create'
+            'funnel.index'
         );
     }
 
@@ -126,7 +126,7 @@ class FunnelController extends Controller
             'field_data' => $funnelConfig,
             'funnel_options' => $funnelOptions
                 ->handle(
-                    new FunnelTypeFilter(null),
+                    new FunnelTypeFilter(),
                     [
                         'funnel_type_id' => $funnelConfig['funnel_type_id']
                     ]

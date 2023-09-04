@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::table('funnel_configs', function (Blueprint $table) {
             $table->unsignedBigInteger('company_id');
 
-            $table->foreign('company_id')->on('id')->references('companies');
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

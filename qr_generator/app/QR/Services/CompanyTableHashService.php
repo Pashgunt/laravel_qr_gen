@@ -29,15 +29,14 @@ class CompanyTableHashService
     public function saveQrCodePipeline(array $data, Closure $next): array
     {
         $repository = app(CompanyTableHashRepository::class);
-
+        $repository->updateCompanyTableHash(
+            CompanyTableHash::filter(new CompanyHashFilter(), ['company_hash_id' => $data['company_hash_id']]),
+            ['is_actual' => 0]
+        );
         $companyHashID = $repository->createHashForCompany(
             $data['company_id'],
             $data['table_number'],
             $data['hash_value'],
-        );
-        $repository->updateCompanyTableHash(
-            $data['company_hash_id'],
-            ['is_actual' => 0]
         );
         $data['company_hash_id'] = $companyHashID->id;
         return $next($data);

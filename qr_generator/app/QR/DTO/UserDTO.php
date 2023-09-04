@@ -54,6 +54,6 @@ class UserDTO
 
     public function getEmailSubdomain(): string
     {
-        return current(explode('@', $this->getEmail()));
+        return str_replace(['@', '.'], '', $this->getEmail());
     }
 }

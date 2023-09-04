@@ -17,8 +17,6 @@ return new class extends Migration
             $table->integer('table_number');
             $table->text('hash_value');
             $table->timestamps();
-
-            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 

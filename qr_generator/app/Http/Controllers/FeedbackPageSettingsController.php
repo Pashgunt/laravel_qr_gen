@@ -112,7 +112,7 @@ class FeedbackPageSettingsController extends Controller
                 PageSettingLinks::filter(new PageSettingLinksFilter(), ['link_id' => $linkID]),
                 [
                     'link' => $validated['map_link'],
-                    'link_title' => $validated['map_link'],
+                    'link_title' => $validated['map_name'],
                 ]
             );
         return $this->prepareResultForUpdate(

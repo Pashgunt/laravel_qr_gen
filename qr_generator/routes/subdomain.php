@@ -135,6 +135,5 @@ Route::middleware(['auth', 'verified', 'subdomain'])
 
         Route::get('/download/{folder}/{file}', DownloadController::class)
             ->middleware(['throttle:download'])
-            ->name('download')
-            ->whereAlphaNumeric(['folder', 'file']);
+            ->name('download');
     });

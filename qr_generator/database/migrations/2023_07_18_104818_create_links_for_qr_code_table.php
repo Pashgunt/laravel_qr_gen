@@ -17,8 +17,6 @@ return new class extends Migration
             $table->text('link');
             $table->integer('is_actual')->default(1)->nullable(false);
             $table->timestamps();
-
-            $table->foreign('company_hash_id')->references('id')->on('company_table_hash');
         });
     }
 

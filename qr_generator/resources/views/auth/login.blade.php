@@ -1,14 +1,12 @@
 @extends('layout')
 
-@section('title', 'Login')
+@section('title', 'Вход')
 @section('content')
     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-        <img src="/img/beams.jpg" alt="" class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2"
-            width="1308" />
         <div class="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
         </div>
         <div
-            class="relative w-1/2 bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+            class="relative sm:w-80 mx-auto md:w-4/5 lg:w-1/2 bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 sm:rounded-lg sm:px-10">
             <div class="mx-auto max-w-md">
                 <h1 class="font-mono text-3xl font-semibold tracking-wide text-center">
                     Вход
@@ -17,8 +15,9 @@
                 <div class="">
                     <form action="{{ route('login.store') }}" method="post">
                         @csrf
-                        <label for="input-group-1" class="block mb-2 text-sm font-medium text-gray-900" for="email">Ваша
-                            Почта</label>
+                        <label for="input-group-1" class="block mb-2 text-sm font-medium text-gray-900 @error('email') text-red-500 @enderror" for="email">
+                            Ваша Почта <span class="text-red-600 font-bold">*</span>
+                        </label>
                         <div class="relative mb-4">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -29,18 +28,43 @@
                                         d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
                                 </svg>
                             </div>
-                            <input type="email" id="input-group-1" id="email" name="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-                                placeholder="email@mail.ru">
+                            <input type="email" id="input-group-1" id="email" name="email" required
+                                class="
+                                bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5
+                                @error('email')
+                                bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 pl-10
+                                @enderror
+                                "
+                                placeholder="email@mail.ru" value="{{ old('email') }}">
+                            @error('email')
+                                <p class="mt-2 text-sm text-red-600">
+                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                </p>
+                            @enderror
                         </div>
-                        <div class="mb-4">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                        <div class="mb-10">
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 @error('password') text-red-500 @enderror">Пароль
+                                <span class="text-red-600 font-bold">*</span></label>
                             <input type="password" id="password" name="password"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                class="
+                                bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                                @error('password')
+                                bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
+                                @enderror
+                                "
                                 placeholder="•••••••••" required>
+                            @error('password')
+                                <p class="mt-2 text-sm text-red-600">
+                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                </p>
+                            @enderror
                         </div>
-                        <button type="button"
-                            class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        <button
+                            class="text-white
+                                bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4
+                                focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5
+                                text-center mr-2 mb-2">
                             Войти
                         </button>
                     </form>
@@ -51,5 +75,4 @@
             </div>
         </div>
     </div>
-
 @endsection

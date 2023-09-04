@@ -81,6 +81,9 @@
                                     <span class="font-medium">Ошибка!</span> текст ошибки
                                 </p>
                             @enderror
+                            <p id="helper-text-explanation" class="mt-2 text-sm italic text-gray-500">
+                                Поля <b>пароль</b> и <b>подтверждение пароля</b> должны совпадать
+                            </p>
                         </div>
                         <button
                             class="text-white
@@ -90,7 +93,8 @@
                             Заргеистрироваться
                         </button>
                         <hr class="my-4">
-                        <a href="" class="text-sm italic text-gray-600 hover:underline">Что произойдёт после регистрации?</a>
+                        <a href="" class="text-sm italic text-gray-600 hover:underline">Что произойдёт после
+                            регистрации?</a>
                     </form>
                 </div>
             </div>

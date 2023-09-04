@@ -25,7 +25,7 @@ class ForgotPasswordController extends Controller
 
         RecoveryPasswordMailJob::dispatchSync($userDTO->getValidateedData());
 
-        return back()->with(['status' => __(Password::RESET_LINK_SENT)]);
+        return back()->with('status', __(Password::RESET_LINK_SENT));
     }
 
     public function resetPasswordIndex(Request $request): View

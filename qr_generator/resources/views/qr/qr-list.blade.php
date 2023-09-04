@@ -46,4 +46,4 @@
     @endif
 @endsection
 
-@section('js', '/assets/js/qr.js')
+@section('js', 'resources/js/qr.js')

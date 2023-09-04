@@ -63,4 +63,4 @@
     </form>
 @endsection
 
-@section('js', '/assets/js/page-setting.js')
+@section('js', 'resources/js/page-setting.js')

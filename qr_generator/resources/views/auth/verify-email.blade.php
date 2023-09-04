@@ -11,4 +11,4 @@
     <span class="timer"></span>
 @endsection
 
-@section('js', '/assets/js/verify-email.js')
+@section('js', 'resources/js/verify-email.js')

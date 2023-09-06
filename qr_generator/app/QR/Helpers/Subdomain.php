@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Helpers;
+namespace App\QR\Helpers;
 
 final class Subdomain
 {
@@ -8,7 +8,7 @@ final class Subdomain
         string $subdomain,
         string $path = ''
     ): string {
-        return sprintf('http://%s:8888/%s', $subdomain, $path);
+        return sprintf('https://%s/%s', $subdomain, $path);
     }
 
     final public static function getSubdomain(string $host): string

@@ -27,8 +27,6 @@
     @endauth
 
     @yield('content')
-
-    <script src="@yield('js')"></script>
 </body>
 
 </html>

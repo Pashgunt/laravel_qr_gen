@@ -15,4 +15,4 @@
     </form>
 @endsection
 
-@section('js', 'resources/js/page-setting.js')
+@vite('resources/js/page-setting.js')

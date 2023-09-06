@@ -6,8 +6,8 @@ use App\Filters\FunnelConfigFilter;
 use App\Filters\FunnelFieldFilter;
 use App\Models\FunnelConfig;
 use App\Models\FunnelFields;
-use App\Qr\Repositories\FunnelConfigRepository;
-use App\Qr\Repositories\FunnelFieldsRepository;
+use App\QR\Repositories\FunnelConfigRepository;
+use App\QR\Repositories\FunnelFieldsRepository;
 use Illuminate\Http\Request;
 
 class DestroyFunnelAction

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use App\Filters\CompanyHashFilter;
 use App\Models\CompanyTableHash;
 use App\Providers\RouteServiceProvider;
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Subdomain;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

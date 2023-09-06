@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\Filters\FunnelTypeFilter;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\FunnelTypesRepository;
-use App\Qr\Services\FunnelFactory;
+use App\QR\Services\FunnelFactory;
 
 class ShowFunnelOptionsAction
 {

@@ -6,10 +6,10 @@ use App\Filters\CompanyFilter;
 use App\Filters\FeedbackFilter;
 use App\Filters\FunnelConfigFilter;
 use App\Filters\QrLinkFilter;
-use App\Qr\Services\CompanyService;
+use App\QR\Services\CompanyService;
 use App\QR\Services\FeedbackService;
-use App\Qr\Services\FunnelConfigService;
-use App\Qr\Services\QrLinkService;
+use App\QR\Services\FunnelConfigService;
+use App\QR\Services\QrLinkService;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 

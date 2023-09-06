@@ -27,7 +27,7 @@
                         @method('DELETE')
                         <button>delete setting link</button>
                     </form>
-                    <a href="{{ route('page-settings.updateLink', ['link_id' => $link->id]) }}">edit link</a>
+                    <a href="{{ route('page-settings.editsLink', ['link_id' => $link->id]) }}">edit link</a>
                 </div>
             @endforeach
         </div>

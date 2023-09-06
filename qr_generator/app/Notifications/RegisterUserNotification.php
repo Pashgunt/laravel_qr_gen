@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use App\Models\SubdomainAuth;
 use App\Models\User;
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Subdomain;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;

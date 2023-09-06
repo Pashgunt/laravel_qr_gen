@@ -52,4 +52,4 @@
     </form>
 @endsection
 
-@section('js', 'resources/js/funnel.js')
+@vite('resources/js/funnel.js')

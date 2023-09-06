@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Http\Requests\LoginRequest;
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Subdomain;
 use Illuminate\Support\Facades\Auth;
 
 class StoreLoginAction

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Services;
+namespace App\QR\Services;
 
 use App\Filters\CompanyHashFilter;
 use App\Models\CompanyTableHash;
@@ -21,8 +21,10 @@ class CompanyTableHashService
         array $data,
         Closure $next
     ): array {
-        $data['company'] = CompanyTableHash::filter($this->filters)
+        $companyTable = CompanyTableHash::filter($this->filters)
             ->first();
+        $data['company_table'] = $companyTable;
+        $data['company'] = $companyTable->getCompanyParams()->first();
         return $next($data);
     }
 

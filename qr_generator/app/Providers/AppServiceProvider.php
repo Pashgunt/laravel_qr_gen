@@ -21,19 +21,19 @@ use App\Models\User;
 use App\QR\Repositories\CompanyRepository;
 use App\QR\Repositories\CompanyTableHashRepository;
 use App\QR\Repositories\FeedbackFilterRepository;
-use App\Qr\Repositories\FunnelConfigRepository;
-use App\Qr\Repositories\FunnelFieldsRepository;
-use App\Qr\Repositories\FunnelLogicRepository;
+use App\QR\Repositories\FunnelConfigRepository;
+use App\QR\Repositories\FunnelFieldsRepository;
+use App\QR\Repositories\FunnelLogicRepository;
 use App\QR\Repositories\FunnelTypesRepository;
 use App\QR\Repositories\LocationFeedbackRepository;
 use App\QR\Repositories\NotificationConfigRepository;
-use App\Qr\Repositories\PageSettingLinksRepository;
-use App\Qr\Repositories\PageSettingRepository;
+use App\QR\Repositories\PageSettingLinksRepository;
+use App\QR\Repositories\PageSettingRepository;
 use App\QR\Repositories\QrCodeRepository;
 use App\QR\Repositories\QrLinkRepository;
 use App\QR\Repositories\QrPdfRepository;
 use App\QR\Repositories\SubdomainAuthRepository;
-use App\Qr\Repositories\UserRepository;
+use App\QR\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Qr\Services;
+namespace App\QR\Services;
 
 use App\Filters\FunnelConfigFilter;
 use App\Models\FunnelConfig;
-use App\Qr\Abstracts\Funnel;
+use App\QR\Abstracts\Funnel;
 use App\QR\DTO\FunnelDTO;
-use App\Qr\Repositories\FunnelConfigRepository;
+use App\QR\Repositories\FunnelConfigRepository;
 use Closure;
 
 class FunnelConfigService implements Funnel

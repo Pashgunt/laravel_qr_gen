@@ -46,4 +46,4 @@
     @endif
 @endsection
 
-@section('js', 'resources/js/qr.js')
+@vite('resources/js/qr.js')

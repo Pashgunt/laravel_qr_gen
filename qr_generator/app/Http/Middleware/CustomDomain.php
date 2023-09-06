@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Subdomain;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

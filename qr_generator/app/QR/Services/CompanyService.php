@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Services;
+namespace App\QR\Services;
 
 use App\Filters\CompanyFilter;
 use App\Models\Company;

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\RecoveryPasswordMailJob;
-use App\Qr\Repositories\UserRepository;
+use App\QR\Repositories\UserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

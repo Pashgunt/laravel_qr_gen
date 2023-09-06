@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Qr\Services;
+namespace App\QR\Services;
 
-use App\Qr\Abstracts\Funnel;
+use App\QR\Abstracts\Funnel;
 use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelLogicEnums;
-use App\Qr\Repositories\FunnelLogicRepository;
+use App\QR\Repositories\FunnelLogicRepository;
 use Closure;
 
 class FunnelLogicService implements Funnel

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Helpers;
+namespace App\QR\Helpers;
 
 final class Arrays
 {

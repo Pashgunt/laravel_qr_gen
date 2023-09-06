@@ -2,8 +2,8 @@
 
 namespace App\Actions;
 
-use App\Qr\Services\FunnelFieldService;
-use App\Qr\Services\FunnelLogicService;
+use App\QR\Services\FunnelFieldService;
+use App\QR\Services\FunnelLogicService;
 use App\QR\Services\FunnelTypeService;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;

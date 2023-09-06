@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Repositories;
+namespace App\QR\Repositories;
 
 use App\QR\Abstracts\Repositories;
 use Illuminate\Database\Eloquent\Model;

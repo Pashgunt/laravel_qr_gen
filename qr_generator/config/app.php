@@ -1,7 +1,7 @@
 <?php
 
-use App\Qr\Helpers\Arrays;
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Arrays;
+use App\QR\Helpers\Subdomain;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use SimpleSoftwareIO\QrCode\QrCodeServiceProvider;

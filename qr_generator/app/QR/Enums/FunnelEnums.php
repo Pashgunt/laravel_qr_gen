@@ -3,9 +3,9 @@
 namespace App\QR\Enums;
 
 use App\QR\Abstracts\FunnelEnums as AbstractsFunnelEnums;
-use App\Qr\Services\FunnelConfigService;
-use App\Qr\Services\FunnelFieldService;
-use App\Qr\Services\FunnelLogicService;
+use App\QR\Services\FunnelConfigService;
+use App\QR\Services\FunnelFieldService;
+use App\QR\Services\FunnelLogicService;
 use App\QR\Services\FunnelTypeService;
 
 enum FunnelEnums: string implements AbstractsFunnelEnums

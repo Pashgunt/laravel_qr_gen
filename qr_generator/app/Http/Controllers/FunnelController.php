@@ -18,7 +18,7 @@ use App\Http\Requests\FunnelRequest;
 use App\Models\Company;
 use App\Models\FunnelFields;
 use App\QR\Enums\FunnelOperatorEnums;
-use App\Qr\Repositories\FunnelFieldsRepository;
+use App\QR\Repositories\FunnelFieldsRepository;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 

@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\Filters\FunnelFieldFilter;
 use App\Http\Requests\FieldRequest;
 use App\Models\FunnelFields;
-use App\Qr\Repositories\FunnelFieldsRepository;
+use App\QR\Repositories\FunnelFieldsRepository;
 
 class UpdateFunnelFieldAction
 {

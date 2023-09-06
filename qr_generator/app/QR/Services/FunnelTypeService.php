@@ -5,7 +5,7 @@ namespace App\QR\Services;
 use App\Filters\FunnelTypeFilter;
 use App\Models\Feedback;
 use App\Models\FunnelTypes;
-use App\Qr\Abstracts\Funnel;
+use App\QR\Abstracts\Funnel;
 use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelEnums;
 use App\QR\Repositories\FunnelTypesRepository;

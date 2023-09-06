@@ -4,8 +4,8 @@ namespace App\Actions;
 
 use App\Filters\FunnelConfigFilter;
 use App\QR\Enums\FunnelEnums;
-use App\Qr\Repositories\FunnelConfigRepository;
-use App\Qr\Services\FunnelFactory;
+use App\QR\Repositories\FunnelConfigRepository;
+use App\QR\Services\FunnelFactory;
 
 class ShowFunnelConfigAction
 {

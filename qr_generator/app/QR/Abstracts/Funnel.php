@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Qr\Abstracts;
+namespace App\QR\Abstracts;
 
 use App\QR\DTO\FunnelDTO;
 

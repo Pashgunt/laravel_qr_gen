@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\RegisterUserAction;
 use App\Http\Requests\RegistrationRequest;
-use App\Qr\Helpers\Subdomain;
+use App\QR\Helpers\Subdomain;
 
 class RegistrationController extends Controller
 {

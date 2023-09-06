@@ -125,7 +125,7 @@ Route::middleware(['auth', 'verified', 'subdomain'])
                 Route::delete('/link/{link_id}/delete', [FeedbackPageSettingsController::class, 'destroyPageSettingLink'])
                     ->name('destroyLink');
                 Route::get('/link/{link_id}/update', [FeedbackPageSettingsController::class, 'editPageSettingLink'])
-                    ->name('updateLink');
+                    ->name('editLink');
                 Route::put('/link/{link_id}/update', [FeedbackPageSettingsController::class, 'updatePageSettingLink'])
                     ->name('updateLink');
             });

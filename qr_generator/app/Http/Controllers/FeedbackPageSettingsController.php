@@ -11,8 +11,8 @@ use App\Models\Company;
 use App\Models\PageSetings;
 use App\Models\PageSettingLinks;
 use App\QR\Enums\PageTypeSetings;
-use App\Qr\Repositories\PageSettingLinksRepository;
-use App\Qr\Repositories\PageSettingRepository;
+use App\QR\Repositories\PageSettingLinksRepository;
+use App\QR\Repositories\PageSettingRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 

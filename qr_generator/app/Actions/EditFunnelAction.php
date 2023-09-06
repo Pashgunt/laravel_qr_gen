@@ -5,9 +5,9 @@ namespace App\Actions;
 use App\Filters\FunnelConfigFilter;
 use App\Http\Requests\FunnelRequest;
 use App\Models\FunnelConfig;
-use App\Qr\Repositories\FunnelConfigRepository;
-use App\Qr\Services\FunnelFieldService;
-use App\Qr\Services\FunnelLogicService;
+use App\QR\Repositories\FunnelConfigRepository;
+use App\QR\Services\FunnelFieldService;
+use App\QR\Services\FunnelLogicService;
 use Illuminate\Pipeline\Pipeline;
 
 class EditFunnelAction

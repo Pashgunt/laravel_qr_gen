@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Qr\Services;
+namespace App\QR\Services;
 
 use App\Filters\FunnelFieldFilter;
 use App\Models\FunnelFields;
-use App\Qr\Abstracts\Funnel;
+use App\QR\Abstracts\Funnel;
 use App\QR\DTO\FunnelDTO;
 use App\QR\Enums\FunnelLogicEnums;
 use App\QR\Enums\FunnelOperatorEnums;
-use App\Qr\Repositories\FunnelFieldsRepository;
+use App\QR\Repositories\FunnelFieldsRepository;
 use Closure;
 
 class FunnelFieldService implements Funnel

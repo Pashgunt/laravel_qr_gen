@@ -5,8 +5,8 @@ namespace App\Actions;
 use App\Filters\PageSettingsFilter;
 use App\Http\Requests\PageSettingFeedbackRequest;
 use App\Models\PageSetings;
-use App\Qr\Repositories\PageSettingLinksRepository;
-use App\Qr\Repositories\PageSettingRepository;
+use App\QR\Repositories\PageSettingLinksRepository;
+use App\QR\Repositories\PageSettingRepository;
 
 class StorePageSetingAction
 {

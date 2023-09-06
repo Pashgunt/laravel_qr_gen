@@ -4,7 +4,7 @@ namespace App\Actions;
 
 use App\Filters\CompanyHashFilter;
 use App\Filters\FeedbackFilter;
-use App\Qr\Services\CompanyTableHashService;
+use App\QR\Services\CompanyTableHashService;
 use App\QR\Services\FeedbackService;
 use App\QR\Services\Rating;
 use Illuminate\Http\Request;

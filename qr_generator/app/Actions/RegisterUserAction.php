@@ -5,7 +5,7 @@ namespace App\Actions;
 use App\Events\RegisteredUser;
 use App\Http\Requests\RegistrationRequest;
 use App\QR\Repositories\SubdomainAuthRepository;
-use App\Qr\Repositories\UserRepository;
+use App\QR\Repositories\UserRepository;
 
 class RegisterUserAction
 {

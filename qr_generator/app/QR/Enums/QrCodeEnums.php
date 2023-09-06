@@ -9,7 +9,7 @@ enum QrCodeEnums: string implements FunnelEnums
     case SIZE = '300';
     case IMG_QR_CODE = 'img';
     case PDF_QR_CODE = 'pdf';
-    case QR_PREFIX = 'feed.localhost:8888/location';
+    case QR_PREFIX = 'feed.review-feedback.ru/location';
 
     public static function getAssociations(): array
     {

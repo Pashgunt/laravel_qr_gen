@@ -4,7 +4,6 @@
         {{ $data['company_table']->table_number }}@else-
     @endif) {{ $data['company']->adress }}
 @endsection
-
 @section('content')
     <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
         <img src="{{ URL('img/beams.jpg') }}" alt=""
@@ -34,42 +33,42 @@
                             <div class="flex justify-center align-items-center gap-5 lg:gap-8">
                                 <label class="location-form__radio radio" for="angry">
                                     <input class="radio__input hidden" id="angry" type="radio" name="rating"
-                                        value="1">
+                                        @checked(old('rating') == '1') value="1">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/angry.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/angry.png)] bg-center bg-contain {{ old('rating') == '1' ? '' : 'opacity-30' }} hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
                                 <label class="location-form__radio radio" for="sad">
                                     <input class="radio__input hidden" id="sad" type="radio" name="rating"
-                                        value="2">
+                                        @checked(old('rating') == '2') value="2">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/sad.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/sad.png)] bg-center bg-contain {{ old('rating') == '2' ? '' : 'opacity-30' }} hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="neutral">
                                     <input class="radio__input hidden" id="neutral" type="radio" name="rating"
-                                        value="3">
+                                        @checked(old('rating') == '3') value="3">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/neutral.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/neutral.png)] bg-center bg-contain {{ old('rating') == '3' ? '' : 'opacity-30' }} hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="positive">
                                     <input class="radio__input hidden" id="positive" type="radio" name="rating"
-                                        value="4">
+                                        @checked(old('rating') == '4') value="4">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/positive.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/positive.png)] bg-center bg-contain {{ old('rating') == '4' ? '' : 'opacity-30' }} hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="happy">
                                     <input class="radio__input hidden" id="happy" type="radio" name="rating"
-                                        value="5">
+                                        @checked(old('rating') == '5') value="5">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/happy.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/happy.png)] bg-center bg-contain {{ old('rating') == '5' ? '' : 'opacity-30' }} hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
                             </div>
                         </div>
-                        @error('feedback_text')
-                            <p class="mt-2 text-sm text-red-600 text-center">
-                                <span class="font-medium">Необходимо оставить отзыв!</span>
+                        @error('rating')
+                            <p class="my-2 text-sm text-red-600 text-center">
+                                <span class="font-medium">{{ $message }}</span>
                             </p>
                         @enderror
                         <div class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 text-center text-xs bad-rating-notice"
@@ -89,15 +88,16 @@
                                 @error('feedback_text')
                                 bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
                                 @enderror
-                                "></textarea>
+                                ">{{ old('feedback_text') }}</textarea>
                             @error('feedback_text')
                                 <p class="mt-2 text-sm text-red-600">
-                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                    <span class="font-medium">Ошибка!</span> {{ $message }}
                                 </p>
                             @enderror
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer mb-3">
-                            <input type="checkbox" value="on" class="sr-only peer contact-from-toggle">
+                            <input type="checkbox" value="on" class="sr-only peer contact-from-toggle" name="is_contact"
+                                @checked(old('is_contact') == 'on') id="is_contact">
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
                             </div>
@@ -105,20 +105,36 @@
                                 связались?</span>
                         </label>
                         <div class="contact-form-data grid md:grid-cols-2 gap-2">
-                            <input type="text" name="name" id="name" placeholder="Имя"
-                                class="
-                            bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                            @error('name')
-                            bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
-                            @enderror
-                            ">
-                            <input type="text" name="contact" id="contact" placeholder="Телефон или почта"
-                                class="
+                            <div>
+                                <input type="text" name="name" id="name" placeholder="Имя"
+                                    value="{{ old('name') }}"
+                                    class="
                                 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                                @error('contact')
+                                @error('name')
                                 bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
                                 @enderror
                                 ">
+                                @error('name')
+                                    <p class="mt-2 text-sm text-red-600">
+                                        <span class="font-medium">Ошибка!</span> {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
+                            <div>
+                                <input type="text" name="contact" id="contact" placeholder="Телефон или почта"
+                                    value="{{ old('contact') }}"
+                                    class="
+                                    bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                                    @error('contact')
+                                    bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
+                                    @enderror
+                                    ">
+                                @error('contact')
+                                    <p class="mt-2 text-sm text-red-600">
+                                        <span class="font-medium">Ошибка!</span> {{ $message }}
+                                    </p>
+                                @enderror
+                            </div>
                         </div>
                         <button
                             class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5 w-full">

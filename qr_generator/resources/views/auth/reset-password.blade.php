@@ -45,7 +45,7 @@
                                 placeholder="email@mail.ru" value="{{ old('email') }}">
                             @error('email')
                                 <p class="mt-2 text-sm text-red-600">
-                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                    <span class="font-medium">Ошибка!</span> {{ $message }}
                                 </p>
                             @enderror
                         </div>
@@ -64,7 +64,7 @@
                                 placeholder="•••••••••" required>
                             @error('password')
                                 <p class="mt-2 text-sm text-red-600">
-                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                    <span class="font-medium">Ошибка!</span> {{ $message }}
                                 </p>
                             @enderror
                         </div>
@@ -84,7 +84,7 @@
                                 placeholder="•••••••••" required>
                             @error('password_confirmation')
                                 <p class="mt-2 text-sm text-red-600">
-                                    <span class="font-medium">Ошибка!</span> текст ошибки
+                                    <span class="font-medium">Ошибка!</span> {{ $message }}
                                 </p>
                             @enderror
                             <p id="helper-text-explanation" class="mt-2 text-xs italic text-gray-500">

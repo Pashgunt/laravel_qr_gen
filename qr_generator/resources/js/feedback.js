@@ -7,7 +7,7 @@ $(function () {
     $(noticeBadRating).hide();
 
     const init = function () {
-        $(contactForm).hide();
+        if (!$(contactFormToggle).prop('checked')) $(contactForm).hide();
     };
 
     init();

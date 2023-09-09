@@ -16,7 +16,23 @@ class PasswordRequest extends FormRequest implements RequestInterface
     public function rules(): array
     {
         return [
-            'email' => 'required|email'
+            'email' => 'required|email|exists:users,email'
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'email' => 'Почта',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Поле обязательно к заполнению',
+            'email.email' => 'Укажите корректную почту',
+            'email.exists' => 'Укажите корректную почту',
         ];
     }
 

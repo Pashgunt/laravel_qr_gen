@@ -18,7 +18,7 @@ class ResetPasswordRequest extends FormRequest implements RequestInterface
     {
         return [
             'token' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => Password::min(8)
                 ->letters()
                 ->mixedCase()
@@ -26,6 +26,27 @@ class ResetPasswordRequest extends FormRequest implements RequestInterface
                 ->symbols()
                 ->uncompromised(),
             'password_confirmation' => 'required|same:password',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'email' => 'Почта',
+            'password' => 'Пароль',
+            'password_confirmation' => 'Подтверждение пароля',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Поле обязательно к заполнению',
+            'email.email' => 'Укажите корректную почту',
+            'email.exists' => 'Укажите корректную почту',
+            'password.*' => 'Пароль должен содержать буквы в верхнем и нижнем регистре, цифры, спец-символы',
+            'password_confirmation.required' => 'Поле обязательно к заполнению',
+            'password_confirmation.same' => 'Не совпадает с полем Пароль',
         ];
     }
 

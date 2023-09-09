@@ -78,7 +78,7 @@
                                     placeholder="email@mail.ru" value="{{ old('email') }}">
                                 @error('email')
                                     <p class="mt-2 text-sm text-red-600">
-                                        <span class="font-medium">Ошибка!</span> текст ошибки
+                                        <span class="font-medium">Ошибка!</span> {{ $message }}
                                     </p>
                                 @enderror
                             </div>
@@ -111,9 +111,11 @@
             </div>
             <a href="{{ url()->previous() }}"
                 class="animate-bounce w-max mx-auto mt-7 text-gray-700 border border-gray-700 cursor-pointer hover:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center flex items-center justify-self-center">
-                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 12 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4m6-8L7 5l4 4"/>
-                  </svg>
+                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 1 1 5l4 4m6-8L7 5l4 4" />
+                </svg>
             </a>
         </div>
     </div>

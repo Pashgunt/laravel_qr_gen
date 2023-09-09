@@ -18,13 +18,30 @@ class LoginRequest extends FormRequest implements RequestInterface
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|exists:users,email',
             'password' => Password::min(8)
                 ->letters()
                 ->mixedCase()
                 ->numbers()
                 ->symbols()
                 ->uncompromised(),
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'email' => 'Почта',
+            'password' => 'Пароль',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Поле обязательно к заполнению',
+            'email.email' => 'Укажите корректную почту',
+            'email.exists' => 'Укажите корректную почту',
         ];
     }
 

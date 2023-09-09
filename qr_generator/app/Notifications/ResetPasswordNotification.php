@@ -25,12 +25,14 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
 
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)->view(
-            'mail.recovery-password',
-            [
-                'link' => $this->url,
-            ]
-        );
+        return (new MailMessage)
+            ->subject('Смена пароля')
+            ->markdown(
+                'mail.recovery-password',
+                [
+                    'link' => $this->url,
+                ]
+            );
     }
 
     public function toArray(object $notifiable): array

@@ -3,7 +3,6 @@
 namespace App\QR\Repositories;
 
 use App\QR\Abstracts\Repositories;
-use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;

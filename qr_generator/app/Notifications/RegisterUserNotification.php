@@ -31,7 +31,8 @@ class RegisterUserNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->view(
+            ->subject('Подтверждение регистрации')
+            ->markdown(
                 'mail.register',
                 [
                     'link' => Subdomain::generateRedirectUrl(

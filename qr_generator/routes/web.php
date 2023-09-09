@@ -37,7 +37,7 @@ Route::middleware(['guest', 'throttle:authorization'])
     ->group(function () {
         Route::get('/', [GuestController::class, 'index'])
             ->name(RouteServiceProvider::ROUTE_NAME_GUEST);
-        Route::view('/404', 'components.404')
+        Route::view('/404', 'errors.404')
             ->name('404');
         Route::prefix('/registration')
             ->name('registration.')

@@ -39,7 +39,8 @@ class SendEmailAfterFeedbackNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->view(
+            ->subject('Новый отзыв')
+            ->markdown(
                 'mail.feedback',
                 [
                     'feedback' => $this->feedback,

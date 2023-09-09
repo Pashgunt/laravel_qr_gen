@@ -10,7 +10,7 @@
         <img src="{{ URL('img/beams.jpg') }}" alt=""
             class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
         <div
-            class="absolute inset-0 bg-[url({{ URL('img/grid.svg') }}''))] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
+            class="absolute inset-0 bg-[url(/public/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
         </div>
         <div class="relative box-border px-1 md:px-10 mb-10 text-center">
             <h1 class="font-mono font-semibold tracking-wide text-center mb-2 text-2xl lg:text-3xl">
@@ -36,34 +36,34 @@
                                     <input class="radio__input hidden" id="angry" type="radio" name="rating"
                                         value="1">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url({{ URL('img/smiles/angry.png') }})] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/angry.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
                                 <label class="location-form__radio radio" for="sad">
                                     <input class="radio__input hidden" id="sad" type="radio" name="rating"
                                         value="2">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url({{ URL('img/smiles/sad.png') }})] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/sad.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="neutral">
                                     <input class="radio__input hidden" id="neutral" type="radio" name="rating"
                                         value="3">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url({{ URL('img/smiles/neutral.png') }})] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/neutral.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="positive">
                                     <input class="radio__input hidden" id="positive" type="radio" name="rating"
                                         value="4">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url({{ URL('img/smiles/positive.png') }})] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/positive.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
 
                                 <label class="location-form__radio radio" for="happy">
                                     <input class="radio__input hidden" id="happy" type="radio" name="rating"
                                         value="5">
                                     <span
-                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url({{ URL('img/smiles/happy.png') }})] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
+                                        class="block w-9 h-9 lg:w-11 lg:h-11 xl:w-14 xl:h-14 bg-[url(/public/img/smiles/happy.png)] bg-center bg-contain opacity-30 hover:opacity-100 hover:cursor-pointer transition-opacity"></span>
                                 </label>
                             </div>
                         </div>

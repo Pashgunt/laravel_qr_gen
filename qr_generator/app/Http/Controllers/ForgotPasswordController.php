@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Jobs\RecoveryPasswordMailJob;
+use App\QR\Helpers\Subdomain;
 use App\QR\Repositories\UserRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,11 @@ class ForgotPasswordController extends Controller
         Auth::logoutOtherDevices($userDTO->getPasswordOrigin());
 
         return $status === Password::PASSWORD_RESET
-            ? redirect(route('login'))->with('status', __($status))
+            ? redirect()
+            ->away(
+                Subdomain::generateRedirectUrl(Subdomain::getSubdomain($request->getHost()), 'login')
+            )
+            ->with('email', $userDTO->getEmail())
             : redirect()->back()->withErrors(['email' => [__($status)]]);
     }
 }

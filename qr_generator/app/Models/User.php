@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $subdomain = Auth::guard('subdomain')->subdomain();
         $url = Subdomain::generateRedirectUrl(
             $subdomain->subdomain,
-            sprintf('%s?email=%s', $token, $this->email)
+            sprintf('reset-password/%s?email=%s', $token, $this->email)
         );
         return $this->notify(new ResetPasswordNotification($url));
     }

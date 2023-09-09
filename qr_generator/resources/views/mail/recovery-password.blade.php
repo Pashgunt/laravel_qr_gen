@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@component('mail::message')
+Смена пароля {{ config('app.name') }}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+@component('mail::panel')
+Для смены пароля передите по ссылке ниже
+@endcomponent
 
-<body>
-    <a href="{{ $link }}">Link</a>
-</body>
-
-</html>
+@component('mail::button', ['url' => $link])
+Сменить пароль
+@endcomponent

@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/funnel.js',
                 'resources/js/page-setting.js',
                 'resources/js/qr.js',
+                'resources/js/password.js',
                 'resources/js/verify-email.js',
             ],
             refresh: true,

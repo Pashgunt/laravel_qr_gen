@@ -20,13 +20,15 @@
             <a href="{{ route('qr.index') }}">QR</a>
             <a href="{{ route('feedback.index') }}">Feedbacks</a>
             <a href="{{ route('funnel.index') }}">Воронки</a>
-            <a href="{{route('page-settings.index')}}">Настройки страниц</a>
-            <a href="{{route('notification-config.index')}}">Настройки уведомлений</a>
+            <a href="{{ route('page-settings.index') }}">Настройки страниц</a>
+            <a href="{{ route('notification-config.index') }}">Настройки уведомлений</a>
             <a href="{{ route('login.destroy') }}">Logout</a>
         </menu>
     @endauth
 
     @yield('content')
+
+    @vite('resources/js/main.js')
 </body>
 
 </html>

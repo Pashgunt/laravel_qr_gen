@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Http\Requests\LoginRequest;
 use App\QR\Helpers\Subdomain;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StoreLoginAction
@@ -14,7 +15,7 @@ class StoreLoginAction
         $result = Auth::guard('web')->attempt([
             'email' => $userDTO->getEmail(),
             'password' => $userDTO->getPasswordOrigin()
-        ]);
+        ], (int)app(Request::class)->remember_me);
         $subdomain = '';
 
         if ($result) {

@@ -56,9 +56,9 @@
                             <label for="input-group-1"
                                 class="block mb-2 text-sm font-medium text-gray-900 @error('email') text-red-500 @enderror"
                                 for="email">
-                                Ваша Почта <span class="text-red-600 font-bold">*</span>
+                                Почта <span class="text-red-600 font-bold">*</span>
                             </label>
-                            <div class="relative mb-4">
+                            <div class="relative mb-5">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                                     <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
@@ -85,7 +85,7 @@
 
                             <div class="flex items-center justify-center flex-col">
                                 <button
-                                    class="text-white
+                                    class="text-white w-full md:w-max justify-center
                                 inline-flex items-center
                                 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4
                                 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5
@@ -99,19 +99,72 @@
                                     </svg>
                                     Отправить письмо
                                 </button>
-                                <p id="helper-text-explanation" class="mt-2 text-center text-sm italic text-gray-500">
+                                <span id="helper-text-explanation" class="mt-2 text-center text-sm italic text-gray-500"
+                                    x-data="{ show: false }">
                                     После отправки письма вам на почту придёт сообщение с ссылкой, по которой нужно перейти
-                                    <a href="" class="not-italic font-medium text-blue-600 hover:underline">Подробнее
-                                        ...</a>
-                                </p>
+                                    <div href=""
+                                        class="not-italic font-medium mt-2 text-blue-600 cursor-pointer hover:underline"
+                                        @click="show = !show">Подробнее</div>
+                                    <div class="relative z-10 not-italic" :class="!show ? 'hidden' : 'show'"
+                                        id="defaultModal" tabindex="-1" aria-hidden="true" role="dialog">
+                                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                                            @click="show = !show"></div>
+
+                                        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                                            <div
+                                                class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                                                <div
+                                                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                                        <div class="">
+                                                            <div
+                                                                class="mx-auto flex w-16 h-16 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mb-4">
+                                                                <svg class="w-6 h-6 text-blue-500" aria-hidden="true"
+                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 20 20">
+                                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                                        stroke-linejoin="round" stroke-width="2"
+                                                                        d="M7.529 7.988a2.502 2.502 0 0 1 5 .191A2.441 2.441 0 0 1 10 10.582V12m-.01 3.008H10M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                            </div>
+                                                            <div class="mt-3 text-center sm:ml-4">
+                                                                <h3 class="text-xl font-semibold leading-6 text-gray-900"
+                                                                    id="modal-title">Восстановление пароля
+                                                                </h3>
+                                                                <div class="mt-2">
+                                                                    <p class="text-sm text-gray-500">
+                                                                        После отправки формы для восстановления пароля Вам
+                                                                        на почту, которую Вы указали,
+                                                                        придёт
+                                                                        письмо с ссылкой, которая ведёт на форму обновления
+                                                                        пароля.
+                                                                        Если в течении 5 минут письмо не пришло, отправьте
+                                                                        ещё раз.
+                                                                        Ссылка из письма для восстановления пароля действует
+                                                                        только 5 минут после получения письма.
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="px-4 py-3 sm:px-6">
+                                                        <button type="button"
+                                                            class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 mx-auto"
+                                                            @click="show = !show">Ок</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <a href="{{ url()->previous() }}"
-                class="animate-bounce w-max mx-auto mt-7 text-gray-700 border border-gray-700 cursor-pointer hover:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center flex items-center justify-self-center">
-                <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                class="animate-bounce w-max mx-auto mt-7 text-gray-300 border border-gray-300 cursor-pointer hover:text-white ring-2 focus:outline-none ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center flex items-center justify-self-center">
+                <svg class="w-6 h-6 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 12 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M5 1 1 5l4 4m6-8L7 5l4 4" />

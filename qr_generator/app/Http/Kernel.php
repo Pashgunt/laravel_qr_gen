@@ -6,6 +6,7 @@ use App\Http\Middleware\CustomDomain;
 use App\Http\Middleware\FunnelTructID;
 use App\Http\Middleware\LocationFeedbackHashResultMiddleware;
 use App\Http\Middleware\LocationHash;
+use App\Http\Middleware\ResetPasswordToken;
 use App\Http\Middleware\SubdomainAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -79,5 +80,6 @@ class Kernel extends HttpKernel
         'funnel' => FunnelTructID::class,
         'subdomain' => SubdomainAuth::class,
         'location.result' => LocationFeedbackHashResultMiddleware::class,
+        'recovery.password' => ResetPasswordToken::class,
     ];
 }

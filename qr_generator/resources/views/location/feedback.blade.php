@@ -101,7 +101,7 @@
                             <div
                                 class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
                             </div>
-                            <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Хотите, чтобы с Вами
+                            <span class="ml-3 text-sm font-medium text-gray-900">Хотите, чтобы с Вами
                                 связались?</span>
                         </label>
                         <div class="contact-form-data grid md:grid-cols-2 gap-2">
@@ -137,7 +137,7 @@
                             </div>
                         </div>
                         <button
-                            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5 w-full">
+                            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5 w-full">
                             Отправить
                         </button>
                     </form>

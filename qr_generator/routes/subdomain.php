@@ -34,7 +34,8 @@ Route::middleware(['guest'])
                         Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
                             ->name('email');
                     });
-                Route::prefix('/reset-password')
+                Route::middleware(['recovery.password'])
+                    ->prefix('/reset-password')
                     ->group(function () {
                         Route::get('/{token}', [ForgotPasswordController::class, 'resetPasswordIndex'])
                             ->name('reset')

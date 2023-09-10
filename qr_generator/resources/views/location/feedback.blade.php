@@ -5,12 +5,7 @@
     @endif) {{ $data['company']->adress }}
 @endsection
 @section('content')
-    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-        <img src="{{ URL('img/beams.jpg') }}" alt=""
-            class="absolute top-1/2 left-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
-        <div
-            class="absolute inset-0 bg-[url(/public/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
-        </div>
+    <x-specilas.wrapper>
         <div class="relative box-border px-1 md:px-10 mb-10 text-center">
             <h1 class="font-mono font-semibold tracking-wide text-center mb-2 text-2xl lg:text-3xl">
                 {{ $data['company']->name }} (стол @if ($data['company_table']->table_number)
@@ -23,10 +18,9 @@
             <div
                 class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-full h-max">
                 <div class="mx-auto">
-                    <h1 class="font-mono font-semibold tracking-wide text-center mb-6 text-2xl lg:text-3xl">
-                        Оставьте отзыв
-                    </h1>
-                    <form action="{{ route('location.store', ['qr' => app('request')->route()->parameter('qr')]) }}"
+                    <x-forms.title separator="0" title='Оставьте отзыв' />
+                    <form class="mt-7"
+                        action="{{ route('location.store', ['qr' => app('request')->route()->parameter('qr')]) }}"
                         method="POST">
                         @csrf
                         <div class="mb-5 mx-auto">
@@ -82,64 +76,19 @@
                             Заполните личные данные и с Вами обяхательно свяжутся!
                         </div>
                         <div class="mb-2">
-                            <textarea name="feedback_text" id="feedback_text" cols="30" rows="10" placeholder="Текст отзыва"
-                                class="
-                                bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                                @error('feedback_text')
-                                bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
-                                @enderror
-                                ">{{ old('feedback_text') }}</textarea>
-                            @error('feedback_text')
-                                <p class="mt-2 text-sm text-red-600">
-                                    <span class="font-medium">Ошибка!</span> {{ $message }}
-                                </p>
-                            @enderror
+                            <x-forms.fields.textarea label='' show-error='1' name='feedback_text'
+                                show-error-message='1' placeholder='Текст отзыва' />
                         </div>
-                        <label class="relative inline-flex items-center cursor-pointer mb-3">
-                            <input type="checkbox" value="on" class="sr-only peer contact-from-toggle" name="is_contact"
-                                @checked(old('is_contact') == 'on') id="is_contact">
-                            <div
-                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600">
-                            </div>
-                            <span class="ml-3 text-sm font-medium text-gray-900">Хотите, чтобы с Вами
-                                связались?</span>
-                        </label>
+                        <x-forms.fields.checkbox label="Хотите, чтобы с Вами связались?" show-error="0" name="is_contact"
+                            show-error-message="0" />
                         <div class="contact-form-data grid md:grid-cols-2 gap-2">
-                            <div>
-                                <input type="text" name="name" id="name" placeholder="Имя"
-                                    value="{{ old('name') }}"
-                                    class="
-                                bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                                @error('name')
-                                bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
-                                @enderror
-                                ">
-                                @error('name')
-                                    <p class="mt-2 text-sm text-red-600">
-                                        <span class="font-medium">Ошибка!</span> {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
-                            <div>
-                                <input type="text" name="contact" id="contact" placeholder="Телефон или почта"
-                                    value="{{ old('contact') }}"
-                                    class="
-                                    bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
-                                    @error('contact')
-                                    bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 
-                                    @enderror
-                                    ">
-                                @error('contact')
-                                    <p class="mt-2 text-sm text-red-600">
-                                        <span class="font-medium">Ошибка!</span> {{ $message }}
-                                    </p>
-                                @enderror
-                            </div>
+                            <x-forms.fields.input label='' show-error='1' name='name' show-error-message='1'
+                                placeholder='Имя' />
+                            <x-forms.fields.input label='' show-error='1' name='contact' show-error-message='1'
+                                placeholder='Телефон или почта' />
                         </div>
-                        <button
-                            class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5 w-full">
-                            Отправить
-                        </button>
+                        <x-forms.button text="Отправить"
+                            class='text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 mt-5 w-full' />
                     </form>
                 </div>
             </div>
@@ -185,7 +134,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-specilas.wrapper>
 @endsection
 
 @vite('resources/js/feedback.js')

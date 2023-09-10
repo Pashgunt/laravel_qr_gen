@@ -29,6 +29,7 @@
     @yield('content')
 
     @vite('resources/js/main.js')
+    @vite('resources/js/password.js')
 </body>
 
 </html>

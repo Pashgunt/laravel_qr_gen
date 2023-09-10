@@ -10,12 +10,7 @@
 </head>
 
 <body>
-    <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-        <img src="/img/beams.jpg" alt=""
-            class="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2" width="1308" />
-        <div
-            class="absolute inset-0 bg-[url(/public/img/grid.svg)] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]">
-        </div>
+    <x-specilas.wrapper>
         <div class="relative box-border px-2">
             <div
                 class="relative mx-auto w-full rounded-lg bg-white px-10 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:px-5 md:w-4/5 lg:w-1/2">
@@ -33,7 +28,7 @@
                         <path
                             d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
                     </svg>
-                    <p>"{{ $page['feedback']->feedback_text ?? - }}"</p>
+                    <p>"{{ $page['feedback']->feedback_text ?? '-' }}"</p>
                 </blockquote>
 
                 @if ($page['pageSettingLinks'])
@@ -57,7 +52,7 @@
                 @endif
             </div>
         </div>
-    </div>
+    </x-specilas.wrapper>
 </body>
 
 </html>

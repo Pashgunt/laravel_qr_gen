@@ -2,12 +2,15 @@
 
 namespace App\View\Components\Forms\Fields;
 
+use App\QR\Abstracts\ComponentClassesTrait;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Input extends Component
 {
+    use ComponentClassesTrait;
+
     public string $label;
     public string $showError;
     public string $name;
@@ -40,13 +43,13 @@ class Input extends Component
 
     public function getClassLabelError(): string
     {
-        return $this->isShowError() ? 'text-red-500' : '';
+        return $this->isShowError() ? $this->getLabelErrorClassName() : '';
     }
 
     public function getClassInputError(): string
     {
         return $this->isShowError()
-            ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5'
+            ? $this->getInputErrorClassName()
             : '';
     }
 

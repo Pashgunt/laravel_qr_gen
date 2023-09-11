@@ -42,9 +42,9 @@
                         @endforeach
                     </div>
                 @endif
-                <hr class="mx-auto my-5 h-1 w-48 rounded border-0 bg-gray-100 md:mt-10" />
 
                 @if ($page['pageSetting'] && $page['pageSetting']->show_company_info && $page['company']->link)
+                    <hr class="mx-auto my-5 h-1 w-48 rounded border-0 bg-gray-100 md:mt-10" />
                     <div class="text-center">
                         <a href="{{ $page['company']->link }}"
                             class="font-medium text-blue-600 hover:underline">{{ $page['company']->name }}</a>

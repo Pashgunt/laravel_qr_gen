@@ -4,8 +4,8 @@ $(document).ready(function () {
         seconds = 60,
         availableSend = false;
 
-    timer.html(seconds);
     const startTimer = function () {
+        timer.html(seconds);
         availableSend = false;
         const inetrvalID = setInterval(function () {
             if (!seconds) {

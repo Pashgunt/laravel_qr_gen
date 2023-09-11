@@ -8,6 +8,7 @@ use App\Http\Middleware\LocationFeedbackHashResultMiddleware;
 use App\Http\Middleware\LocationHash;
 use App\Http\Middleware\ResetPasswordToken;
 use App\Http\Middleware\SubdomainAuth;
+use App\Http\Middleware\VerifiedResult;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Session\Middleware\AuthenticateSession;
 
@@ -81,5 +82,6 @@ class Kernel extends HttpKernel
         'subdomain' => SubdomainAuth::class,
         'location.result' => LocationFeedbackHashResultMiddleware::class,
         'recovery.password' => ResetPasswordToken::class,
+        'verified.result' => VerifiedResult::class,
     ];
 }

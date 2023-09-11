@@ -53,7 +53,8 @@ Route::middleware(['auth', 'throttle:authorization', 'subdomain'])
             ->name('verification.')
             ->group(function () {
                 Route::get('/verify', [EmailController::class, 'index'])
-                    ->name('notice');
+                    ->name('notice')
+                    ->middleware('verified.result');
                 Route::get('/verify/{id}/{hash}', [EmailController::class, 'init'])
                     ->name('verify')
                     ->whereAlphaNumeric('hash');

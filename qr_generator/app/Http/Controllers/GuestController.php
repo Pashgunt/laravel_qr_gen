@@ -6,8 +6,9 @@ use Illuminate\Contracts\View\View;
 
 class GuestController extends Controller
 {
-    public function index(): View
+    public function index()
     {
-        return view('guest.guest');
+        return redirect(route('registration.index'));
+        // return view('guest.guest');
     }
 }

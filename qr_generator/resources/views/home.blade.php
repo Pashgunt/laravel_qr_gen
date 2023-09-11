@@ -3,5 +3,5 @@
 @section('title', 'Home')
 
 @section('content')
-    Home
+    Welcome to Home page
 @endsection

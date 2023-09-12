@@ -22,11 +22,11 @@ class LoginController extends Controller
         StoreLoginAction $storeLogin
     ) {
         $result = $storeLogin->handle($request);
-        return $this->makePrepareResponseForSubdomain(
+        return $this->prepareResultForUpdate(
             $result['result'],
             'Welcome',
             'Error Login',
-            Subdomain::generateRedirectUrl($result['subdomain'], RouteServiceProvider::HOME)
+            RouteServiceProvider::HOME
         );
     }
 

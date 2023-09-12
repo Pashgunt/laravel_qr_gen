@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\View\View;
+use App\QR\Helpers\Subdomain;
 
 class GuestController extends Controller
 {
     public function index()
     {
-        return redirect(route('registration.index'));
-        // return view('guest.guest');
+        return redirect()->away(Subdomain::generateRedirectUrl(env('APP_URL'), 'registration'));;
     }
 }

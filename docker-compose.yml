@@ -63,6 +63,7 @@ services:
     environment:
       - VIRTUAL_HOST=phpmyadmin.local
       - PMA_HOST=mysql
+      - PMA_ABSOLUTE_URI=https://review-feedback.ru/phpmyadmin/
     networks:
       - qr_generator
 volumes:

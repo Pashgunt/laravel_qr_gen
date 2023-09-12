@@ -29,8 +29,6 @@ class StoreLoginAction
             ]);
         }
 
-        dd($result,$subdomain);
-
         return compact('result', 'subdomain');
     }
 }

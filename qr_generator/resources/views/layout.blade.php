@@ -30,7 +30,7 @@
     <meta name="msapplication-config" content="{{ URL('/img/icons/browserconfig.xml') }}">
 
     @vite('resources/css/app.css')
-    <title>OGRAM REMEED | @yield('title')</title>
+    <title>OGRAM REMEED: @yield('title')</title>
 </head>
 
 <body>

@@ -19,7 +19,7 @@ class StoreLoginAction
         $subdomain = '';
 
         if ($result) {
-            $email = Auth::guard('web')->user()->email;
+            $email = $userDTO->getEmail();
             $subdomain = Subdomain::getSubdomain($request->getHost());
             $request->session()->regenerate();
 

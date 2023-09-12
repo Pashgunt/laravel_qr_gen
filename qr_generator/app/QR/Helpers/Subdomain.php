@@ -13,6 +13,6 @@ final class Subdomain
 
     final public static function getSubdomain(string $host): string
     {
-        return sprintf('%s%s', current(explode(env('APP_URL'), $host)), env('APP_URL'));
+        return sprintf('%s', $host);
     }
 }

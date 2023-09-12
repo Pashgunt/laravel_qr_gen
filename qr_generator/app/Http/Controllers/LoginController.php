@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\StoreLoginAction;
 use App\Http\Requests\LoginRequest;
 use App\Providers\RouteServiceProvider;
-use App\QR\Helpers\Subdomain;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;

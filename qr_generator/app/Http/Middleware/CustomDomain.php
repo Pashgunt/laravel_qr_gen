@@ -14,6 +14,7 @@ class CustomDomain
         Request $request,
         Closure $next
     ): Response {
+
         $subdomain = Subdomain::getSubdomain($request->getHost());
 
         $res = Auth::guard('subdomain')->validateEmail([

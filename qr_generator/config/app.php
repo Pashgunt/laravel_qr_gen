@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://review-feedback.ru'),
+    'url' => env('APP_URL', 'https://review-feedback.ru'),
 
     'asset_url' => env('ASSET_URL'),
 

@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://review-feedback.ru'),
 
     'asset_url' => env('ASSET_URL'),
 

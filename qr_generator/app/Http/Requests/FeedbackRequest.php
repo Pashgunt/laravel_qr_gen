@@ -21,7 +21,11 @@ class FeedbackRequest extends FormRequest implements RequestInterface
             'feedback_text' => 'nullable|string|max:255|min:0',
             'is_contact' => 'nullable',
             'name' => 'nullable|required_with_all:is_contact|string|max:255|min:2',
-            'contact' => 'nullable|required_with_all:is_contact|regex:/^\s?(\+\s?7|8)([- ()]*\d){10}$/'
+            'contact' => [
+                'nullable',
+                'required_with_all:is_contact',
+                'regex:/^\s?(\+\s?7|8)([- ()]*\d){10}$/',
+            ],
         ];
     }
 
@@ -48,7 +52,7 @@ class FeedbackRequest extends FormRequest implements RequestInterface
             'name.max' => 'Макисмальное количество символов 255',
             'name.min' => 'Минимальное количество символов 2',
             'contact.required_with_all' => 'Поле обязательно к заполнению',
-            'contact.regex' => 'Поле не соответствует формату номера телефона',
+            'contact.regex' => 'Поле не соответствует формату номера телефона 89998887789',
         ];
     }
 

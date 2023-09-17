@@ -8,12 +8,12 @@
         </svg>
     </div>
     <blockquote>
-        <p class="text-sm text-gray-900">"{{ $getFeedbackText() }}"
+        <p class="text-sm text-gray-900 dark:text-gray-200">"{{ $getFeedbackText() }}"
         </p>
     </blockquote>
     <figcaption class="flex items-center mt-1 space-x-2 text-xs">
         <div class="flex items-center divide-x-2 divide-gray-300">
-            <cite class="pr-2 font-medium text-gray-900">{{ $getFeedbackUsername() }}</cite>
+            <cite class="pr-2 font-medium text-gray-900 dark:text-gray-200">{{ $getFeedbackUsername() }}</cite>
             <cite class="pl-2 text-gray-500">{{ $getFeedbackCreatedAt() }}</cite>
         </div>
     </figcaption>

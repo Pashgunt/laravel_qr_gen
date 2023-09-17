@@ -4,7 +4,7 @@
 @section('content')
     <x-specilas.wrapper>
         <div
-            class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-4/5 lg:w-1/2 h-max border">
+            class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-4/5 lg:w-1/2 h-max dark:bg-gray-800">
             <div class="mx-auto max-w-md">
                 <x-forms.title separator="1" title='Вход' />
                 <form action="{{ route('login.store') }}" method="post">

@@ -6,7 +6,7 @@
     <x-specilas.wrapper>
         <div class="relative">
             <div
-                class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-4/5 lg:w-1/2 h-max border @if (Session::has('status')) border-green-300 @endif">
+                class="relative bg-white dark:bg-gray-800 px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-4/5 lg:w-1/2 h-max border @if (Session::has('status')) border-green-300 @endif">
                 <div class="mx-auto max-w-md">
                     @if (Session::has('status'))
                         <div id="alert-success"
@@ -82,8 +82,8 @@
                 </div>
             </div>
             <a href="{{ url()->previous() }}"
-                class="animate-bounce w-max mx-auto mt-7 text-gray-300 border border-gray-300 cursor-pointer hover:text-white ring-2 focus:outline-none ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center flex items-center justify-self-center">
-                <svg class="w-6 h-6 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                class="animate-bounce w-max mx-auto mt-7 text-gray-300 dark:text-gray-800 dark:hover:text-gray-700 dark:ring-gray-800 border border-gray-300 cursor-pointer hover:text-white ring-2 focus:outline-none ring-gray-300 font-medium rounded-full text-sm p-2.5 text-center flex items-center justify-self-center">
+                <svg class="w-6 h-6 text-gray-400 dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 12 10">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M5 1 1 5l4 4m6-8L7 5l4 4" />

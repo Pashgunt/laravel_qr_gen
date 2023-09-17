@@ -13,11 +13,11 @@
     <title>Подтверждение почты</title>
 </head>
 
-<body>
+<body class="dark">
     <x-specilas.wrapper>
         <div class="mx-auto md:w-4/5 w-full py-24 px-3 sm:py-32 lg:px-8">
             <div
-                class="relative isolate overflow-hidden bg-gray-100 px-6 pt-16 shadow-2xl rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+                class="relative isolate overflow-hidden bg-gray-100 px-6 pt-16 shadow-2xl rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0 dark:bg-gray-800">
                 <svg viewBox="0 0 1024 1024"
                     class="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0"
                     aria-hidden="true">
@@ -31,14 +31,14 @@
                     </defs>
                 </svg>
                 <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-                    <h2 class="text-3xl font-bold tracking-tight text-grey-800">Прокачайте свою работу с возражениями
+                    <h2 class="text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-200">Прокачайте свою работу с возражениями
                         💪<br>Начните пользоваться с сегодняшнего дня.</h2>
-                    <p class="mt-6 text-lg leading-8 text-gray-600">Данный сервис помжет организовать работу со
+                    <p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300">Данный сервис помжет организовать работу со
                         всеми отзывами через единое место и обрабатывать неготивные отзывы</p>
-                    <p class="mt-4 text-gray-500">Для начала пользованиями всеми функциями подтвердите Вашу почту,
+                    <p class="mt-4 text-gray-500 dark:text-gray-400">Для начала пользованиями всеми функциями подтвердите Вашу почту,
                         перейдя
                         по ссылке из письма</p>
-                    <p class="mt-10 text-gray-600 text-2xl"><span class="timer"></span></p>
+                    <p class="mt-10 text-gray-600 text-2xl dark:text-gray-400"><span class="timer"></span></p>
                     <div class="mt-3 flex justify-center gap-x-6 lg:justify-start items-center ">
                         <form action="{{ route('verification.send') }}" method="post" class="resend_verification">
                             <button

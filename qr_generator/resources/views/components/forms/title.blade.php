@@ -1,4 +1,4 @@
-<h1 class="font-mono {{!$isSeparate() ? 'mb-4' : ''}} text-3xl font-semibold tracking-wide text-center">
+<h1 class="font-mono {{!$isSeparate() ? 'mb-4' : ''}} text-3xl font-semibold tracking-wide text-center dark:text-gray-200">
     {{ $title }}
 </h1>
 @if ($isSeparate())

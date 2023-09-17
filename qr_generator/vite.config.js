@@ -6,8 +6,8 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/app.css', 
-                'resources/js/feedback.js',
                 'resources/js/funnel.js',
+                'resources/js/company.js',
                 'resources/js/page-setting.js',
                 'resources/js/qr.js',
                 'resources/js/main.js',

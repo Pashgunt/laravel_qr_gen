@@ -9,16 +9,10 @@ use Illuminate\View\Component;
 
 class FeedbackRaw extends Component
 {
-
-    public Feedback $feedback;
-    public string $showSeparator;
-
     public function __construct(
-        Feedback $feedback,
-        string $showSeparator
+        public Feedback $feedback,
+        public string $showSeparator
     ) {
-        $this->feedback = $feedback;
-        $this->showSeparator = $showSeparator;
     }
 
     public function isShowSeparator(): bool

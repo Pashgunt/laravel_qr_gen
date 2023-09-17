@@ -6,7 +6,7 @@ trait ComponentClassesTrait
 {
     public function getInputErrorClassName(): string
     {
-        return 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5';
+        return 'bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 block';
     }
 
     public function getLabelErrorClassName(): string

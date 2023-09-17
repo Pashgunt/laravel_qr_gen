@@ -8,16 +8,10 @@ use Illuminate\View\Component;
 
 class Button extends Component
 {
-
-    public string $text;
-    public string $class;
-
     public function __construct(
-        string $text,
-        string $class
+        public string $text,
+        public string $class
     ) {
-        $this->text = $text;
-        $this->class = $class;
     }
 
     public function isCustomClass(): bool

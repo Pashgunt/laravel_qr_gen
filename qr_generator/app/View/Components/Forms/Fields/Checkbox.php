@@ -6,27 +6,21 @@ use App\QR\Abstracts\ComponentClassesTrait;
 use App\QR\Abstracts\ComponentFieldInterface;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\View\Component;
 
 class Checkbox extends Component implements ComponentFieldInterface
 {
     use ComponentClassesTrait;
 
-    public string $label;
-    public string $showError;
-    public string $name;
-    public string $showErrorMessage;
-
     public function __construct(
-        string $label,
-        string $showError,
-        string $name,
-        string $showErrorMessage
+        public string $label,
+        public string $showError,
+        public string $name,
+        public string $showErrorMessage,
+        public string $requireMark = '0',
+        public string $outerValue = '0'
     ) {
-        $this->label = $label;
-        $this->showError = $showError;
-        $this->name = $name;
-        $this->showErrorMessage = $showErrorMessage;
     }
 
     public function isShowError(): bool
@@ -51,9 +45,14 @@ class Checkbox extends Component implements ComponentFieldInterface
             : '';
     }
 
+    public function isShowRequireMark(): bool
+    {
+        return $this->requireMark === '1';
+    }
+
     public function isChecked($value): bool
     {
-        return $value === '1';
+        return $value === '1' || $this->outerValue === '1';
     }
 
     public function render(): View|Closure|string

@@ -12,24 +12,14 @@ class Textarea extends Component implements ComponentFieldInterface
 {
     use ComponentClassesTrait;
 
-    public string $label;
-    public string $showError;
-    public string $name;
-    public string $showErrorMessage;
-    public string $placeholder;
-
     public function __construct(
-        string $label,
-        string $showError,
-        string $name,
-        string $showErrorMessage,
-        string $placeholder
+        public string $label,
+        public string $showError,
+        public string $name,
+        public string $showErrorMessage,
+        public string $placeholder,
+        public string $requireMark = '0'
     ) {
-        $this->label = $label;
-        $this->showError = $showError;
-        $this->name = $name;
-        $this->showErrorMessage = $showErrorMessage;
-        $this->placeholder = $placeholder;
     }
 
     public function isShowError(): bool
@@ -52,6 +42,11 @@ class Textarea extends Component implements ComponentFieldInterface
         return $this->isShowError()
             ? $this->getInputErrorClassName()
             : '';
+    }
+
+    public function isShowRequireMark(): bool
+    {
+        return $this->requireMark === '1';
     }
 
     public function render(): View|Closure|string

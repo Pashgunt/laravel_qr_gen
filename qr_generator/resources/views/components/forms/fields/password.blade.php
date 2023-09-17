@@ -1,11 +1,11 @@
 <div class="password__wrapper">
     <label for="{{ $name }}"
-        class="block mb-2 text-sm font-medium text-gray-900 @error($name) {{ $getClassLabelError() }} @enderror">{{ $label }}
+        class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200 @error($name) {{ $getClassLabelError() }} @enderror">{{ $label }}
         <span class="text-red-600 font-bold">*</span></label>
     <div class="relative" x-data="{ show: true }">
         <input id="{{ $name }}" name="{{ $name }}" :type="show ? 'password' : 'text'"
             class="
-                                            bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+                                            bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
                                             @error($name)
                                             {{ $getClassInputError() }}
                                             @enderror
@@ -32,7 +32,7 @@
     </div>
     @if ($isShowValidate())
         <div class="bar mt-2">
-            <div class="bar__title text-xs mb-1">Введите пароль!</div>
+            <div class="bar__title text-xs mb-1 dark:text-gray-200">Введите пароль!</div>
             <div class="bar__color h-2 bg-red-400 transition w-1/4"></div>
         </div>
     @endif

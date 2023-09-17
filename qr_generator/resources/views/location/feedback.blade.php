@@ -11,7 +11,7 @@
         </div>
         <div class="grid md:grid-cols-2 gap-4 box-border px-1 md:px-10">
             <div
-                class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-full h-max">
+                class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-full h-max dark:bg-gray-800 dark:text-gray-200">
                 <div class="mx-auto">
                     <x-forms.title separator="0" title='Оставьте отзыв' />
                     <form class="mt-7"
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div
-                class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-full">
+                class="relative bg-white px-6 pt-10 pb-8 shadow-xl ring-1 ring-gray-900/5 rounded-lg sm:px-10 w-11/12 mx-auto md:w-full dark:bg-gray-800">
                 <x-feedback.rating title='Отзывы' :data='$data' />
                 <div class="mx-auto">
                     @foreach ($data['feedback_list'] as $feedback)

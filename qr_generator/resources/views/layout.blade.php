@@ -28,28 +28,37 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ URL('/img/icons/favicon-144x144.png') }}">
     <meta name="msapplication-config" content="{{ URL('/img/icons/browserconfig.xml') }}">
-
     @vite('resources/css/app.css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <title>OGRAM REMEED: @yield('title')</title>
 </head>
 
-<body>
-    @auth
-        <menu>
-            <a href="{{ route('company.index') }}">Company</a>
+<body class="">
+    {{-- @auth --}}
+    {{-- <menu>
             <a href="{{ route('qr.index') }}">QR</a>
             <a href="{{ route('feedback.index') }}">Feedbacks</a>
             <a href="{{ route('funnel.index') }}">Воронки</a>
             <a href="{{ route('page-settings.index') }}">Настройки страниц</a>
             <a href="{{ route('notification-config.index') }}">Настройки уведомлений</a>
-            <a href="{{ route('login.destroy') }}">Logout</a>
-        </menu>
-    @endauth
+        </menu> --}}
+    {{-- @endauth --}}
 
     @yield('content')
 
+    @auth
+        <x-dashboard.main>
+            <div class="pt-28 sm:pt-20 bg-white dark:bg-gray-800 dark:border-gray-700 h-auto min-h-screen">
+                <main class="p-4 md:ml-64 h-auto">
+                    @yield('home')
+                </main>
+            </div>
+        </x-dashboard.main>
+    @endauth
+
     @vite('resources/js/main.js')
     @vite('resources/js/password.js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 </body>
 
 </html>

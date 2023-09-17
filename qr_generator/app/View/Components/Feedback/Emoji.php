@@ -11,15 +11,10 @@ class Emoji extends Component
 {
     use ComponentClassesTrait;
 
-    public string $showError;
-    public string $name;
-
     public function __construct(
-        string $name,
-        string $showError
+        public string $name,
+        public string $showError
     ) {
-        $this->name = $name;
-        $this->showError = $showError;
     }
 
     public function isChecked(

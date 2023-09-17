@@ -8,16 +8,10 @@ use Illuminate\View\Component;
 
 class Rating extends Component
 {
-
-    public string $title;
-    public array $data;
-
     public function __construct(
-        string $title,
-        array $data
+        public string $title,
+        public array $data
     ) {
-        $this->title = $title;
-        $this->data = $data;
     }
 
     public function getTotalFeedback(): int

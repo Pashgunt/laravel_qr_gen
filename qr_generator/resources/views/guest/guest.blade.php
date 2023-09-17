@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Guest')
+@section('title', 'Добро пожаловать!')
 
 @section('content')
     <x-specilas.wrapper>

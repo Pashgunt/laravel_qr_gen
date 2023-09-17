@@ -3,32 +3,25 @@
 namespace App\View\Components\Forms\Fields;
 
 use App\QR\Abstracts\ComponentClassesTrait;
+use App\QR\Abstracts\ComponentFieldInterface;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Input extends Component
+class Input extends Component implements ComponentFieldInterface
 {
     use ComponentClassesTrait;
 
-    public string $label;
-    public string $showError;
-    public string $name;
-    public string $showErrorMessage;
-    public string $placeholder;
-
     public function __construct(
-        string $label,
-        string $showError,
-        string $name,
-        string $showErrorMessage,
-        string $placeholder
+        public string $label,
+        public string $showError,
+        public string $name,
+        public string $showErrorMessage,
+        public string $placeholder,
+        public string $requireMark = '0',
+        public string $copyButtons = '0',
+        public string $defaultValue = ''
     ) {
-        $this->label = $label;
-        $this->showError = $showError;
-        $this->name = $name;
-        $this->showErrorMessage = $showErrorMessage;
-        $this->placeholder = $placeholder;
     }
 
     public function isShowError(): bool
@@ -44,6 +37,16 @@ class Input extends Component
     public function getClassLabelError(): string
     {
         return $this->isShowError() ? $this->getLabelErrorClassName() : '';
+    }
+
+    public function isShowRequireMark(): bool
+    {
+        return $this->requireMark === '1';
+    }
+
+    public function isCopyButtons(): bool
+    {
+        return $this->copyButtons === '1';
     }
 
     public function getClassInputError(): string

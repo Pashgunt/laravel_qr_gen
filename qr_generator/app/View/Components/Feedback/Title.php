@@ -8,19 +8,11 @@ use Illuminate\View\Component;
 
 class Title extends Component
 {
-
-    public string $showCompanyTable;
-    public string $showCompanyAddress;
-    public array $data;
-
     public function __construct(
-        array $data,
-        string $showCompanyTable,
-        string $showCompanyAddress
+        public array $data,
+        public string $showCompanyTable,
+        public string $showCompanyAddress
     ) {
-        $this->data = $data;
-        $this->showCompanyTable = $showCompanyTable;
-        $this->showCompanyAddress = $showCompanyAddress;
     }
 
     public function isShowcompanyTable(): bool
@@ -37,14 +29,14 @@ class Title extends Component
     {
         return $this->data['company']->name;
     }
-    
+
     public function getTableNumber(): string
     {
         return $this->data['company_table']->table_number
-        ? $this->data['company_table']->table_number
-        : '-';
+            ? $this->data['company_table']->table_number
+            : '-';
     }
-    
+
     public function getCompanyAddress(): string
     {
         return $this->data['company']->adress;

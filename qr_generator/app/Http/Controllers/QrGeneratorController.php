@@ -74,7 +74,7 @@ class QrGeneratorController extends Controller
             $result,
             'Succes Create',
             'Error Create',
-            'qr.index'
+            'company.index'
         );
     }
 

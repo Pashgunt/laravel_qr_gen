@@ -2,23 +2,12 @@
 
 @section('title', 'Company edit')
 
-@section('content')
-    Edit Company
-    <form action="{{ route('company.update', ['company_id' => $company->id]) }}" method="POST">
-        @csrf
-        @method('put')
-        <div class="row mb-3">
-            <input type="text" placeholder="Название заведения" class="form-control" name="name"
-                value="{{ $company->name ?? '' }}">
-        </div>
-        <div class="row">
-            <input type="text" placeholder="Адресс" class="form-control" name="adress"
-                value="{{ $company->adress ?? '' }}">
-        </div>
-        <div class="row">
-            <input type="text" placeholder="Ссылка на сайт" class="form-control" name="link"
-                value="{{$company->link ?? '' }}">
-        </div>
-        <button>Update</button>
-    </form>
+@section('home')
+    <div x-data="{ show: true }">
+        <x-dashboard.company.company-list :companies="$companies" />
+        <x-dashboard.components.side-over title="Изменение данных организации"
+            subtitle="Здесь Вы можете изменить основные данные об организации" route="company.index">
+            <x-dashboard.company.c-r-u-d.edit :company="$company" />
+        </x-dashboard.components.side-over>
+    </div>
 @endsection

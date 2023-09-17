@@ -28,8 +28,9 @@ class CompanyController extends Controller
 
     public function edit(CompanyFilter $filters): View
     {
+        $companies = Company::filter()->get();
         $company = Company::filter($filters)->first();
-        return view('company.company-edit', compact('company'));
+        return view('company.company-edit', compact('company', 'companies'));
     }
 
     public function update(
